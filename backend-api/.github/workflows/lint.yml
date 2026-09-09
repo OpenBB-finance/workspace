@@ -1,0 +1,17 @@
+name: Quality and Security Checks
+
+on:
+  pull_request:
+    paths: ["**.py"]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: "3.13"
+      - run: pip install -U ruff
+      - run: |
+          ruff check --output-format=github backend admin_cli

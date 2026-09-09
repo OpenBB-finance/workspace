@@ -1,0 +1,25 @@
+ci:
+  autoupdate_schedule: monthly
+repos:
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.4.4
+    hooks:
+      - id: ruff
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: fix-byte-order-marker
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: e5ea667
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all]
+        args: ["--ignore-missing-imports", '--exclude="/setup\.py$","/alembic/" .']
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.6
+    hooks:
+      - id: codespell
+        entry: codespell

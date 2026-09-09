@@ -1,0 +1,22 @@
+[default.extend-words]
+parms = "parms"
+ba = "ba"
+hsi = "hsi"
+datas = "datas"
+Bject = "Bject"
+hel = "hel"
+ist = "ist"
+wew = "wew"
+adn = "adn"
+forin = "forin"
+shs = "shs"
+yoy = "yoy"
+ORDR = "ORDR"
+mape = "mape"
+THA = "THA"
+Bund = "Bund"
+consts = "consts"
+BSE = "BSE"
+
+[files]
+extend-exclude = ["src/lib/charting_library", "/src/lib/state/main.json"]

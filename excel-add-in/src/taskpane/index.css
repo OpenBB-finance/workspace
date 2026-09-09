@@ -1,0 +1,90 @@
+@import "@openbb/ui/style.css";
+
+/* @tailwind base; */
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .link {
+    @apply text-success-600 underline hover:text-success-500 active:text-success-300;
+  }
+}
+
+@layer utilities {
+  .bg-auth {
+    @apply bg-center bg-no-repeat brightness-50;
+    background-image: url(/assets/bg-auth.png);
+    background-size: 100% 100%;
+  }
+
+  ._btn-common {
+    @apply inline-flex h-[32px] items-center justify-center gap-2 rounded px-3 py-1 text-center text-xs !no-underline transition duration-150 ease-out md:w-fit;
+    @apply cursor-pointer;
+  }
+  ._btn-tertiary {
+    @apply _btn-common bg-[#404040] text-grey-50 hover:bg-grey-800 hover:text-white focus:bg-grey-900 focus:outline focus:outline-2 focus:outline-grey-500 active:bg-grey-700 active:text-white disabled:bg-grey-100 disabled:text-black dark:bg-grey-100 dark:text-grey-900 dark:hover:bg-white dark:hover:text-grey-900 dark:focus:bg-grey-300 dark:focus:text-grey-900 dark:active:bg-grey-400 dark:active:text-grey-900;
+    @apply disabled:bg-grey-400 disabled:text-grey-200 disabled:hover:bg-grey-400 disabled:hover:text-grey-200 disabled:hover:text-inherit dark:disabled:bg-[#303038] dark:disabled:text-[#46464F];
+  }
+  ._btn-outlined {
+    @apply inline-flex h-6 items-center justify-center gap-2 rounded border border-grey-400 px-2 py-1 text-center text-xs transition duration-150 ease-out;
+    @apply cursor-pointer text-grey-400;
+    @apply hover:border-white hover:text-white focus-visible:border-white focus-visible:text-white;
+    @apply disabled:cursor-not-allowed disabled:border-grey-400 disabled:text-grey-400 disabled:hover:border-grey-400 disabled:hover:text-grey-400;
+    background: transparent !important;
+  }
+}
+._minimal-input-search {
+  @apply h-[90px] rounded border px-3 dark:border-[#303038] dark:bg-[#212126] dark:text-grey-100;
+  @apply border-grey-300 bg-white text-grey-900;
+  @apply focus:shadow-[0_0_0_2px_#8A8A90];
+}
+._dropdown-container {
+  @apply flex flex-col gap-2 rounded bg-white p-2 text-xs text-grey-750 dark:bg-[#070707] dark:bg-opacity-0 dark:text-grey-200;
+}
+
+._skeleton {
+  background: #ffffff;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 0.05;
+  }
+  50% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 0.05;
+  }
+}
+
+/* Global thin scrollbar */
+html {
+  scrollbar-width: thin;  /* Firefox */
+}
+
+* {
+  scrollbar-width: thin;
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;           /* width of vertical scrollbar */
+  height: 8px;          /* height of horizontal scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f0f0f0;  /* track color */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888; /* thumb color */
+  border-radius: 4px;
+}
+
+/* For Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}

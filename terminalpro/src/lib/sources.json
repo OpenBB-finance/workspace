@@ -1,0 +1,30 @@
+{
+  "fmp": {
+    "name": "Financial Modelling Prep",
+    "website": "https://site.financialmodelingprep.com/developer/docs"
+  },
+  "intrinio": {
+    "name": "Intrinio",
+    "website": "https://intrinio.com/"
+  },
+  "benzinga": {
+    "name": "Benzinga",
+    "website": "https://www.benzinga.com/"
+  },
+  "fred": {
+    "name": "Federal Reserve Economic Data (FRED)",
+    "website": "https://fred.stlouisfed.org/"
+  },
+  "econdb": {
+    "name": "EconDB",
+    "website": "https://econdb.com/"
+  },
+  "tv": {
+    "name": "TradingView",
+    "website": "https://www.tradingview.com/"
+  },
+  "pyth": {
+    "name": "Pyth",
+    "website": "https://pyth.network/"
+  }
+}

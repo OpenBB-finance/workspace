@@ -1,0 +1,511 @@
+name: PR Preview Environment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+env:
+  AWS_REGION: us-east-1
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+
+concurrency:
+  group: ${{ github.event.pull_request.number }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  detect-changes:
+    runs-on: [self-hosted, linux, X64]
+    outputs:
+      src_changed: ${{ steps.changed-files.outputs.result }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for relevant changes
+        id: changed-files
+        uses: actions/github-script@v4
+        with:
+          result-encoding: string
+          script: |
+            const { data: commit } = await github.repos.getCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.payload.pull_request.head.sha
+            })
+            const checkFiles = ["src/", "package.json", "bun.lock", "vite.config.js"];
+
+            const files = commit.files.map(file => file.filename);
+            const srcFiles = files.filter(file => checkFiles.some(prefix => file.startsWith(prefix)));
+
+            return srcFiles.length > 0
+
+      - name: Debug Changes
+        run: |
+          echo "Source changes: ${{ steps.changed-files.outputs.result }}"
+
+  build-preview:
+    needs: detect-changes
+    runs-on: [self-hosted, linux, X64]
+    if: github.event.action != 'closed' && needs.detect-changes.outputs.src_changed == 'true'
+    environment: QA
+    steps:
+      - name: Debug Build Conditions
+        run: |
+          echo "Event action: ${{ github.event.action }}"
+          echo "Source changes: ${{ needs.detect-changes.outputs.src_changed }}"
+          echo "Full condition evaluation: ${{ toJSON(github.event.action != 'closed' && needs.detect-changes.outputs.src_changed == 'true') }}"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup .env file
+        run: |
+          if [ -f .env ]; then
+            echo "Editing .env file..."
+            sed -i 's|^VITE_PAYMENTS_URL=.*|VITE_PAYMENTS_URL=${{ secrets.DEV_VITE_PAYMENTS_URL }}|' .env
+            sed -i 's|^VITE_POSTHOG_KEY=.*|VITE_POSTHOG_KEY=${{ secrets.DEV_VITE_POSTHOG_KEY }}|' .env
+            sed -i 's|^VITE_POSTHOG_URL=.*|VITE_POSTHOG_URL=${{ secrets.DEV_VITE_POSTHOG_URL }}|' .env
+            sed -i 's|^VITE_PLATFORM_URL=.*|VITE_PLATFORM_URL=${{ secrets.DEV_VITE_PLATFORM_URL }}|' .env
+            sed -i 's|^VITE_AI_API_URL=.*|VITE_AI_API_URL=${{ secrets.DEV_VITE_AI_API_URL }}|' .env
+            sed -i 's|^VITE_GOOGLE_OAUTH_CLIENT_ID=.*|VITE_GOOGLE_OAUTH_CLIENT_ID=${{ secrets.DEV_VITE_GOOGLE_OAUTH_CLIENT_ID }}|' .env
+
+            sed -i 's|^VITE_PLAYWRIGHT_TEST_KEY=.*|VITE_PLAYWRIGHT_TEST_KEY=""|' .env
+            sed -i 's|^VITE_PLAYWRIGHT_ACCOUNT_USERNAME=.*|VITE_PLAYWRIGHT_ACCOUNT_USERNAME=""|' .env
+            sed -i 's|^VITE_PLAYWRIGHT_ACCOUNT_PASSWORD=.*|VITE_PLAYWRIGHT_ACCOUNT_PASSWORD=""|' .env
+            sed -i 's|^VITE_PLAYWRIGHT_ACCOUNT_EMAIL=.*|VITE_PLAYWRIGHT_ACCOUNT_EMAIL=""|' .env
+            sed -i 's|^VITE_AZURE_CLIENT_ID=.*|VITE_AZURE_CLIENT_ID=""|' .env
+            sed -i 's|^VITE_AZURE_TENANT_ID=.*|VITE_AZURE_TENANT_ID=""|' .env
+          else
+            echo ".env file not found, skipping edit."
+          fi
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+
+  deploy-preview:
+    needs: build-preview
+    runs-on: [self-hosted, linux, aws-dev]
+    environment: QA
+    outputs:
+      preview_url: ${{ steps.create-distribution.outputs.preview_url }}
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_PREVIEW_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_PREVIEW_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
+
+      - name: Create S3 Bucket
+        id: create-bucket
+        run: |
+          BUCKET_NAME="pr-preview-${PR_NUMBER}"
+          echo "Creating bucket: ${BUCKET_NAME}"
+
+          # Check if bucket exists
+          if ! aws s3api head-bucket --bucket ${BUCKET_NAME} 2>/dev/null; then
+            echo "Bucket does not exist. Creating..."
+            aws s3api create-bucket \
+              --bucket ${BUCKET_NAME}
+            echo "Bucket created successfully"
+          else
+            echo "Bucket already exists"
+          fi
+
+          # Block public access
+          echo "Configuring public access block..."
+          aws s3api put-public-access-block \
+            --bucket ${BUCKET_NAME} \
+            --public-access-block-configuration \
+            "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
+
+          echo "bucket_name=${BUCKET_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Configure OAC and Bucket Policy
+        id: setup-oac
+        run: |
+          BUCKET_NAME="${{ steps.create-bucket.outputs.bucket_name }}"
+
+          # Get AWS Account ID
+          AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+          echo "AWS Account ID: ${AWS_ACCOUNT_ID}"
+
+          # Check if OAC exists and get its ID
+          EXISTING_OAC_ID=$(aws cloudfront list-origin-access-controls \
+            --query "OriginAccessControlList.Items[?Name=='OAC for PR ${PR_NUMBER}'].Id" \
+            --output text)
+
+          if [ -z "$EXISTING_OAC_ID" ]; then
+            OAC_CONFIG='{
+              "Name": "OAC for PR '"${PR_NUMBER}"'",
+              "Description": "OAC for PR preview '"${PR_NUMBER}"'",
+              "SigningProtocol": "sigv4",
+              "SigningBehavior": "always",
+              "OriginAccessControlOriginType": "s3"
+            }'
+
+            OAC_JSON=$(aws cloudfront create-origin-access-control \
+              --origin-access-control-config "$OAC_CONFIG")
+
+            OAC_ID=$(echo "$OAC_JSON" | jq -r '.OriginAccessControl.Id')
+            echo "Created new OAC with ID: ${OAC_ID}"
+          else
+            OAC_ID=$EXISTING_OAC_ID
+          fi
+
+          echo "oac_id=${OAC_ID}" >> $GITHUB_OUTPUT
+          echo "aws_account_id=${AWS_ACCOUNT_ID}" >> $GITHUB_OUTPUT
+
+      - name: Create CloudFront Distribution
+        id: create-distribution
+        run: |
+          BUCKET_NAME="${{ steps.create-bucket.outputs.bucket_name }}"
+          OAC_ID="${{ steps.setup-oac.outputs.oac_id }}"
+
+          # Check for existing distribution
+          EXISTING_DIST_ID=$(aws cloudfront list-distributions \
+            --query "DistributionList.Items[?Comment=='PR Preview for PR #${PR_NUMBER}'].Id" \
+            --output text)
+
+          if [ ! -z "$EXISTING_DIST_ID" ]; then
+            DISTRIBUTION_ID=$EXISTING_DIST_ID
+            DISTRIBUTION_DOMAIN=$(aws cloudfront get-distribution \
+              --id $DISTRIBUTION_ID \
+              --query 'Distribution.DomainName' \
+              --output text)
+          else
+            DISTRIBUTION_CONFIG='{
+              "CallerReference": "pr-'"${PR_NUMBER}"'-'"$(date +%s)"'",
+              "Comment": "PR Preview for PR #'"${PR_NUMBER}"'",
+              "Enabled": true,
+              "DefaultRootObject": "index.html",
+              "Origins": {
+                "Quantity": 1,
+                "Items": [
+                  {
+                    "Id": "S3Origin",
+                    "DomainName": "'"${BUCKET_NAME}"'.s3.'"${AWS_REGION}"'.amazonaws.com",
+                    "OriginAccessControlId": "'"${OAC_ID}"'",
+                    "S3OriginConfig": {
+                      "OriginAccessIdentity": ""
+                    }
+                  }
+                ]
+              },
+              "DefaultCacheBehavior": {
+                "TargetOriginId": "S3Origin",
+                "ViewerProtocolPolicy": "redirect-to-https",
+                "AllowedMethods": {
+                  "Quantity": 2,
+                  "Items": ["HEAD", "GET"],
+                  "CachedMethods": {
+                    "Quantity": 2,
+                    "Items": ["HEAD", "GET"]
+                  }
+                },
+                "ForwardedValues": {
+                  "QueryString": false,
+                  "Cookies": {
+                    "Forward": "none"
+                  }
+                },
+                "MinTTL": 0,
+                "DefaultTTL": 3600,
+                "MaxTTL": 86400,
+                "Compress": true
+              },
+              "CustomErrorResponses": {
+                "Quantity": 2,
+                "Items": [
+                  {
+                    "ErrorCode": 404,
+                    "ResponsePagePath": "/index.html",
+                    "ResponseCode": "200",
+                    "ErrorCachingMinTTL": 300
+                  },
+                  {
+                    "ErrorCode": 403,
+                    "ResponsePagePath": "/index.html",
+                    "ResponseCode": "200",
+                    "ErrorCachingMinTTL": 300
+                  }
+                ]
+              }
+            }'
+
+            echo "$DISTRIBUTION_CONFIG" > dist-config.json
+            DISTRIBUTION_JSON=$(aws cloudfront create-distribution \
+              --distribution-config file://dist-config.json)
+
+            DISTRIBUTION_ID=$(echo "$DISTRIBUTION_JSON" | jq -r '.Distribution.Id')
+            DISTRIBUTION_DOMAIN=$(echo "$DISTRIBUTION_JSON" | jq -r '.Distribution.DomainName')
+          fi
+
+          echo "distribution_id=${DISTRIBUTION_ID}" >> $GITHUB_OUTPUT
+          echo "distribution_domain=${DISTRIBUTION_DOMAIN}" >> $GITHUB_OUTPUT
+          echo "preview_url=https://${DISTRIBUTION_DOMAIN}" >> $GITHUB_OUTPUT
+
+      - name: Wait for Distribution
+        run: |
+          aws cloudfront wait distribution-deployed \
+            --id ${{ steps.create-distribution.outputs.distribution_id }}
+
+      - name: Update Bucket Policy
+        run: |
+          BUCKET_NAME="${{ steps.create-bucket.outputs.bucket_name }}"
+          AWS_ACCOUNT_ID="${{ steps.setup-oac.outputs.aws_account_id }}"
+          DISTRIBUTION_ID="${{ steps.create-distribution.outputs.distribution_id }}"
+
+          echo "Updating bucket policy with Distribution ID: ${DISTRIBUTION_ID}"
+
+          BUCKET_POLICY='{
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "AllowCloudFrontServicePrincipalReadOnly",
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "cloudfront.amazonaws.com"
+                    },
+                    "Action": "s3:GetObject",
+                    "Resource": "arn:aws:s3:::'"${BUCKET_NAME}"'/*",
+                    "Condition": {
+                        "StringEquals": {
+                            "AWS:SourceArn": "arn:aws:cloudfront::'"${AWS_ACCOUNT_ID}"':distribution/'"${DISTRIBUTION_ID}"'"
+                        }
+                    }
+                }
+            ]
+          }'
+
+          echo "$BUCKET_POLICY" > bucket-policy.json
+          aws s3api put-bucket-policy --bucket ${BUCKET_NAME} --policy file://bucket-policy.json
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync dist/ s3://${{ steps.create-bucket.outputs.bucket_name }} \
+            --delete \
+            --cache-control "public, max-age=3600"
+
+      - name: Update Cache Control for HTML files
+        run: |
+          aws s3 cp s3://${{ steps.create-bucket.outputs.bucket_name }}/ s3://${{ steps.create-bucket.outputs.bucket_name }}/ \
+            --recursive \
+            --exclude "*" \
+            --include "*.html" \
+            --metadata-directive REPLACE \
+            --cache-control "no-cache, stale-if-error=0" \
+            --content-type "text/html"
+
+      - name: Invalidate CloudFront Distribution
+        run: |
+          DISTRIBUTION_ID="${{ steps.create-distribution.outputs.distribution_id }}"
+          echo "Invalidating CloudFront Distribution: ${DISTRIBUTION_ID}"
+          aws cloudfront create-invalidation \
+            --distribution-id ${DISTRIBUTION_ID} \
+            --paths "/*"
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: "github-actions[bot]"
+          body-includes: Preview deployment
+
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            ## 🚀 Preview deployment is ready!
+
+            Preview URL: ${{ steps.create-distribution.outputs.preview_url }}
+
+            Build details:
+            - Branch: `${{ github.head_ref }}`
+            - Commit: `${{ github.sha }}`
+            - Environment: QA
+
+            Changes will be automatically updated when you push new commits.
+            The preview environment will be automatically deleted when the PR is closed.
+
+            > [!NOTE]
+            > Please allow a few minutes for the CloudFront cache to be invalidated after new commits.
+
+  teardown-preview:
+    runs-on: [self-hosted, linux, aws-dev]
+    if: github.event.action == 'closed'
+    environment: QA
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_PREVIEW_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_PREVIEW_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
+
+      - name: Find CloudFront Distribution
+        id: find-distribution
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          echo "Finding CloudFront distribution for PR #${PR_NUMBER}..."
+
+          DISTRIBUTION_ID=$(aws cloudfront list-distributions \
+            --query "DistributionList.Items[?Comment=='PR Preview for PR #${PR_NUMBER}'].Id" \
+            --output text)
+
+          if [ ! -z "$DISTRIBUTION_ID" ]; then
+            echo "Found distribution: ${DISTRIBUTION_ID}"
+            echo "distribution_id=${DISTRIBUTION_ID}" >> $GITHUB_OUTPUT
+          else
+            echo "No CloudFront distribution found"
+          fi
+
+      - name: Disable CloudFront Distribution
+        if: steps.find-distribution.outputs.distribution_id != ''
+        run: |
+          DISTRIBUTION_ID="${{ steps.find-distribution.outputs.distribution_id }}"
+          echo "Getting distribution config..."
+          aws cloudfront get-distribution-config --id $DISTRIBUTION_ID > dist-config.json
+          cat dist-config.json
+
+          echo "Extracting ETag and preparing new config..."
+          ETAG=$(jq -r '.ETag' dist-config.json)
+          DIST_CONFIG=$(jq '.DistributionConfig' dist-config.json)
+          echo "$DIST_CONFIG" | jq '.Enabled = false' > dist-config-new.json
+
+          echo "New distribution config:"
+          cat dist-config-new.json
+
+          echo "Updating distribution..."
+          aws cloudfront update-distribution \
+            --id $DISTRIBUTION_ID \
+            --distribution-config file://dist-config-new.json \
+            --if-match $ETAG
+
+      - name: Wait for Distribution to be Disabled
+        if: steps.find-distribution.outputs.distribution_id != ''
+        run: |
+          DISTRIBUTION_ID="${{ steps.find-distribution.outputs.distribution_id }}"
+          echo "Waiting for distribution to be disabled..."
+          while true; do
+            STATUS=$(aws cloudfront get-distribution --id $DISTRIBUTION_ID --query 'Distribution.Status' --output text)
+            echo "Current status: $STATUS"
+            if [ "$STATUS" = "Deployed" ]; then
+              break
+            fi
+            echo "Waiting 30 seconds..."
+            sleep 30
+          done
+
+      - name: Delete CloudFront Distribution
+        if: steps.find-distribution.outputs.distribution_id != ''
+        run: |
+          DISTRIBUTION_ID="${{ steps.find-distribution.outputs.distribution_id }}"
+          echo "Getting new ETag for deletion..."
+          ETAG=$(aws cloudfront get-distribution --id $DISTRIBUTION_ID --query 'ETag' --output text)
+
+          echo "Deleting distribution..."
+          aws cloudfront delete-distribution --id $DISTRIBUTION_ID --if-match $ETAG
+
+      - name: Wait for Distribution Deletion
+        if: steps.find-distribution.outputs.distribution_id != ''
+        run: |
+          DISTRIBUTION_ID="${{ steps.find-distribution.outputs.distribution_id }}"
+          echo "Waiting for distribution to be deleted..."
+          while true; do
+            if ! aws cloudfront get-distribution --id $DISTRIBUTION_ID 2>/dev/null; then
+              echo "Distribution deleted"
+              break
+            fi
+            echo "Waiting 30 seconds..."
+            sleep 30
+          done
+
+      - name: Delete OAC
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          echo "Finding OAC for PR ${PR_NUMBER}..."
+
+          OAC_ID=$(aws cloudfront list-origin-access-controls \
+            --query "OriginAccessControlList.Items[?Name=='OAC for PR ${PR_NUMBER}'].Id" \
+            --output text)
+
+          if [ ! -z "$OAC_ID" ]; then
+            echo "Found OAC: ${OAC_ID}"
+            echo "Getting OAC ETag..."
+
+            # Get the ETag for the OAC
+            OAC_INFO=$(aws cloudfront get-origin-access-control --id "$OAC_ID")
+            ETAG=$(echo "$OAC_INFO" | jq -r '.ETag')
+
+            echo "Deleting OAC..."
+            aws cloudfront delete-origin-access-control \
+              --id "$OAC_ID" \
+              --if-match "$ETAG"
+          else
+            echo "No OAC found"
+          fi
+
+      - name: Delete S3 Bucket
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          BUCKET_NAME="pr-preview-${PR_NUMBER}"
+
+          if aws s3api head-bucket --bucket ${BUCKET_NAME} 2>/dev/null; then
+            echo "Found bucket: ${BUCKET_NAME}"
+            echo "Emptying bucket..."
+            aws s3 rm s3://${BUCKET_NAME} --recursive
+            echo "Deleting bucket..."
+            aws s3api delete-bucket --bucket ${BUCKET_NAME}
+          else
+            echo "Bucket doesn't exist"
+          fi
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: "github-actions[bot]"
+          body-includes: Preview deployment
+
+      - name: Update Comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            ## 🧹 Preview environment has been cleaned up
+
+            This preview environment has been deleted as the PR was ${{ github.event.pull_request.merged == true && 'merged' || 'closed' }}.
+
+            ${{ github.event.pull_request.merged == true && '🎉 Changes are now being deployed to the dev environment.' || '' }}

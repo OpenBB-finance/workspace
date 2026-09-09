@@ -1,0 +1,48 @@
+services:
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    container_name: redis
+    networks:
+      - lite-net
+    command: redis-server --save 20 1 --loglevel warning
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - redis-data:/redis
+
+  fastapi:
+    build:
+      context: backend
+      dockerfile: fastapi.lite.Dockerfile
+    container_name: fastapi
+    env_file:
+      - ./backend/envs/.env.sqlite
+    environment:
+      REDIS_HOST: redis
+      # Redirect DB + folder storage into a persistent volume so they survive
+      # container rebuilds; .env.sqlite keeps the dev-friendly relative paths.
+      DB_PATH: /data/openbb.db
+      FOLDER_STORAGE_PATH: /data/storage
+    ports:
+      - "8000:8000"
+    networks:
+      - lite-net
+    volumes:
+      - lite-data:/data
+    depends_on:
+      redis:
+        condition: service_healthy
+
+networks:
+  lite-net:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local
+  lite-data:
+    driver: local

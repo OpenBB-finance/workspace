@@ -1,0 +1,51 @@
+upstream openbb_backend {
+  server 127.0.0.1:8000;
+}
+
+# Resolve the Connection header for WebSocket upgrades. The Workspace MCP bridge
+# (/api/pro/workspace-mcp/bridge/ws) upgrades to a WebSocket; for normal requests
+# $http_upgrade is empty and this maps to "close". Included files live inside the
+# main nginx.conf http{} block, so this map sits at http context as required.
+map $http_upgrade $connection_upgrade {
+  default upgrade;
+  ''      close;
+}
+
+server {
+  listen ${PORT};
+  server_name _;
+
+  client_max_body_size 50m;
+
+  root /usr/share/nginx/html;
+  index index.html;
+
+  # Backend reverse-proxy. The SPA's runtime config (`urls.backend = "/api"`)
+  # points calls here; we strip the prefix before forwarding so the FastAPI
+  # routes ("/pro/...", "/admin/...", "/login", etc.) remain unprefixed.
+  location /api/ {
+    rewrite ^/api/(.*)$ /$1 break;
+    proxy_pass http://openbb_backend;
+    proxy_http_version 1.1;
+    # $http_host preserves the port (e.g. localhost:3000); $host strips it, which
+    # breaks absolute URLs the backend builds from request.base_url (e.g. the
+    # Workspace MCP bridge websocket_url).
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Prefix /api;
+    # WebSocket upgrade for the Workspace MCP bridge; no-op for plain HTTP.
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    # Don't buffer the MCP streamable-http (SSE) responses or the WS frames.
+    proxy_buffering off;
+    proxy_read_timeout 300s;
+    proxy_send_timeout 300s;
+  }
+
+  # Catch-all SPA fallback for client-side routing.
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}

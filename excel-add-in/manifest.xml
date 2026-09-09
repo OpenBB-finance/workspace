@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
+  <Id>ADDIN_UUID</Id>
+  <!-- Don't touch version, it's coming from package.json! -->
+  <Version>1.0.0.0</Version>
+  <ProviderName>OpenBB</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="OpenBB Add-in for Excel" />
+  <Description DefaultValue="Use OpenBB Terminal Pro functions in Excel." />
+  <IconUrl DefaultValue="ADDIN_BASE_URL/assets/icons/openbb-icon-16.png" />
+  <HighResolutionIconUrl DefaultValue="ADDIN_BASE_URL/assets/icons/openbb-icon-32.png" />
+  <SupportUrl DefaultValue="https://docs.openbb.co/excel/help" />
+  <AppDomains>
+    <AppDomain>https://docs.openbb.co</AppDomain>
+    <AppDomain>ADDIN_BASE_URL</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Workbook" />
+  </Hosts>
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="SharedRuntime" MinVersion="1.1" />
+    </Sets>
+  </Requirements>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="ADDIN_BASE_URL" />
+  </DefaultSettings>
+
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+    xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Workbook">
+        <Runtimes>
+          <Runtime resid="Taskpane.Url" lifetime="long" />
+        </Runtimes>
+        <AllFormFactors>
+          <ExtensionPoint xsi:type="CustomFunctions">
+            <Script>
+              <SourceLocation resid="Taskpane.Url" />
+            </Script>
+            <Page>
+              <SourceLocation resid="Taskpane.Url" />
+            </Page>
+            <Metadata>
+              <SourceLocation resid="Functions.Metadata.Url" />
+            </Metadata>
+            <Namespace resid="Functions.Namespace" />
+          </ExtensionPoint>
+        </AllFormFactors>
+        <DesktopFormFactor>
+          <GetStarted>
+            <Title resid="GetStarted.Title" />
+            <Description resid="GetStarted.Description" />
+            <LearnMoreUrl resid="GetStarted.LearnMoreUrl" />
+          </GetStarted>
+          <FunctionFile resid="Taskpane.Url" />
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <CustomTab id="OpenBB.Tab">
+              <Group id="Group1">
+                <Label resid="Group1.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="Group1.Button1">
+                  <Label resid="Group1.Button1.Label" />
+                  <Supertip>
+                    <Title resid="Group1.Button1.Label" />
+                    <Description resid="Group1.Button1.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.About.16x16" />
+                    <bt:Image size="32" resid="Icon.About.32x32" />
+                    <bt:Image size="80" resid="Icon.About.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>Taskpane0</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url.About" />
+                  </Action>
+                </Control>
+
+                <Control xsi:type="Button" id="Group1.Button2">
+                  <Label resid="Group1.Button2.Label" />
+                  <Supertip>
+                    <Title resid="Group1.Button2.Label" />
+                    <Description resid="Group1.Button2.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Reference.16x16" />
+                    <bt:Image size="32" resid="Icon.Reference.32x32" />
+                    <bt:Image size="80" resid="Icon.Reference.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>Taskpane0</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url.Reference" />
+                  </Action>
+                </Control>
+              </Group>
+
+              <Group id="Group2">
+                <Label resid="Group2.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Menu" id="Group2.Menu0">
+                  <Label resid="Group2.Button1.Label" />
+                  <Supertip>
+                    <Title resid="Group2.Button1.Label" />
+                    <Description resid="Group2.Button1.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Refresh.16x16" />
+                    <bt:Image size="32" resid="Icon.Refresh.32x32" />
+                    <bt:Image size="80" resid="Icon.Refresh.80x80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Group2.Button1.0">
+                      <Label resid="Group2.Button1.1.Label" />
+                      <Supertip>
+                        <Title resid="Group2.Button1.1.Label" />
+                        <Description resid="Group2.Button1.1.Tooltip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.Refresh.16x16" />
+                        <bt:Image size="32" resid="Icon.Refresh.32x32" />
+                        <bt:Image size="80" resid="Icon.Refresh.80x80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>reCalculateSelection</FunctionName>
+                      </Action>
+                    </Item>
+                    <Item id="Group2.Button1.1">
+                      <Label resid="Group2.Button1.2.Label" />
+                      <Supertip>
+                        <Title resid="Group2.Button1.2.Label" />
+                        <Description resid="Group2.Button1.2.Tooltip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.Refresh.16x16" />
+                        <bt:Image size="32" resid="Icon.Refresh.32x32" />
+                        <bt:Image size="80" resid="Icon.Refresh.80x80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>reCalculateWorksheet</FunctionName>
+                      </Action>
+                    </Item>
+                    <Item id="Group2.Button1.2">
+                      <Label resid="Group2.Button1.3.Label" />
+                      <Supertip>
+                        <Title resid="Group2.Button1.3.Label" />
+                        <Description resid="Group2.Button1.3.Tooltip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.Refresh.16x16" />
+                        <bt:Image size="32" resid="Icon.Refresh.32x32" />
+                        <bt:Image size="80" resid="Icon.Refresh.80x80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>reCalculateWorkbook</FunctionName>
+                      </Action>
+                    </Item>
+                  </Items>
+                </Control>
+              </Group>
+
+              <Group id="Group3">
+                <Label resid="Group3.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+
+                <Control xsi:type="Button" id="Group3.Button1">
+                  <Label resid="Group3.Button1.Label" />
+                  <Supertip>
+                    <Title resid="Group3.Button1.Label" />
+                    <Description resid="Group3.Button1.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Account.16x16" />
+                    <bt:Image size="32" resid="Icon.Account.32x32" />
+                    <bt:Image size="80" resid="Icon.Account.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>Taskpane1</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url" />
+                  </Action>
+                  <Enabled>false</Enabled>
+                </Control>
+
+                <Control xsi:type="Button" id="Group3.ButtonSignIn">
+                  <Label resid="Common.SignIn" />
+                  <Supertip>
+                    <Title resid="Common.SignIn" />
+                    <Description resid="ButtonSignIn.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.SignIn.16x16" />
+                    <bt:Image size="32" resid="Icon.SignIn.32x32" />
+                    <bt:Image size="80" resid="Icon.SignIn.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>Taskpane1</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url" />
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+
+                <Control xsi:type="Button" id="Group3.ButtonSignOut">
+                  <Label resid="Common.SignOut" />
+                  <Supertip>
+                    <Title resid="Common.SignOut" />
+                    <Description resid="Util.None" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.SignOut.16x16" />
+                    <bt:Image size="32" resid="Icon.SignOut.32x32" />
+                    <bt:Image size="80" resid="Icon.SignOut.80x80" />
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>signOut</FunctionName>
+                  </Action>
+                  <Enabled>false</Enabled>
+                </Control>
+                
+                <Control xsi:type="Button" id="Group3.ButtonFeedback">
+                  <Label resid="Common.Feedback.Label" />
+                  <Supertip>
+                    <Title resid="Common.Feedback.Label" />
+                    <Description resid="Common.Feedback.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.Feedback.16x16" />
+                    <bt:Image size="32" resid="Icon.Feedback.32x32" />
+                    <bt:Image size="80" resid="Icon.Feedback.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>Taskpane2</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url.Feedback" />
+                  </Action>
+                  <Enabled>false</Enabled>
+                </Control>
+              </Group>
+
+              <Label resid="CustomTab.Label" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="ADDIN_BASE_URL/assets/icons/icon-16.png" />
+        <bt:Image id="Icon.32x32" DefaultValue="ADDIN_BASE_URL/assets/icons/icon-32.png" />
+        <bt:Image id="Icon.80x80" DefaultValue="ADDIN_BASE_URL/assets/icons/icon-80.png" />
+
+        <bt:Image id="Icon.About.16x16"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/about-16.png" />
+        <bt:Image id="Icon.About.32x32"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/about-32.png" />
+        <bt:Image id="Icon.About.80x80"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/about-80.png" />
+
+        <bt:Image id="Icon.Reference.16x16"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/reference-16.png" />
+        <bt:Image id="Icon.Reference.32x32"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/reference-32.png" />
+        <bt:Image id="Icon.Reference.80x80"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/reference-80.png" />
+
+        <bt:Image id="Icon.Refresh.16x16"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/refresh-16.png" />
+        <bt:Image id="Icon.Refresh.32x32"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/refresh-32.png" />
+        <bt:Image id="Icon.Refresh.80x80"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/refresh-80.png" />
+
+        <bt:Image id="Icon.Account.16x16"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/account-16.png" />
+        <bt:Image id="Icon.Account.32x32"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/account-32.png" />
+        <bt:Image id="Icon.Account.80x80"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/account-80.png" />
+
+        <bt:Image id="Icon.SignIn.16x16"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/sign-in-16.png" />
+        <bt:Image id="Icon.SignIn.32x32"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/sign-in-32.png" />
+        <bt:Image id="Icon.SignIn.80x80"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/sign-in-80.png" />
+
+        <bt:Image id="Icon.SignOut.16x16"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/sign-out-16.png" />
+        <bt:Image id="Icon.SignOut.32x32"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/sign-out-32.png" />
+        <bt:Image id="Icon.SignOut.80x80"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/sign-out-80.png" />
+
+        <bt:Image id="Icon.Feedback.16x16"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/others-16.png" />
+        <bt:Image id="Icon.Feedback.32x32"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/others-32.png" />
+        <bt:Image id="Icon.Feedback.80x80"
+          DefaultValue="ADDIN_BASE_URL/assets/icons/others-80.png" />
+
+      </bt:Images>
+
+      <bt:Urls>
+        <bt:Url id="GetStarted.LearnMoreUrl"
+          DefaultValue="https://docs.openbb.co/excel/getting-started/basics" />
+        <bt:Url id="Taskpane.Url" DefaultValue="ADDIN_BASE_URL/" />
+        <bt:Url id="Taskpane.Url.About" DefaultValue="ADDIN_BASE_URL/about" />
+        <bt:Url id="Taskpane.Url.Account" DefaultValue="ADDIN_BASE_URL/account" />
+        <bt:Url id="Taskpane.Url.Feedback" DefaultValue="ADDIN_BASE_URL/feedback" />
+        <bt:Url id="Taskpane.Url.Reference" DefaultValue="ADDIN_BASE_URL/reference" />
+        <bt:Url id="Taskpane.Url.SignIn" DefaultValue="ADDIN_BASE_URL/auth/login" />
+        <bt:Url id="Commands.Url" DefaultValue="ADDIN_BASE_URL/commands.html" />
+        <bt:Url id="Functions.Metadata.Url"
+          DefaultValue="ADDIN_BASE_URL/assets/functions.json" />
+      </bt:Urls>
+
+      <bt:ShortStrings>
+        <bt:String id="Functions.Namespace" DefaultValue="OBB" />
+        <bt:String id="GetStarted.Title" DefaultValue="Get started with OpenBB add-in!" />
+        <bt:String id="CustomTab.Label" DefaultValue="OpenBB" />
+
+        <bt:String id="Group1.Label" DefaultValue="OpenBB" />
+        <bt:String id="Group1.Button1.Label" DefaultValue="About" />
+        <bt:String id="Group1.Button2.Label" DefaultValue="Reference" />
+
+        <bt:String id="Group2.Label" DefaultValue="Data" />
+        <bt:String id="Group2.Button1.Label" DefaultValue="Refresh" />
+        <bt:String id="Group2.Button1.1.Label" DefaultValue="Selection" />
+        <bt:String id="Group2.Button1.2.Label" DefaultValue="Worksheet" />
+        <bt:String id="Group2.Button1.3.Label" DefaultValue="Workbook" />
+
+        <bt:String id="Group3.Label" DefaultValue="User" />
+        <bt:String id="Group3.Button1.Label" DefaultValue="Account" />
+        <bt:String id="Common.Feedback.Label" DefaultValue="Feedback" />
+
+        <bt:String id="Common.SignIn" DefaultValue="Sign In" />
+        <bt:String id="Common.SignOut" DefaultValue="Sign Out" />
+      </bt:ShortStrings>
+
+      <bt:LongStrings>
+        <bt:String id="Util.None" DefaultValue=" " />
+
+        <bt:String id="GetStarted.Description"
+          DefaultValue="Add-in loaded succesfully. Click here to get started." />
+
+        <bt:String id="Group1.Button1.Tooltip"
+          DefaultValue="Know more about OpenBB Add-in for Excel." />
+        <bt:String id="Group1.Button2.Tooltip"
+          DefaultValue="Check OpenBB Add-in for Excel reference." />
+
+        <bt:String id="Group2.Button1.Tooltip"
+          DefaultValue="Refresh OpenBB custom function cells." />
+        <bt:String id="Group2.Button1.1.Tooltip"
+          DefaultValue="Refresh the current selection." />
+        <bt:String id="Group2.Button1.2.Tooltip"
+          DefaultValue="Refresh the current worksheet." />
+        <bt:String id="Group2.Button1.3.Tooltip" DefaultValue="Refresh the workbook." />
+
+        <bt:String id="Group3.Button1.Tooltip" DefaultValue="Configure your add-in." />
+        <bt:String id="ButtonSignIn.Tooltip"
+          DefaultValue="Open sidebar and sign in with your Terminal Pro account." />
+        <bt:String id="Common.Feedback.Tooltip"
+          DefaultValue="Send us feedback." />
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>

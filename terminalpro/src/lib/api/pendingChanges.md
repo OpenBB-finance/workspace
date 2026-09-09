@@ -1,0 +1,23 @@
+- [x] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5925
+- limit argument for the equity.fundamental.trailing_dividend_yield endpoint
+- [x] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5922
+- EquityQuote field changes
+- [x] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5921
+- RevenueBusinessLine/RevenueGeographic field changes
+- [ ] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5935
+- [x] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5931
+- [x] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5929
+- [ ] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5909
+- [ ] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5962
+- adding benzinga price target
+- [ ] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5946
+- Insert metadata for frontend handling of percent values
+- [ ] https://github.com/OpenBB-finance/OpenBBTerminal/pull/5972
+- Renames "date" columns as "ex_dividend_date" for Dividend Calendar and Historical Dividends
+- [ ] https://github.com/OpenBB-finance/OpenBBTerminal/pull/6006
+- Adds a timezone to the Unix timestamp conversion to correct localization errors
+- [ ] https://github.com/OpenBB-finance/OpenBBTerminal/pull/6023
+- Add function examples to Regulators Router / maybe affects
+- [ ] https://github.com/OpenBB-finance/OpenBBTerminal/pull/6054
+- Add function examples to router / maybe affects
+- [ ] https://github.com/OpenBB-finance/OpenBBTerminal/pull/6042

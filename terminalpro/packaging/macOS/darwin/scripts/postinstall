@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# open -a 'OpenBB Pro'
+
+exit 0

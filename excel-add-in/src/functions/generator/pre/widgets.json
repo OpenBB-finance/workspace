@@ -1,0 +1,3657 @@
+{
+    "navigation_bar": {
+        "name": "Navigation Bar",
+        "description": "Create nested tabs inside the main tab for navigation",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/others/utils/navigation_bar.png",
+        "widgetId": "navigation_bar",
+        "category": "Others",
+        "subCategory": "Utils",
+        "gridData": {
+            "w": 40,
+            "h": 2,
+            "minW": 40,
+            "maxH": 2,
+            "minH": 2
+        }
+    },
+    "market_indices": {
+        "dependsOn": [
+            "securities"
+        ],
+        "name": "Market Overview",
+        "description": "Overview of current market indices such as S&P 500, Gold, Nasdaq",
+        "widgetType": "individual",
+        "widgetId": "market_indices",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/index/market_indices.png",
+        "platformDataFunction": [
+            "obb.index.market"
+        ],
+        "excelDataFunction": [
+            "OBB.INDEX.MARKET"
+        ],
+        "category": "Index",
+        "supportedAssetClasses": [
+            "index",
+            "equity"
+        ],
+        "gridData": {
+            "w": 40,
+            "h": 4,
+            "minW": 20,
+            "maxH": 4
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "pyth_price_feeds": {
+        "name": "Live Watchlist",
+        "description": "Track live price feeds for your favorite assets (Crypto, Forex, Stocks, Commodities)",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/pyth/pyth_price_feeds.png",
+        "widgetType": "individual",
+        "widgetId": "pyth_price_feeds",
+        "category": "Crypto",
+        "subCategory": "Price Feeds",
+        "keywords": [
+            "price",
+            "feeds",
+            "crypto",
+            "real-time",
+            "live",
+            "quotes"
+        ],
+        "source": [
+            "pyth"
+        ],
+        "gridData": {
+            "w": 20,
+            "h": 12
+        }
+    },
+    "ticker_information": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Ticker Information",
+        "description": "Snapshot of a ticker",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/ticker_information.png",
+        "widgetType": "individual",
+        "widgetId": "ticker_information",
+        "platformDataFunction": [
+            "obb.equity.price.historical",
+            "obb.equity.fundamental.overview"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.PRICE.HISTORICAL",
+            "OBB.EQUITY.FUNDAMENTAL.OVERVIEW"
+        ],
+        "category": "Equity",
+        "subCategory": "Asset Overview",
+        "supportedAssetClasses": [
+            "equity",
+            "etf"
+        ],
+        "gridData": {
+            "w": 20,
+            "h": 5,
+            "maxH": 6,
+            "minH": 5
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "charting": {
+        "name": "Charting",
+        "description": "Interactive tradingview charting",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/others/technical_analysis/charting.png",
+        "widgetType": "individual",
+        "widgetId": "charting",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Technical Analysis",
+        "gridData": {
+            "w": 40,
+            "h": 16
+        },
+        "source": [
+            "fmp",
+            "fred"
+        ]
+    },
+    "tv_charting": {
+        "name": "Advanced Real-time Chart Widget",
+        "description": "Here's a free and powerful chart for you to easily embed onto any website. Make it yours with a ton of different customization options.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/others/technical_analysis/charting.png",
+        "widgetType": "individual",
+        "widgetId": "tv_charting",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Charting",
+        "gridData": {
+            "w": 40,
+            "h": 16
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_ta": {
+        "name": "Technical Analysis Gauge",
+        "description": "See what the technical analysis says about a given symbol with our display ratings, made for easy viewing.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_ta.png",
+        "widgetType": "individual",
+        "widgetId": "tv_ta",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Equity",
+        "subCategory": "Technical Analysis",
+        "gridData": {
+            "w": 20,
+            "h": 13
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_market_overview": {
+        "name": "Macro Market Overview",
+        "description": "Built for when you need to take a macro look at the markets.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_market_overview.png",
+        "widgetType": "individual",
+        "widgetId": "tv_market_overview",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Charting",
+        "gridData": {
+            "w": 20,
+            "h": 18
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_market_data": {
+        "name": "Global Market Performance",
+        "description": "Grab an overview of global markets performance, including change values, Open, High, Low, and Close values for selected financial instruments.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_market_data.png",
+        "widgetType": "individual",
+        "widgetId": "tv_market_data",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 40,
+            "h": 20
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_stock_market": {
+        "name": "Exchange Gainers and Losers",
+        "description": "See the top five gaining, losing, and most active stocks for the day. It updates based on current market activity - so you'll always see the most relevant stocks.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_stock_market.png",
+        "widgetType": "individual",
+        "widgetId": "tv_stock_market",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Equity",
+        "subCategory": "Screener",
+        "gridData": {
+            "w": 20,
+            "h": 20
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_upcoming_economic_events": {
+        "name": "Upcoming Economic Events",
+        "description": "Keep an eye on key upcoming economic events, announcements, and news. Plus, set up filters in a few clicks, selecting for event importance and affected currencies.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_upcoming_economic_events.png",
+        "widgetType": "individual",
+        "widgetId": "tv_upcoming_economic_events",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Economy",
+        "subCategory": "Calendar",
+        "gridData": {
+            "w": 20,
+            "h": 20
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_ticker": {
+        "name": "Ticker Performance",
+        "description": "Grab a horizontal glance at important instrument stats.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_ticker.png",
+        "widgetType": "individual",
+        "widgetId": "tv_ticker",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 40,
+            "h": 4
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_ticker_tape": {
+        "name": "Ticker Tape Performance",
+        "description": "Go all vintage Wall Street with our scrolling ticker tape.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_ticker_tape.png",
+        "widgetType": "individual",
+        "widgetId": "tv_ticker_tape",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 40,
+            "h": 4
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_single_ticker": {
+        "name": "Real-time Ticker Value",
+        "description": "See the price and change percentage of your preferred symbol. Nothing else.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_single_ticker.png",
+        "widgetType": "individual",
+        "widgetId": "tv_single_ticker",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 12,
+            "h": 5
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_mini_chart": {
+        "name": "Mini Charting",
+        "description": "This little one lets you see a symbol's price and change percentages, alongside an even more stripped-back chart view.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_mini_chart.png",
+        "widgetType": "individual",
+        "widgetId": "tv_mini_chart",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Charting",
+        "gridData": {
+            "w": 20,
+            "h": 10
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_symbol_info": {
+        "name": "Symbol Info",
+        "description": "Scan key symbol info in an easy-to-read format. Company financials and quotes are also available at a glance.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_symbol_info.png",
+        "widgetType": "individual",
+        "widgetId": "tv_symbol_info",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 20,
+            "h": 8
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_symbol_overview": {
+        "name": "Symbols Overview",
+        "description": "Embed the latest quotes, plus a simple chart of a simple, single stock.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_symbol_overview.png",
+        "widgetType": "individual",
+        "widgetId": "tv_symbol_overview",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Charting",
+        "gridData": {
+            "w": 20,
+            "h": 20
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_forex_cross_rates": {
+        "name": "Real-time Cross Rates",
+        "description": "Display real-time quotes of selected currencies in comparison to other major currencies.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_forex_cross_rates.png",
+        "widgetType": "individual",
+        "widgetId": "tv_forex_cross_rates",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Forex",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 40,
+            "h": 14
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_forex_heatmap": {
+        "name": "Real-time Heatmap",
+        "description": "Show off a snapshot of currency market action. This widget lets you spot strong and weak currencies and see how they compare to each other, all in real-time.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_forex_heatmap.png",
+        "widgetType": "individual",
+        "widgetId": "tv_forex_heatmap",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Forex",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 40,
+            "h": 14
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_forex_screener": {
+        "name": "Forex Interactive Indicators Screener",
+        "description": "Separate the wheat from the chaff with this embeddable Screener - handy for sorting symbols both by fundamental and technical indicators.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_forex_screener.png",
+        "widgetType": "individual",
+        "widgetId": "tv_forex_screener",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Forex",
+        "subCategory": "Screener",
+        "gridData": {
+            "w": 40,
+            "h": 20
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_crypto_screener": {
+        "name": "Crypto Interactive Indicators Screener",
+        "description": "Separate the wheat from the chaff with this embeddable Screener - handy for sorting symbols both by fundamental and technical indicators.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_crypto_screener.png",
+        "widgetType": "individual",
+        "widgetId": "tv_crypto_screener",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Crypto",
+        "subCategory": "Screener",
+        "gridData": {
+            "w": 40,
+            "h": 20
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_cryptocurrency_market": {
+        "name": "Cryptocurrency Market",
+        "description": "This widget displays crypto assets and then sorts them by their market capitalization.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_cryptocurrency_market.png",
+        "widgetType": "individual",
+        "widgetId": "tv_cryptocurrency_market",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Crypto",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 40,
+            "h": 14
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_fundamental_data": {
+        "name": "Fundamental Data",
+        "description": "Kick the tires on the fundamentals with this deep dive into how a company is doing beyond simply its stock price.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_fundamental_data.png",
+        "widgetType": "individual",
+        "widgetId": "tv_fundamental_data",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "gridData": {
+            "w": 40,
+            "h": 16
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_company_profile": {
+        "name": "Company Profile",
+        "description": "Company description along with key categories - sector & industry.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_company_profile.png",
+        "widgetType": "individual",
+        "widgetId": "tv_company_profile",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Equity",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 20,
+            "h": 12
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_market_timeline": {
+        "name": "Market Timeline",
+        "description": "Help your audience keep track of what's happening in your market of interest - designed to be read in 20 seconds or less.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_market_timeline.png",
+        "widgetType": "individual",
+        "widgetId": "tv_market_timeline",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Others",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 20,
+            "h": 20
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_timeline": {
+        "name": "Company Timeline",
+        "description": "Help your audience keep track of what's happening in a particular company - designed to be read in 20 seconds or less.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_timeline.png",
+        "widgetType": "individual",
+        "widgetId": "tv_timeline",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Equity",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 20,
+            "h": 20
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_stock_heatmap": {
+        "name": "Stock Heatmap",
+        "description": "This widget shows off a macro view on global stocks. Perfect for segmenting by sector, country or market cap.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_stock_heatmap.png",
+        "widgetType": "individual",
+        "widgetId": "tv_stock_heatmap",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Equity",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 40,
+            "h": 13
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "tv_crypto_coins_heatmap": {
+        "name": "Crypto Coins Heatmap",
+        "description": "This widget gives you a birds-eye view of crypto. Segment by type of coin, market cap, recent performance and more.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/id/tv_crypto_coins_heatmap.png",
+        "widgetType": "individual",
+        "widgetId": "tv_crypto_coins_heatmap",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "category": "Crypto",
+        "subCategory": "Overview",
+        "gridData": {
+            "w": 40,
+            "h": 13
+        },
+        "source": [
+            "tradingview"
+        ],
+        "disableRetrievalForCopilot": true
+    },
+    "watchlist": {
+        "dependsOn": [
+            "mainTicker",
+            "secondaryTickers"
+        ],
+        "name": "Watchlist",
+        "description": "Overview of selected assets",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/others/utils/watchlist.png",
+        "keywords": [
+            "Day change",
+            "week change",
+            "month change",
+            "year change",
+            "Last price",
+            "volume"
+        ],
+        "category": "Others",
+        "subCategory": "Utils",
+        "widgetType": "individual",
+        "platformDataFunction": [
+            "obb.equity.price.performance",
+            "obb.equity.price.quote"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.PRICE.PERFORMANCE",
+            "OBB.EQUITY.PRICE.QUOTE"
+        ],
+        "widgetId": "watchlist",
+        "source": [
+            "fmp"
+        ],
+        "proEndpoint": "pro.watchlist",
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "company_profile": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Ticker Profile",
+        "description": "Detailed information about an asset, including sector, employees, address, exchange, and IPO date.",
+        "keywords": [
+            "sector",
+            "employees",
+            "address",
+            "exchange",
+            "ipo date"
+        ],
+        "widgetType": "individual",
+        "widgetId": "company_profile",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/company_profile.png",
+        "platformDataFunction": [
+            "obb.equity.profile"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.PROFILE"
+        ],
+        "category": "Equity",
+        "subCategory": "Asset Overview",
+        "supportedAssetClasses": [
+            "equity",
+            "etf"
+        ],
+        "gridData": {
+            "w": 20,
+            "h": 16
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "price_performance": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Price performance",
+        "description": "Interactive chart for asset price performance",
+        "keywords": [
+            "market cap",
+            "charting",
+            "outstanding shares"
+        ],
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/price/price_performance.png",
+        "widgetType": "individual",
+        "endpoint": "pricePerformance",
+        "widgetId": "price_performance",
+        "supportedAssetClasses": [
+            "all"
+        ],
+        "platformDataFunction": [
+            "obb.equity.price.historical"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.PRICE.HISTORICAL"
+        ],
+        "category": "Equity",
+        "subCategory": "Price",
+        "gridData": {
+            "w": 20,
+            "h": 16
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "share_statistics": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Share Statistics",
+        "description": "Company shares for trading",
+        "keywords": [
+            "free float",
+            "float shares",
+            "outstanding"
+        ],
+        "widgetType": "individual",
+        "endpoint": "shareStatistics",
+        "widgetId": "share_statistics",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/ownership/share_statistics.png",
+        "platformDataFunction": [
+            "obb.equity.ownership.share_statistics"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.OWNERSHIP.SHARE_STATISTICS"
+        ],
+        "category": "Equity",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "subCategory": "Ownership",
+        "gridData": {
+            "w": 10,
+            "h": 6
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "financial_ratios": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Financial Ratios",
+        "description": "Company financial ratios such as P/B, ROE, etc.",
+        "widgetType": "individual",
+        "sdkFunc": "useEquityFundamentalMetrics",
+        "widgetId": "financial_ratios",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/financial_ratios.png",
+        "platformDataFunction": [
+            "obb.equity.fundamental.ratios"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.RATIOS"
+        ],
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "params": [
+            {
+                "show": false,
+                "paramName": "with_ttm",
+                "value": true
+            }
+        ],
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "transpose": true,
+                "period": [
+                    "annual",
+                    "quarter",
+                    "TTM"
+                ],
+                "showAll": true,
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "period_ending",
+                        "cellDataType": "date",
+                        "chartDataType": "category",
+                        "minWidth": 100,
+                        "formatterFn": "dateToYear"
+                    }
+                ]
+            }
+        },
+        "gridData": {
+            "w": 40,
+            "h": 16
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ],
+            "fixed": [
+                {
+                    "name": "with_ttm",
+                    "value": true
+                }
+            ]
+        }
+    },
+    "key_metrics": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Key Metrics",
+        "description": "Key financial metrics, such as revenue, P/E, etc.",
+        "keywords": [
+            "52-week",
+            "range",
+            "market cap",
+            "beta",
+            "dividend yield",
+            "volume average"
+        ],
+        "widgetType": "individual",
+        "endpoint": "companyOutlook",
+        "widgetId": "key_metrics",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/refs/heads/main/equity/fundamental_analysis/key_metrics.png",
+        "platformDataFunction": [
+            "obb.equity.fundamental.metrics"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.METRICS"
+        ],
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity",
+            "etf"
+        ],
+        "gridData": {
+            "w": 10,
+            "h": 8
+        },
+        "source": [
+            "fmp"
+        ],
+        "proEndpoint": "pro.key_metrics",
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "period"
+            ],
+            "fixed": [
+                {
+                    "name": "with_ttm",
+                    "value": true
+                }
+            ]
+        }
+    },
+    "management_team": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Management Team",
+        "description": "Details about the management team of a company, including name, title, and compensation.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/management_team.png",
+        "keywords": [
+            "compensation"
+        ],
+        "widgetType": "individual",
+        "sdkFunc": "useEquityFundamentalManagement",
+        "platformDataFunction": [
+            "obb.equity.fundamental.management"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.MANAGEMENT"
+        ],
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "columnsDefs": [
+                    {
+                        "field": "name",
+                        "headerName": "Name",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "field": "title",
+                        "headerName": "Title",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "field": "pay",
+                        "headerName": "Compensation"
+                    },
+                    {
+                        "field": "currency_pay",
+                        "headerName": "Currency"
+                    }
+                ]
+            }
+        },
+        "widgetId": "management_team",
+        "category": "Equity",
+        "subCategory": "Asset Overview",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 20,
+            "h": 14
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "revenue_per_geography": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Revenue Per Geography",
+        "description": "A breakdown of a company's revenue by geographical region.",
+        "keywords": [
+            "segment"
+        ],
+        "widgetType": "individual",
+        "type": "chart",
+        "sdkFunc": "revenuePerGeog",
+        "widgetId": "revenue_per_geography",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/revenue_per_geography.png",
+        "platformDataFunction": [
+            "obb.equity.fundamental.revenue_per_geography"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.REVENUE_PER_GEOGRAPHY"
+        ],
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 20,
+            "h": 12
+        },
+        "data": {
+            "table": {
+                "transpose": true,
+                "chartView": {
+                    "enabled": true,
+                    "chartType": "stackedColumn"
+                }
+            }
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "period"
+            ]
+        }
+    },
+    "revenue_per_bus_line": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Revenue Per Business Line",
+        "description": "Revenue breakdown by product category",
+        "keywords": [
+            "segment"
+        ],
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/revenue_per_bus_line.png",
+        "widgetType": "individual",
+        "type": "chart",
+        "sdkFunc": "revenuePerBusLine",
+        "widgetId": "revenue_per_bus_line",
+        "platformDataFunction": [
+            "obb.equity.fundamental.revenue_per_segment"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.REVENUE_PER_SEGMENT"
+        ],
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 20,
+            "h": 12
+        },
+        "data": {
+            "table": {
+                "transpose": true,
+                "chartView": {
+                    "enabled": true,
+                    "chartType": "stackedColumn"
+                }
+            }
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "period"
+            ]
+        }
+    },
+    "valuation_multiples": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Valuation Multiples",
+        "description": "Valuation Multiples such as P/E ratio, P/B ratio, etc",
+        "keywords": [
+            "price to book",
+            "price to earnings",
+            "Enterprise Value",
+            "price to sales",
+            "ebitda",
+            "dividend yield"
+        ],
+        "widgetType": "individual",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/valuation_multiples.png",
+        "sdkFunc": "useEquityFundamentalMetrics",
+        "platformDataFunction": [
+            "obb.equity.fundamental.metrics"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.METRICS"
+        ],
+        "params": [
+            {
+                "show": false,
+                "paramName": "with_ttm",
+                "value": true
+            }
+        ],
+        "data": {
+            "table": {
+                "period": [
+                    "annual",
+                    "quarter",
+                    "TTM"
+                ],
+                "enableCharts": true,
+                "transpose": true,
+                "chartView": {
+                    "enabled": true,
+                    "chartType": "line"
+                },
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "period_ending",
+                        "cellDataType": "date",
+                        "chartDataType": "category",
+                        "minWidth": 100,
+                        "formatterFn": "dateToYear"
+                    },
+                    {
+                        "headerName": "Period",
+                        "field": "fiscal_period",
+                        "chartDataType": "category",
+                        "minWidth": 100
+                    },
+                    {
+                        "headerName": "P/E Ratio",
+                        "field": "pe_ratio"
+                    },
+                    {
+                        "headerName": "P/S Ratio",
+                        "field": "price_to_sales_ratio"
+                    },
+                    {
+                        "headerName": "P/B Ratio",
+                        "field": "price_to_book_ratio"
+                    },
+                    {
+                        "headerName": "EV/Sales Ratio",
+                        "field": "enterprise_value_to_sales_ratio"
+                    },
+                    {
+                        "headerName": "EV/EBITDA",
+                        "field": "enterprise_value_over_ebitda"
+                    },
+                    {
+                        "headerName": "Dividend Yield",
+                        "field": "dividend_yield",
+                        "formatterFn": "normalized",
+                        "chartDataType": "excluded"
+                    }
+                ]
+            }
+        },
+        "widgetId": "valuation_multiples",
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 40,
+            "h": 12
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ],
+            "fixed": [
+                {
+                    "name": "with_ttm",
+                    "value": true
+                },
+                {
+                    "name": "limit",
+                    "value": 100
+                }
+            ]
+        }
+    },
+    "company_filings": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Company Filings",
+        "description": "Recent Company SEC Filings",
+        "widgetType": "individual",
+        "sdkFunc": "useEquityFundamentalFilings",
+        "platformDataFunction": [
+            "obb.equity.fundamental.filings"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.FILINGS"
+        ],
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/company_filings.png",
+        "data": {
+            "table": {
+                "enableCharts": false,
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "filing_date",
+                        "cellDataType": "date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "CIK",
+                        "field": "cik",
+                        "cellDataType": "text",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "headerName": "Type",
+                        "field": "report_type",
+                        "chartDataType": "category",
+                        "cellDataType": "text"
+                    },
+                    {
+                        "headerName": "Source",
+                        "field": "filing_url",
+                        "chartDataType": "excluded"
+                    }
+                ]
+            }
+        },
+        "widgetId": "company_filings",
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 12,
+            "h": 14
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "price_target": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Price Target",
+        "description": "Comparison chart of analyst price targets against an asset's closing price.",
+        "widgetType": "individual",
+        "type": "chart",
+        "sdkFunc": "useEquityEstimatesPriceTarget",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/analyst_estimates/price_target.png",
+        "platformDataFunction": [
+            "obb.equity.estimates.price_target"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.ESTIMATES.PRICE_TARGET"
+        ],
+        "data": {
+            "chart": {
+                "callback": "CreateAnalystsPriceTargetPlot"
+            }
+        },
+        "widgetId": "price_target",
+        "category": "Equity",
+        "subCategory": "Analyst Estimates",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 20,
+            "h": 8
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "analyst_estimates": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Analyst Estimates",
+        "description": "Quarterly financial forecasts for key metrics like revenue, EBITDA, and EPS.",
+        "keywords": [
+            "EBITDA",
+            "Revenue",
+            "EBIT",
+            "Net Income",
+            "SGA Expense",
+            "EPS"
+        ],
+        "widgetType": "individual",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/analyst_estimates.png",
+        "sdkFunc": "useEquityEstimatesHistorical",
+        "platformDataFunction": [
+            "obb.equity.estimates.forward_ebitda"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.ESTIMATES.FORWARD_EBITDA"
+        ],
+        "data": {
+            "table": {
+                "period": [
+                    "quarter",
+                    "annual"
+                ],
+                "transpose": false,
+                "chartView": {
+                    "enabled": true,
+                    "chartType": "groupedColumn",
+                    "ignoreCellRange": true
+                },
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "date",
+                        "cellDataType": "date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Symbol",
+                        "field": "symbol",
+                        "chartDataType": "excluded",
+                        "hide": true
+                    },
+                    {
+                        "field": "number_of_analysts",
+                        "headerName": "Number of Analysts",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "field": "standard_deviation",
+                        "headerName": "Standard Deviation",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "field": "median",
+                        "headerName": "Median",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "field": "low_estimate",
+                        "headerName": "Low Estimate",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "field": "high_estimate",
+                        "headerName": "High Estimate",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "field": "ebitda",
+                        "headerName": "EBITDA",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "field": "ebit",
+                        "headerName": "EBIT",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "field": "cash_flow_per_share",
+                        "headerName": "Cash Flow Per Share",
+                        "hide": true
+                    },
+                    {
+                        "field": "enterprise_value",
+                        "headerName": "Enterprise Value",
+                        "hide": true
+                    },
+                    {
+                        "field": "pretax_income",
+                        "headerName": "Pretax Income",
+                        "chartDataType": "series"
+                    }
+                ]
+            }
+        },
+        "widgetId": "analyst_estimates",
+        "category": "Equity",
+        "subCategory": "Analyst Estimates",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 20,
+            "h": 12
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "period"
+            ]
+        }
+    },
+    "analyst_consensus": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Analyst Consensus",
+        "description": "Consensus analyst estimates",
+        "widgetType": "individual",
+        "keywords": [
+            "Grading Company",
+            "Action",
+            "Grade"
+        ],
+        "sdkFunc": "useEquityEstimatesPriceTarget",
+        "platformDataFunction": [
+            "obb.equity.estimates.consensus"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.ESTIMATES.CONSENSUS"
+        ],
+        "widgetId": "analyst_consensus",
+        "category": "Equity",
+        "subCategory": "Analyst Estimates",
+        "disabled": true,
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/analyst_estimates/analyst_consensus.png",
+        "params": [
+            {
+                "show": false,
+                "paramName": "with_grade",
+                "value": true
+            }
+        ],
+        "data": {
+            "table": {
+                "enableCharts": false,
+                "columnsDefs": [
+                    {
+                        "headerName": "Published Date",
+                        "cellDataType": "date",
+                        "field": "published_date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Grading Company",
+                        "field": "analyst_firm",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Action",
+                        "field": "action"
+                    },
+                    {
+                        "headerName": "New Grade",
+                        "field": "rating_current"
+                    },
+                    {
+                        "headerName": "Previous Grade",
+                        "field": "rating_previous"
+                    },
+                    {
+                        "headerName": "Price When Posted",
+                        "field": "price_when_posted"
+                    }
+                ]
+            }
+        },
+        "gridData": {
+            "w": 40,
+            "h": 12
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ],
+            "fixed": [
+                {
+                    "name": "with_grade",
+                    "value": true
+                }
+            ]
+        }
+    },
+    "earning_history": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Earnings History",
+        "description": "Historical earnings data and estimates, such as EPS and Revenue, for each quarter.",
+        "widgetType": "individual",
+        "keywords": [
+            "EPS",
+            "EPS Estimate",
+            "Revenue",
+            "Transcript"
+        ],
+        "endpoint": "companyEarningsHistorical",
+        "widgetId": "earning_history",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/earning_history.png",
+        "platformDataFunction": [
+            "obb.equity.fundamental.historical_eps"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.HISTORICAL_EPS"
+        ],
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 19,
+            "h": 12
+        },
+        "data": {
+            "table": {
+                "enableCharts": false,
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "cellDataType": "date",
+                        "field": "date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "EPS",
+                        "field": "eps",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "EPS Est.",
+                        "field": "epsEstimated",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Revenue",
+                        "field": "revenue",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Revenue Est.",
+                        "field": "revenueEstimated",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Transcript",
+                        "field": "transcript",
+                        "chartDataType": "category"
+                    }
+                ]
+            }
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "earnings_transcripts": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Earnings Transcripts",
+        "description": "Full earnings call transcripts",
+        "widgetType": "individual",
+        "endpoint": "earningsTranscript",
+        "widgetId": "earnings_transcripts",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/earnings_transcripts.png",
+        "platformDataFunction": [
+            "obb.equity.fundamental.transcript"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.TRANSCRIPT"
+        ],
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 40,
+            "h": 16
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "year"
+            ]
+        }
+    },
+    "stock_splits": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Stock Splits",
+        "description": "Historical stock splits",
+        "widgetType": "individual",
+        "sdkFunc": "useEquityFundamentalHistoricalSplits",
+        "widgetId": "stock_splits",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/stock_splits.png",
+        "platformDataFunction": [
+            "obb.equity.fundamental.historical_splits"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.HISTORICAL_SPLITS"
+        ],
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "type": "table",
+        "gridData": {
+            "w": 20,
+            "h": 14
+        },
+        "data": {
+            "table": {
+                "columnsDefs": [
+                    {
+                        "headerName": "Execution Date",
+                        "field": "date",
+                        "cellDataType": "date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Split From",
+                        "field": "denominator"
+                    },
+                    {
+                        "headerName": "Split To",
+                        "field": "numerator"
+                    }
+                ]
+            }
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "economic_overview": {
+        "name": "Economic Overview",
+        "description": "Overview of global economic indicators.",
+        "widgetType": "individual",
+        "keywords": [
+            "economic",
+            "overview",
+            "indicators"
+        ],
+        "endpoint": "mock",
+        "widgetId": "economic_overview",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/economy/economic_overview.png",
+        "platformDataFunction": [
+            "obb.economy.country_profile"
+        ],
+        "excelDataFunction": [
+            "OBB.ECONOMY.COUNTRY_PROFILE"
+        ],
+        "category": "Economy",
+        "supportedAssetClasses": [
+            "economy"
+        ],
+        "type": "table",
+        "gridData": {
+            "w": 40,
+            "h": 8
+        },
+        "data": {
+            "table": {
+                "enableCharts": true
+            }
+        },
+        "source": [
+            "econdb"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "country"
+            ]
+        }
+    },
+    "country_indicators": {
+        "name": "Country Indicators",
+        "description": "Overview of economic indicators for a given country.",
+        "widgetType": "individual",
+        "keywords": [
+            "economic",
+            "indicators",
+            "country"
+        ],
+        "endpoint": "mock",
+        "widgetId": "country_indicators",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/economy/country_indicators.png",
+        "platformDataFunction": [
+            "obb.economy.indicators"
+        ],
+        "excelDataFunction": [
+            "OBB.ECONOMY.INDICATORS"
+        ],
+        "category": "Economy",
+        "supportedAssetClasses": [
+            "economy"
+        ],
+        "type": "table",
+        "gridData": {
+            "w": 40,
+            "h": 8
+        },
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "showAll": true,
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "date",
+                        "cellDataType": "date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Symbol",
+                        "field": "Index",
+                        "hide": true,
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Name",
+                        "field": "Name",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Units",
+                        "field": "Units",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "headerName": "parent",
+                        "field": "parent",
+                        "hide": true,
+                        "chartDataType": "excluded"
+                    }
+                ]
+            }
+        },
+        "source": [
+            "econdb"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "country"
+            ],
+            "fixed": [
+                {
+                    "name": "frequency",
+                    "value": "quarter"
+                },
+                {
+                    "name": "transform",
+                    "value": true
+                },
+                {
+                    "name": "start_date",
+                    "value": "$currentDate-4y"
+                }
+            ]
+        }
+    },
+    "economic_indicators": {
+        "name": "Economic Indicators",
+        "description": "Comprehensive overview of economic indicators.",
+        "widgetType": "individual",
+        "keywords": [
+            "consensus estimate",
+            "forecast"
+        ],
+        "endpoint": "mock",
+        "widgetId": "economic_indicators",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/economy/economic_indicators.png",
+        "platformDataFunction": [
+            "obb.economy.indicators"
+        ],
+        "excelDataFunction": [
+            "OBB.ECONOMY.INDICATORS"
+        ],
+        "category": "Economy",
+        "supportedAssetClasses": [
+            "country"
+        ],
+        "type": "table",
+        "gridData": {
+            "w": 40,
+            "h": 8
+        },
+        "params": [
+            {
+                "show": false,
+                "paramName": "indicators",
+                "value": "RGDP,GDP"
+            }
+        ],
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "showAll": true,
+                "chartView": {
+                    "enabled": true,
+                    "chartType": "line",
+                    "ignoreCellRange": true
+                },
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "date",
+                        "cellDataType": "date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Symbol",
+                        "field": "Index",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Name",
+                        "field": "Name",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Units",
+                        "field": "Units",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "headerName": "parent",
+                        "field": "parent",
+                        "hide": true,
+                        "chartDataType": "excluded"
+                    }
+                ]
+            }
+        },
+        "source": [
+            "econdb"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "country"
+            ],
+            "fixed": [
+                {
+                    "name": "frequency",
+                    "value": "quarter"
+                },
+                {
+                    "name": "transform",
+                    "value": true
+                },
+                {
+                    "name": "start_date",
+                    "value": "$currentDate-4y"
+                }
+            ]
+        }
+    },
+    "yield_curve": {
+        "name": "Yield Curve",
+        "description": "Get yield curve data by country and date.",
+        "widgetType": "individual",
+        "keywords": [
+            "yield curve",
+            "yield"
+        ],
+        "endpoint": "mock",
+        "widgetId": "yield_curve",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/economy/economic_indicators.png",
+        "sdkFunc": "useFixedincomeGovernmentYieldCurve",
+        "platformDataFunction": [
+            "obb.fixedincome.government.yield_curve"
+        ],
+        "excelDataFunction": [
+            "OBB.FIXEDINCOME.GOVERNMENT.YIELD_CURVE"
+        ],
+        "category": "Economy",
+        "supportedAssetClasses": [
+            "economy"
+        ],
+        "type": "table",
+        "gridData": {
+            "w": 40,
+            "h": 12
+        },
+        "params": [
+            {
+                "type": "text",
+                "paramName": "country",
+                "value": "united_states",
+                "label": "Country",
+                "show": true,
+                "multiSelect": false,
+                "description": "Country to fetch rate.",
+                "options": [
+                    {
+                        "label": "Australia",
+                        "value": "australia"
+                    },
+                    {
+                        "label": "Canada",
+                        "value": "canada"
+                    },
+                    {
+                        "label": "China",
+                        "value": "china"
+                    },
+                    {
+                        "label": "Hong Kong",
+                        "value": "hong_kong"
+                    },
+                    {
+                        "label": "India",
+                        "value": "india"
+                    },
+                    {
+                        "label": "Japan",
+                        "value": "japan"
+                    },
+                    {
+                        "label": "Mexico",
+                        "value": "mexico"
+                    },
+                    {
+                        "label": "New Zealand",
+                        "value": "new_zealand"
+                    },
+                    {
+                        "label": "Russia",
+                        "value": "russia"
+                    },
+                    {
+                        "label": "Saudi Arabia",
+                        "value": "saudi_arabia"
+                    },
+                    {
+                        "label": "Singapore",
+                        "value": "singapore"
+                    },
+                    {
+                        "label": "South Africa",
+                        "value": "south_africa"
+                    },
+                    {
+                        "label": "South Korea",
+                        "value": "south_korea"
+                    },
+                    {
+                        "label": "Taiwan",
+                        "value": "taiwan"
+                    },
+                    {
+                        "label": "Thailand",
+                        "value": "thailand"
+                    },
+                    {
+                        "label": "United Kingdom",
+                        "value": "united_kingdom"
+                    },
+                    {
+                        "label": "United States",
+                        "value": "united_states"
+                    }
+                ]
+            },
+            {
+                "type": "date",
+                "paramName": "startDate",
+                "value": "$currentDate",
+                "label": "Date",
+                "show": true,
+                "description": "Date to fetch yield curve data. Will get most recent date if selected is not available."
+            }
+        ],
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "showAll": true,
+                "chartView": {
+                    "enabled": true,
+                    "chartType": "line",
+                    "ignoreCellRange": true,
+                    "chartSettingsOpen": false,
+                    "xLabel": "Maturity",
+                    "yLabel": "Rate"
+                },
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "date",
+                        "cellDataType": "date",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "headerName": "Maturity",
+                        "field": "maturity",
+                        "chartDataType": "category",
+                        "renderFn": "titleCase"
+                    },
+                    {
+                        "headerName": "Rate",
+                        "field": "rate",
+                        "chartDataType": "series",
+                        "formatterFn": "normalizedPercent"
+                    }
+                ]
+            }
+        },
+        "source": [
+            "econdb"
+        ]
+    },
+    "dividend_payment": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Dividend Payment",
+        "description": "Historical stock dividends",
+        "keywords": [
+            "adjusted",
+            "declaration"
+        ],
+        "widgetType": "individual",
+        "sdkFunc": "useEquityFundamentalDividends",
+        "widgetId": "dividend_payment",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/dividend_payment.png",
+        "platformDataFunction": [
+            "obb.equity.fundamental.dividends"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.DIVIDENDS"
+        ],
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "ex_dividend_date",
+                        "cellDataType": "date",
+                        "minWidth": 90,
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Adjusted Dividend",
+                        "field": "adj_dividend",
+                        "minWidth": 130,
+                        "formatterFn": "int",
+                        "renderFn": "greenRed"
+                    },
+                    {
+                        "headerName": "Dividend",
+                        "field": "amount",
+                        "minWidth": 95,
+                        "formatterFn": "int",
+                        "renderFn": "greenRed"
+                    },
+                    {
+                        "headerName": "Record Date",
+                        "field": "record_date",
+                        "minWidth": 105,
+                        "cellDataType": "date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Payment Date",
+                        "field": "payment_date",
+                        "minWidth": 105,
+                        "cellDataType": "date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Declaration Date",
+                        "field": "declaration_date",
+                        "cellDataType": "date",
+                        "minWidth": 105,
+                        "chartDataType": "category"
+                    }
+                ]
+            }
+        },
+        "gridData": {
+            "w": 40,
+            "h": 12
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "insider_trading": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Insider Trading",
+        "description": "Recent Insider Trading",
+        "keywords": [
+            "owner CIK",
+            "transaction",
+            "securities owned",
+            "company CIK",
+            "owner name",
+            "acquisition or disposition",
+            "form type",
+            "securities transacted"
+        ],
+        "widgetType": "individual",
+        "sdkFunc": "useEquityOwnershipInsiderTrading",
+        "widgetId": "insider_trading",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/ownership/insider_trading.png",
+        "platformDataFunction": [
+            "obb.equity.ownership.insider_trading"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.OWNERSHIP.INSIDER_TRADING"
+        ],
+        "category": "Equity",
+        "subCategory": "Ownership",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "transaction_date",
+                        "cellDataType": "date",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Owner CIK",
+                        "field": "owner_cik",
+                        "cellDataType": "text",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "headerName": "Type",
+                        "field": "transaction_type",
+                        "cellDataType": "text"
+                    },
+                    {
+                        "headerName": "Securities Owned",
+                        "field": "securities_owned"
+                    },
+                    {
+                        "headerName": "Company CIK",
+                        "field": "company_cik",
+                        "cellDataType": "text",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "headerName": "Owner Name",
+                        "field": "owner_name",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Acquisition or Disposition",
+                        "field": "acquisition_or_disposition",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "headerName": "Form Type",
+                        "field": "form_type",
+                        "chartDataType": "excluded"
+                    },
+                    {
+                        "headerName": "Securities Transacted",
+                        "field": "securities_transacted"
+                    },
+                    {
+                        "headerName": "Price",
+                        "field": "transaction_price"
+                    },
+                    {
+                        "headerName": "Security Type",
+                        "field": "security_type",
+                        "chartDataType": "excluded"
+                    }
+                ]
+            }
+        },
+        "gridData": {
+            "w": 40,
+            "h": 12
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "options_chains_eod": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Options Chains EOD",
+        "description": "Get the complete options chain for a ticker.",
+        "keywords": [
+            "options",
+            "eod",
+            "open interest",
+            "call",
+            "put"
+        ],
+        "widgetType": "individual",
+        "sdkFunc": "useDerivativesOptionsChains",
+        "widgetId": "options_chains_eod",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/ownership/insider_trading.png",
+        "platformDataFunction": [
+            "obb.derivatives.options.chains"
+        ],
+        "excelDataFunction": [
+            "OBB.DERIVATIVES.OPTIONS.CHAINS"
+        ],
+        "category": "Options",
+        "subCategory": "Chains",
+        "supportedAssetClasses": [
+            "options"
+        ],
+        "params": [
+            {
+                "paramName": "date",
+                "type": "date",
+                "value": "$currentDate-1b",
+                "description": "The end-of-day date for options chains data."
+            },
+            {
+                "paramName": "option_type",
+                "type": "text",
+                "value": null,
+                "description": "The option type, call or put, 'None' is both (default).",
+                "options": [
+                    {
+                        "label": "Call",
+                        "value": "call"
+                    },
+                    {
+                        "label": "Put",
+                        "value": "put"
+                    },
+                    {
+                        "label": "Both",
+                        "value": null
+                    }
+                ]
+            },
+            {
+                "paramName": "moneyness",
+                "type": "text",
+                "value": "all",
+                "description": "Return only contracts that are in or out of the money, default is 'all'.",
+                "options": [
+                    {
+                        "label": "Out of the Money",
+                        "value": "otm"
+                    },
+                    {
+                        "label": "In the Money",
+                        "value": "itm"
+                    },
+                    {
+                        "label": "All",
+                        "value": "all"
+                    }
+                ]
+            }
+        ],
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "columnsDefs": [
+                    {
+                        "headerName": "Contract Symbol",
+                        "field": "contract_symbol"
+                    },
+                    {
+                        "headerName": "Date",
+                        "field": "eod_date"
+                    },
+                    {
+                        "headerName": "Expiration Date",
+                        "field": "expiration"
+                    },
+                    {
+                        "headerName": "Strike Price",
+                        "field": "strike",
+                        "cellDataType": "number",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Option Type",
+                        "field": "option_type"
+                    },
+                    {
+                        "headerName": "Mark",
+                        "field": "mark",
+                        "cellDataType": "number",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Bid",
+                        "field": "bid",
+                        "cellDataType": "number",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Ask",
+                        "field": "ask",
+                        "cellDataType": "number",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Change",
+                        "field": "change",
+                        "cellDataType": "number",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "% Change",
+                        "field": "change_percent",
+                        "cellDataType": "number",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Volume",
+                        "field": "volume",
+                        "cellDataType": "number",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Open Interest",
+                        "field": "open_interest",
+                        "cellDataType": "number",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Implied Volatility",
+                        "field": "implied_volatility",
+                        "cellDataType": "number",
+                        "formatterFn": "normalizedPercent",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Delta",
+                        "field": "delta",
+                        "cellDataType": "number",
+                        "formatterFn": "none",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Gamma",
+                        "field": "gamma",
+                        "cellDataType": "number",
+                        "formatterFn": "none",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Theta",
+                        "field": "theta",
+                        "cellDataType": "number",
+                        "formatterFn": "none",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Vega",
+                        "field": "vega",
+                        "cellDataType": "number",
+                        "formatterFn": "none",
+                        "chartDataType": "series"
+                    }
+                ]
+            }
+        },
+        "gridData": {
+            "w": 40,
+            "h": 12
+        },
+        "source": [
+            "intrinio"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },    
+    "currency_snapshot": {
+        "name": "Currency Snapshot",
+        "description": "Provides a snapshot of currency data including current rates and changes.",
+        "widgetType": "individual",
+        "keywords": [
+            "currency",
+            "exchange rate",
+            "forex",
+            "fx",
+            "currency pair"
+        ],
+        "sdkFunc": "useCurrencySearch",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/currency/currency_snapshot.png",
+        "widgetId": "currency_snapshot",
+        "platformDataFunction": [
+            "obb.currency.snapshots",
+            "obb.currency.price.historical"
+        ],
+        "excelDataFunction": [
+            "OBB.CURRENCY.SNAPSHOTS",
+            "OBB.CURRENCY.PRICE.HISTORICAL"
+        ],
+        "category": "Currency",
+        "supportedAssetClasses": [
+            "currency"
+        ],
+        "gridData": {
+            "w": 25,
+            "h": 12
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "stock_ownership": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Stock Ownership",
+        "description": "Percentage of shares owned by major holders",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/ownership/stock_ownership.png",
+        "widgetType": "individual",
+        "keywords": [
+            "investor name",
+            "investment discretion",
+            "shares held",
+            "market value",
+            "portfolio weight",
+            "ownership percentage",
+            "quarter end price",
+            "average price paid"
+        ],
+        "sdkFunc": "useEquityOwnershipMajorHolders",
+        "platformDataFunction": [
+            "obb.equity.ownership.major_holders"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.OWNERSHIP.MAJOR_HOLDERS"
+        ],
+        "widgetId": "stock_ownership",
+        "category": "Equity",
+        "subCategory": "Ownership",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "params": [
+            {
+                "paramName": "date",
+                "type": "date",
+                "value": "$currentDate-1q"
+            }
+        ],
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "columnsDefs": [
+                    {
+                        "headerName": "Investor Name",
+                        "field": "investor_name",
+                        "renderFn": "titleCase",
+                        "chartDataType": "category",
+                        "minWidth": 200
+                    },
+                    {
+                        "headerName": "Investment Discretion",
+                        "field": "investment_discretion"
+                    },
+                    {
+                        "headerName": "Shares Held",
+                        "field": "shares_number"
+                    },
+                    {
+                        "headerName": "Change in Shares",
+                        "field": "change_in_shares_number"
+                    },
+                    {
+                        "headerName": "Percentage Change [%]",
+                        "field": "change_in_shares_number_percentage"
+                    },
+                    {
+                        "headerName": "Market Value",
+                        "field": "market_value"
+                    },
+                    {
+                        "headerName": "Portfolio Weight [%]",
+                        "field": "weight"
+                    },
+                    {
+                        "headerName": "Prev Portfolio Weight [%]",
+                        "field": "last_weight"
+                    },
+                    {
+                        "headerName": "Ownership [%]",
+                        "field": "ownership"
+                    },
+                    {
+                        "headerName": "Qtr End Price",
+                        "field": "quarter_end_price"
+                    },
+                    {
+                        "headerName": "Avg Price",
+                        "field": "avg_price_paid"
+                    },
+                    {
+                        "headerName": "First Added",
+                        "field": "first_added",
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Date",
+                        "field": "date"
+                    },
+                    {
+                        "headerName": "Filing Date",
+                        "field": "filing_date",
+                        "cellDataType": "date",
+                        "chartDataType": "category"
+                    }
+                ]
+            }
+        },
+        "gridData": {
+            "w": 40,
+            "h": 12
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "date"
+            ]
+        }
+    },
+    "institutional_ownership": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Institutional Ownership",
+        "keywords": [
+            "investors holding",
+            "number of shares",
+            "total invested",
+            "ownership percent",
+            "new positions",
+            "increased positions",
+            "closed positions",
+            "reduced positions",
+            "total calls",
+            "total puts",
+            "put call ratio"
+        ],
+        "description": "Institutional investment changes in shares and ownership percentage by quarter.",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/ownership/institutional_ownership.png",
+        "widgetType": "individual",
+        "sdkFunc": "useEquityOwnershipInstitutional",
+        "widgetId": "institutional_ownership",
+        "platformDataFunction": [
+            "obb.equity.ownership.institutional"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.OWNERSHIP.INSTITUTIONAL"
+        ],
+        "category": "Equity",
+        "subCategory": "Ownership",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "params": [
+            {
+                "show": false,
+                "paramName": "include_current_quarter",
+                "value": true
+            }
+        ],
+        "data": {
+            "table": {
+                "enableCharts": false,
+                "transpose": true,
+                "columnsDefs": [
+                    {
+                        "headerName": "Investors Holding",
+                        "field": "investors_holding"
+                    },
+                    {
+                        "headerName": "Number Of Shares",
+                        "field": "last_number_of_13f_shares"
+                    },
+                    {
+                        "headerName": "Total Invested",
+                        "field": "total_invested"
+                    },
+                    {
+                        "headerName": "Ownership Percent",
+                        "field": "ownership_percent"
+                    },
+                    {
+                        "headerName": "New Positions",
+                        "field": "new_positions"
+                    },
+                    {
+                        "headerName": "Increased Positions",
+                        "field": "increased_positions"
+                    },
+                    {
+                        "headerName": "Closed Positions",
+                        "field": "closed_positions"
+                    },
+                    {
+                        "headerName": "Reduced Positions",
+                        "field": "reduced_positions"
+                    },
+                    {
+                        "headerName": "Total Calls",
+                        "field": "total_calls"
+                    },
+                    {
+                        "headerName": "Total Puts",
+                        "field": "total_puts"
+                    },
+                    {
+                        "headerName": "Put Call Ratio",
+                        "field": "put_call_ratio"
+                    }
+                ]
+            }
+        },
+        "gridData": {
+            "w": 40,
+            "h": 12
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ],
+            "fixed": [
+                {
+                    "name": "include_current_quarter",
+                    "value": true
+                }
+            ]
+        }
+    },
+    "rich_note": {
+        "name": "Note",
+        "description": "Create a text widget",
+        "keywords": [
+            "text",
+            "note",
+            "rich text"
+        ],
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/others/utils/rich_note.png",
+        "category": "Others",
+        "subCategory": "Utils",
+        "widgetId": "rich_note"
+    },
+    "iframe": {
+        "name": "Iframe / Website",
+        "description": "Embed a website",
+        "category": "Others",
+        "subCategory": "Utils",
+        "keywords": [
+            "iframe",
+            "embed",
+            "webpage",
+            "page",
+            "website",
+            "web"
+        ],
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/others/utils/website.png",
+        "widgetId": "iframe",
+        "connectionType": "websites"
+    },
+    "rss_viewer": {
+        "name": "RSS Feeds",
+        "description": "View and manage RSS feeds",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/others/utils/rss_viewer.png",
+        "category": "Others",
+        "subCategory": "Utils",
+        "widgetId": "rss_viewer",
+        "connectionType": "rss_feeds"
+    },
+    "clock": {
+        "name": "Clock",
+        "description": "Display the time from various timezones",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/others/utils/clock.png",
+        "category": "Others",
+        "subCategory": "Utils",
+        "widgetId": "clock",
+        "gridData": {
+            "w": 20,
+            "h": 4
+        }
+    },
+    "metric": {
+        "name": "Metric",
+        "description": "Display a metric",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/others/utils/clock.png",
+        "category": "Others",
+        "subCategory": "Utils",
+        "widgetId": "metric",
+        "gridData": {
+            "w": 20,
+            "h": 4
+        }
+    },
+    "financial_statements": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "keywords": [
+            "income statement",
+            "balance sheet",
+            "cash flow statement",
+            "reported currency",
+            "cash equivalents",
+            "short term investments",
+            "cash investments",
+            "receivables",
+            "inventory",
+            "current assets",
+            "property equipment",
+            "goodwill",
+            "intangible assets",
+            "long term investments",
+            "tax assets",
+            "assets",
+            "accounts payable",
+            "short term debt",
+            "tax payables",
+            "deferred revenue",
+            "liabilities",
+            "preferred shares",
+            "common shares",
+            "retained earnings",
+            "comprehensive income",
+            "equity",
+            "restricted cash",
+            "federal funds",
+            "debt",
+            "investments",
+            "depreciation",
+            "equipment net",
+            "mortgage rights",
+            "acquisition cost",
+            "benefit assets",
+            "deposits",
+            "customer deposits",
+            "dividends payable",
+            "policy benefits",
+            "unearned premiums",
+            "policy holder funds",
+            "controlling interest",
+            "treasury shares",
+            "policy holder equity",
+            "obligation",
+            "commitments"
+        ],
+        "name": "Financial Statements",
+        "description": "Income, balance, and cash flow statements",
+        "widgetId": "financial_statements",
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/fundamental_analysis/financial_statements.png",
+        "platformDataFunction": [
+            "obb.equity.fundamental.income",
+            "obb.equity.fundamental.balance",
+            "obb.equity.fundamental.cash"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.INCOME",
+            "OBB.EQUITY.FUNDAMENTAL.BALANCE",
+            "OBB.EQUITY.FUNDAMENTAL.CASH"
+        ],
+        "sdkFunc": {
+            "balance_sheet": "useEquityFundamentalBalance",
+            "income_statement": "useEquityFundamentalIncome",
+            "cash_flow_statement": "useEquityFundamentalCash"
+        },
+        "params": [
+            {
+                "paramName": "selected_group",
+                "value": "income_statement",
+                "type": "text",
+                "options": [
+                    {
+                        "label": "Income Statement",
+                        "value": "income_statement"
+                    },
+                    {
+                        "label": "Balance Sheet",
+                        "value": "balance_sheet"
+                    },
+                    {
+                        "label": "Cash Flow Statement",
+                        "value": "cash_flow_statement"
+                    }
+                ],
+                "show": false
+            }
+        ],
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "chartView": {
+                    "chartType": "line"
+                },
+                "transpose": true
+            }
+        },
+        "gridData": {
+            "w": 40,
+            "h": 16
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "period",
+                "selected_group"
+            ]
+        },
+        "proEndpoint": "pro.grouped_financials"
+    },
+    "balance_sheet": {
+        "name": "Balance Sheet",
+        "description": "Company Balance Sheet",
+        "widgetType": "individual",
+        "sdkFunc": "useEquityFundamentalBalance",
+        "platformDataFunction": [
+            "obb.equity.fundamental.balance"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.BALANCE"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "period"
+            ]
+        },
+        "disabled": true,
+        "data": {
+            "table": {
+                "enableCharts": true,
+                "showAll": true,
+                "transpose": true,
+                "period": [
+                    "annual",
+                    "quarterly"
+                ],
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "period_ending",
+                        "cellDataType": "date",
+                        "chartDataType": "category",
+                        "minWidth": 100,
+                        "formatterFn": "none"
+                    },
+                    {
+                        "headerName": "Period",
+                        "field": "fiscal_period",
+                        "chartDataType": "category",
+                        "hide": true
+                    },
+                    {
+                        "field": "filing_date",
+                        "hide": true
+                    },
+                    {
+                        "field": "accepted_date",
+                        "hide": true
+                    },
+                    {
+                        "field": "reported_currency",
+                        "hide": true
+                    },
+                    {
+                        "field": "link",
+                        "hide": true
+                    },
+                    {
+                        "field": "cik",
+                        "hide": true
+                    },
+                    {
+                        "headerName": "Fiscal Year",
+                        "field": "fiscal_year",
+                        "chartDataType": "category",
+                        "hide": true
+                    },
+                    {
+                        "headerName": "Cash And Cash Equivalents",
+                        "field": "cash_and_cash_equivalents"
+                    },
+                    {
+                        "headerName": "Short Term Investments",
+                        "field": "short_term_investments"
+                    },
+                    {
+                        "headerName": "Cash And Short Term Investments",
+                        "field": "cash_and_short_term_investments"
+                    },
+                    {
+                        "headerName": "Net Receivables",
+                        "field": "net_receivables"
+                    },
+                    {
+                        "headerName": "Inventory",
+                        "field": "inventory"
+                    },
+                    {
+                        "headerName": "Other Current Assets",
+                        "field": "other_current_assets"
+                    },
+                    {
+                        "headerName": "Total Current Assets",
+                        "field": "total_current_assets"
+                    },
+                    {
+                        "headerName": "Property Plant Equipment Net",
+                        "field": "plant_property_equipment_net"
+                    },
+                    {
+                        "headerName": "Goodwill",
+                        "field": "goodwill"
+                    },
+                    {
+                        "headerName": "Intangible Assets",
+                        "field": "intangible_assets"
+                    },
+                    {
+                        "headerName": "Goodwill And Intangible Assets",
+                        "field": "goodwill_and_intangible_assets"
+                    },
+                    {
+                        "headerName": "Long Term Investments",
+                        "field": "long_term_investments"
+                    },
+                    {
+                        "headerName": "Tax Assets",
+                        "field": "tax_assets"
+                    },
+                    {
+                        "headerName": "Other Non Current Assets",
+                        "field": "other_non_current_assets"
+                    },
+                    {
+                        "headerName": "Total Non Current Assets",
+                        "field": "non_current_assets"
+                    },
+                    {
+                        "headerName": "Other Assets",
+                        "field": "other_assets"
+                    },
+                    {
+                        "headerName": "Total Assets",
+                        "field": "total_assets"
+                    },
+                    {
+                        "headerName": "Account Payables",
+                        "field": "accounts_payable"
+                    },
+                    {
+                        "headerName": "Short Term Debt",
+                        "field": "short_term_debt"
+                    },
+                    {
+                        "headerName": "Tax Payables",
+                        "field": "tax_payables"
+                    },
+                    {
+                        "headerName": "Deferred Revenue",
+                        "field": "current_deferred_revenue"
+                    },
+                    {
+                        "headerName": "Other Current Liabilities",
+                        "field": "other_current_liabilities"
+                    },
+                    {
+                        "headerName": "Total Current Liabilities",
+                        "field": "total_current_liabilities"
+                    },
+                    {
+                        "headerName": "Long Term Debt",
+                        "field": "long_term_debt"
+                    },
+                    {
+                        "headerName": "Deferred Revenue Non Current",
+                        "field": "deferred_revenue_non_current"
+                    },
+                    {
+                        "headerName": "Deferred Tax Liabilities Non Current",
+                        "field": "deferred_tax_liabilities_non_current"
+                    },
+                    {
+                        "headerName": "Other Non Current Liabilities",
+                        "field": "other_non_current_liabilities"
+                    },
+                    {
+                        "headerName": "Total Non Current Liabilities",
+                        "field": "total_non_current_liabilities"
+                    },
+                    {
+                        "headerName": "Other Liabilities",
+                        "field": "other_liabilities"
+                    },
+                    {
+                        "headerName": "Capital Lease Obligations",
+                        "field": "capital_lease_obligations"
+                    },
+                    {
+                        "headerName": "Total Liabilities",
+                        "field": "total_liabilities"
+                    },
+                    {
+                        "headerName": "Preferred Stock",
+                        "field": "preferred_stock"
+                    },
+                    {
+                        "headerName": "Common Stock",
+                        "field": "common_stock"
+                    },
+                    {
+                        "headerName": "Retained Earnings",
+                        "field": "retained_earnings"
+                    },
+                    {
+                        "headerName": "Accumulated Other Comprehensive Income Loss",
+                        "field": "accumulated_other_comprehensive_income"
+                    },
+                    {
+                        "headerName": "Other Stockholders Equity",
+                        "field": "other_stockholder_equity"
+                    },
+                    {
+                        "headerName": "Total Stockholders Equity",
+                        "field": "total_common_equity"
+                    },
+                    {
+                        "headerName": "Total Equity",
+                        "field": "total_equity_non_controlling_interests"
+                    },
+                    {
+                        "headerName": "Total Liabilities And Stockholders Equity",
+                        "field": "total_liabilities_and_shareholders_equity"
+                    },
+                    {
+                        "headerName": "Minority Interest",
+                        "field": "minority_interest"
+                    },
+                    {
+                        "headerName": "Total Liabilities And Total Equity",
+                        "field": "total_liabilities_and_total_equity"
+                    },
+                    {
+                        "headerName": "Total Investments",
+                        "field": "total_investments"
+                    },
+                    {
+                        "headerName": "Total Debt",
+                        "field": "total_debt"
+                    },
+                    {
+                        "headerName": "Net Debt",
+                        "field": "net_debt"
+                    },
+                    {
+                        "headerName": "Source",
+                        "field": "final_link",
+                        "chartDataType": "excluded"
+                    }
+                ]
+            }
+        },
+        "widgetId": "balance_sheet",
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 40,
+            "h": 16
+        },
+        "source": [
+            "fmp"
+        ]
+    },
+    "income_statement": {
+        "name": "Income Statement",
+        "description": "Company Income Statement",
+        "widgetType": "individual",
+        "sdkFunc": "useEquityFundamentalIncome",
+        "platformDataFunction": [
+            "obb.equity.fundamental.income"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.INCOME"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "period"
+            ]
+        },
+        "disabled": true,
+        "data": {
+            "table": {
+                "showAll": true,
+                "enableCharts": true,
+                "transpose": true,
+                "period": [
+                    "annual",
+                    "quarterly"
+                ],
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "period_ending",
+                        "chartDataType": "category",
+                        "cellDataType": "date",
+                        "minWidth": 100,
+                        "formatterFn": "none"
+                    },
+                    {
+                        "field": "filing_date",
+                        "hide": true
+                    },
+                    {
+                        "field": "accepted_date",
+                        "hide": true
+                    },
+                    {
+                        "field": "reported_currency",
+                        "hide": true
+                    },
+                    {
+                        "field": "link",
+                        "hide": true
+                    },
+                    {
+                        "field": "cik",
+                        "hide": true
+                    },
+                    {
+                        "headerName": "Period",
+                        "field": "fiscal_period",
+                        "chartDataType": "category",
+                        "hide": true
+                    },
+                    {
+                        "headerName": "Fiscal Year",
+                        "field": "fiscal_year",
+                        "chartDataType": "category",
+                        "hide": true
+                    },
+                    {
+                        "headerName": "Revenue",
+                        "field": "revenue"
+                    },
+                    {
+                        "headerName": "Cost Of Revenue",
+                        "field": "cost_of_revenue"
+                    },
+                    {
+                        "headerName": "Gross Profit",
+                        "field": "gross_profit"
+                    },
+                    {
+                        "headerName": "Gross Profit Margin",
+                        "field": "gross_profit_margin",
+                        "formatterFn": "normalizedPercent"
+                    },
+                    {
+                        "headerName": "Research And Development Expenses",
+                        "field": "research_and_development_expense"
+                    },
+                    {
+                        "headerName": "General And Administrative Expenses",
+                        "field": "general_and_admin_expense"
+                    },
+                    {
+                        "headerName": "Selling And Marketing Expenses",
+                        "field": "selling_and_marketing_expense"
+                    },
+                    {
+                        "headerName": "Selling General And Administrative Expenses",
+                        "field": "selling_general_and_admin_expense"
+                    },
+                    {
+                        "headerName": "Other Expenses",
+                        "field": "other_expenses"
+                    },
+                    {
+                        "headerName": "Operating Expenses",
+                        "field": "total_operating_expenses"
+                    },
+                    {
+                        "headerName": "Cost And Expenses",
+                        "field": "cost_and_expenses"
+                    },
+                    {
+                        "headerName": "Interest Income",
+                        "field": "interest_income"
+                    },
+                    {
+                        "headerName": "Interest Expense",
+                        "field": "total_interest_expense"
+                    },
+                    {
+                        "headerName": "Depreciation And Amortization",
+                        "field": "depreciation_and_amortization"
+                    },
+                    {
+                        "headerName": "EBITDA",
+                        "field": "ebitda"
+                    },
+                    {
+                        "headerName": "EBITDA Ratio",
+                        "field": "ebitda_margin",
+                        "formatterFn": "normalizedPercent"
+                    },
+                    {
+                        "headerName": "EBIT",
+                        "field": "ebit"
+                    },
+                    {
+                        "headerName": "Operating Income",
+                        "field": "total_operating_income"
+                    },
+                    {
+                        "headerName": "Operating Income Margin",
+                        "field": "operating_income_margin",
+                        "formatterFn": "normalizedPercent"
+                    },
+                    {
+                        "headerName": "Total Other Income Expenses Net",
+                        "field": "total_other_income_expenses"
+                    },
+                    {
+                        "headerName": "Income Before Tax",
+                        "field": "total_pre_tax_income"
+                    },
+                    {
+                        "headerName": "Income Before Tax Margin",
+                        "field": "pre_tax_income_margin",
+                        "formatterFn": "normalizedPercent"
+                    },
+                    {
+                        "headerName": "Income Tax Expense",
+                        "field": "income_tax_expense"
+                    },
+                    {
+                        "headerName": "Net Income",
+                        "field": "consolidated_net_income"
+                    },
+                    {
+                        "headerName": "Net Income Margin",
+                        "field": "net_income_margin",
+                        "formatterFn": "normalizedPercent"
+                    },
+                    {
+                        "headerName": "Earnings Per Share",
+                        "field": "basic_earnings_per_share"
+                    },
+                    {
+                        "headerName": "Earnings Per Share Diluted",
+                        "field": "diluted_earnings_per_share"
+                    },
+                    {
+                        "headerName": "Weighted Average Shares Outstanding",
+                        "field": "weighted_average_basic_shares_outstanding"
+                    },
+                    {
+                        "headerName": "Weighted Average Shares Outstanding Diluted",
+                        "field": "weighted_average_diluted_shares_outstanding"
+                    },
+                    {
+                        "headerName": "Source",
+                        "field": "final_link",
+                        "chartDataType": "excluded"
+                    }
+                ]
+            }
+        },
+        "widgetId": "income_statement",
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 40,
+            "h": 16
+        },
+        "source": [
+            "fmp"
+        ]
+    },
+    "cash_flow_statement": {
+        "name": "Cash Flow Statement",
+        "description": "Company Cash Flow Statement",
+        "widgetType": "individual",
+        "sdkFunc": "useEquityFundamentalCash",
+        "platformDataFunction": [
+            "obb.equity.fundamental.cash"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.FUNDAMENTAL.CASH"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "period"
+            ]
+        },
+        "disabled": true,
+        "data": {
+            "table": {
+                "showAll": true,
+                "enableCharts": true,
+                "period": [
+                    "annual",
+                    "quarterly"
+                ],
+                "transpose": true,
+                "columnsDefs": [
+                    {
+                        "headerName": "Date",
+                        "field": "period_ending",
+                        "chartDataType": "category",
+                        "minWidth": 100,
+                        "formatterFn": "none"
+                    },
+                    {
+                        "headerName": "Period",
+                        "field": "fiscal_period",
+                        "hide": true,
+                        "chartDataType": "category"
+                    },
+                    {
+                        "headerName": "Fiscal Year",
+                        "field": "fiscal_year",
+                        "chartDataType": "category",
+                        "hide": true
+                    },
+                    {
+                        "headerName": "Net Income",
+                        "field": "net_income"
+                    },
+                    {
+                        "field": "filing_date",
+                        "hide": true
+                    },
+                    {
+                        "field": "accepted_date",
+                        "hide": true
+                    },
+                    {
+                        "field": "reported_currency",
+                        "hide": true
+                    },
+                    {
+                        "field": "link",
+                        "hide": true
+                    },
+                    {
+                        "field": "cik",
+                        "hide": true
+                    },
+                    {
+                        "headerName": "Depreciation And Amortization",
+                        "field": "depreciation_and_amortization"
+                    },
+                    {
+                        "headerName": "Deferred Income Tax",
+                        "field": "deferred_income_tax"
+                    },
+                    {
+                        "headerName": "Stock Based Compensation",
+                        "field": "stock_based_compensation"
+                    },
+                    {
+                        "headerName": "Change In Working Capital",
+                        "field": "change_in_working_capital"
+                    },
+                    {
+                        "headerName": "Accounts Receivables",
+                        "field": "change_in_account_receivables"
+                    },
+                    {
+                        "headerName": "Inventory",
+                        "field": "change_in_inventory"
+                    },
+                    {
+                        "headerName": "Accounts Payables",
+                        "field": "change_in_account_payable"
+                    },
+                    {
+                        "headerName": "Other Working Capital",
+                        "field": "change_in_other_working_capital"
+                    },
+                    {
+                        "headerName": "Other Non Cash Items",
+                        "field": "change_in_other_non_cash_items"
+                    },
+                    {
+                        "headerName": "Net Cash Flow From Operating Activities",
+                        "field": "net_cash_from_operating_activities"
+                    },
+                    {
+                        "headerName": "Investments In Property Plant And Equipment",
+                        "field": "purchase_of_property_plant_and_equipment"
+                    },
+                    {
+                        "headerName": "Acquisitions Net",
+                        "field": "acquisitions"
+                    },
+                    {
+                        "headerName": "Purchases Of Investments",
+                        "field": "purchase_of_investment_securities"
+                    },
+                    {
+                        "headerName": "Sales Maturities Of Investments",
+                        "field": "sale_and_maturity_of_investments"
+                    },
+                    {
+                        "headerName": "Other Investing Activities",
+                        "field": "other_investing_activities"
+                    },
+                    {
+                        "headerName": "Net Cash Used For Investing Activities",
+                        "field": "net_cash_from_investing_activities"
+                    },
+                    {
+                        "headerName": "Debt Repayment",
+                        "field": "repayment_of_debt"
+                    },
+                    {
+                        "headerName": "Common Stock Issued",
+                        "field": "issuance_of_common_equity"
+                    },
+                    {
+                        "headerName": "Common Stock Repurchased",
+                        "field": "repurchase_of_common_equity"
+                    },
+                    {
+                        "headerName": "Dividends Paid",
+                        "field": "payment_of_dividends"
+                    },
+                    {
+                        "headerName": "Other Financing Activities",
+                        "field": "other_financing_activities"
+                    },
+                    {
+                        "headerName": "Net Cash Used Provided By Financing Activities",
+                        "field": "net_cash_from_financing_activities"
+                    },
+                    {
+                        "headerName": "Effect Of Forex Changes On Cash",
+                        "field": "effect_of_exchange_rate_changes_on_cash"
+                    },
+                    {
+                        "headerName": "Net Change In Cash",
+                        "field": "net_change_in_cash_and_equivalents"
+                    },
+                    {
+                        "headerName": "Cash At Beginning Of Period",
+                        "field": "cash_at_beginning_of_period"
+                    },
+                    {
+                        "headerName": "Cash At End Of Period",
+                        "field": "cash_at_end_of_period"
+                    },
+                    {
+                        "headerName": "Operating Cash Flow",
+                        "field": "operating_cash_flow"
+                    },
+                    {
+                        "headerName": "Capital Expenditure",
+                        "field": "capital_expenditure"
+                    },
+                    {
+                        "headerName": "Free Cash Flow",
+                        "field": "free_cash_flow"
+                    },
+                    {
+                        "headerName": "Source",
+                        "field": "final_link",
+                        "chartDataType": "excluded"
+                    }
+                ]
+            }
+        },
+        "widgetId": "cash_flow_statement",
+        "category": "Equity",
+        "subCategory": "Fundamental Analysis",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "gridData": {
+            "w": 40,
+            "h": 16
+        },
+        "source": [
+            "fmp"
+        ]
+    },
+    "grouped_comparison": {
+        "name": "Comparison Analysis",
+        "description": "Compare financials of multiple tickers",
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/comparison_analysis/grouped_comparison.png",
+        "keywords": [
+            "peers",
+            "ratios",
+            "metrics",
+            "EBITDA",
+            "quick ratio",
+            "liquidity",
+            "efficiency",
+            "profitability",
+            "leverage",
+            "coverage",
+            "operating cash flow",
+            "free cash flow",
+            "profit margin"
+        ],
+        "widgetId": "grouped_comparison",
+        "category": "Equity",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "platformDataFunction": [
+            "obb.equity.compare.peers",
+            "obb.equity.fundamental.metrics",
+            "obb.equity.fundamental.ratios"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.COMPARE.PEERS",
+            "OBB.EQUITY.FUNDAMENTAL.METRICS",
+            "OBB.EQUITY.FUNDAMENTAL.RATIOS"
+        ],
+        "subCategory": "Comparison Analysis",
+        "gridData": {
+            "w": 26,
+            "h": 12
+        },
+        "data": {
+            "table": {
+                "enableCharts": true
+            }
+        },
+        "source": [
+            "fmp"
+        ],
+        "proEndpoint": "pro.grouped_comparisons",
+        "inputs": {
+            "userSelectable": [
+                "symbol"
+            ]
+        }
+    },
+    "eod_price": {
+        "dependsOn": [
+            "mainTicker"
+        ],
+        "name": "Historical Stock Price",
+        "description": "Historical Stock Price",
+        "widgetType": "individual",
+        "endpoint": "eod_price",
+        "widgetId": "eod_price",
+        "supportedAssetClasses": [
+            "equity"
+        ],
+        "imgUrl": "https://raw.githubusercontent.com/OpenBB-finance/widgets-library/main/equity/historical_stock_price.png",
+        "sdkFunc": "useEquityPriceHistorical",
+        "platformDataFunction": [
+            "obb.equity.price.historical"
+        ],
+        "excelDataFunction": [
+            "OBB.EQUITY.PRICE.HISTORICAL"
+        ],
+        "category": "Equity",
+        "gridData": {
+            "w": 20,
+            "h": 16
+        },
+        "source": [
+            "fmp"
+        ],
+        "inputs": {
+            "userSelectable": [
+                "symbol",
+                "start_date"
+            ]
+        },
+        "params": [
+            {
+                "show": true,
+                "paramName": "start_date",
+                "label": "Start Date",
+                "type": "date",
+                "value": "$currentDate-2y"
+            }
+        ],
+        "data": {
+            "table": {
+                "showAll": true,
+                "enableCharts": true,
+                "chartView": {
+                    "chartType": "line"
+                },
+                "columnsDefs": [
+                    {
+                        "field": "unadjusted_volume",
+                        "headerName": "Unadjusted Volume",
+                        "chartDataType": "series"
+                    },
+                    {
+                        "headerName": "Change Percent",
+                        "field": "change_percent",
+                        "formatterFn": "normalizedPercent"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,139 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "linter": {
+    "enabled": true,
+    "domains": { "react": "all" },
+    "rules": {
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noArrayIndexKey": "off",
+        "noPrototypeBuiltins": "off",
+        "noAssignInExpressions": "off",
+        "useAwait": "off",
+        "noEmptyBlockStatements": "off",
+        "noGlobalIsNan": { "fix": "safe", "level": "warn" },
+        "noConsole": { "level": "off", "options": { "allow": ["log"] } },
+        "useIterableCallbackReturn": "off",
+        "noReactForwardRef": "off"
+      },
+      "style": {
+        "noParameterAssign": "off",
+        "noNonNullAssertion": "off",
+        "useNamingConvention": "off",
+        "noDefaultExport": "off",
+        "useBlockStatements": "off",
+        "useTemplate": { "fix": "safe", "level": "warn" },
+        "noUnusedTemplateLiteral": { "fix": "safe", "level": "warn" },
+        "useFilenamingConvention": "off",
+        "useSelfClosingElements": { "fix": "safe", "level": "warn" },
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSingleVarDeclarator": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error",
+        "useComponentExportOnlyModules": {
+          "options": {
+            "allowConstantExport": true
+          }
+        }
+      },
+      "a11y": {
+        "useSemanticElements": "off",
+        "noStaticElementInteractions": "off",
+        "noSvgWithoutTitle": "off",
+        "useButtonType": "off",
+        "useValidAnchor": "off",
+        "useKeyWithClickEvents": "off",
+        "useIframeTitle": "off",
+        "useAltText": "off",
+        "useMediaCaption": "off",
+        "noLabelWithoutControl": "off",
+        "useFocusableInteractive": "off",
+        "useGenericFontNames": "off"
+      },
+      "correctness": {
+        "noUnusedImports": { "level": "error", "fix": "safe" },
+        "noInnerDeclarations": "off",
+        "noChildrenProp": "off",
+        "useExhaustiveDependencies": "off",
+        "noUnusedVariables": "off",
+        "useValidTypeof": "off",
+        "noPrivateImports": "off",
+        "noUnusedFunctionParameters": { "level": "warn", "fix": "safe" },
+        "useUniqueElementIds": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "complexity": {
+        "noUselessSwitchCase": "off",
+        "noBannedTypes": "off",
+        "noForEach": "off",
+        "noExcessiveCognitiveComplexity": "off",
+        "useLiteralKeys": { "fix": "safe", "level": "warn" },
+        "noArguments": "off",
+        "noImportantStyles": "off"
+      },
+      "nursery": {},
+      "performance": {
+        "noNamespaceImport": "off"
+      }
+    }
+  },
+  "files": {
+    "includes": [
+      "src/**",
+      "tests/**",
+      "!node_modules",
+      "!src/lib/charting_library",
+      "!src/components/Widgets/Terminal.tsx",
+      "!src/components/Update.tsx",
+      "!src/lib/utils/index.ts",
+      "!src/components/ds/utils/index.ts",
+      "!src/vite-env.d.ts",
+      "!dist",
+      "!.eslintrc.cjs"
+    ],
+    "ignoreUnknown": true
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 88,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "enabled": true,
+      "quoteStyle": "double"
+    }
+  },
+  "css": {
+    "parser": { "tailwindDirectives": true },
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 88
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["package.json"],
+      "json": {
+        "formatter": {
+          "enabled": true,
+          "expand": "auto",
+          "indentStyle": "space",
+          "indentWidth": 2,
+          "lineWidth": 88
+        }
+      }
+    }
+  ]
+}

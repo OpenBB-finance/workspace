@@ -1,0 +1,1049 @@
+{
+  "widgets": [
+    {
+      "id": "c636d4ed-8566-4e50-afcc-322245182cba",
+      "widgetId": "rich_note-ecfabec9-c4c8-4723-bb77-676844f210c6",
+      "name": "Intro",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "overview",
+      "storage": {
+        "html": "<h1>Earnings Update Workflow</h1><p>Welcome to the OpenBB Workspace! This onboarding will guide you through using <strong>OpenBB Copilot</strong> for an Earnings Update workflow.</p><p>We'll use built-in datasets and public filings, with <strong>Copilot</strong> handling the heavy lifting.</p><ol class=\"list-decimal pl-6\"><li><p>Click on the Steps in the navigation bar and follow the instructions in each section</p></li><li><p>Alternatively, watch the step-by-step video featured below.</p></li></ol>",
+        "color": "#004466",
+        "hideControls": false
+      },
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false,
+          "enableCharts": true
+        }
+      },
+      "type": "table",
+      "description": ""
+    },
+    {
+      "id": "c5f373ca-4651-4a23-b385-93fbec9d519b",
+      "widgetId": "navigation_bar",
+      "name": "Navigation Bar",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "overview",
+      "storage": {
+        "tabs": [
+          {
+            "id": "overview",
+            "name": "Intro"
+          },
+          {
+            "id": "step-1",
+            "name": "Step 1: Guidance"
+          },
+          {
+            "id": "step-2",
+            "name": "Step 2: Filings"
+          },
+          {
+            "id": "step-3",
+            "name": "Step 3: Market Sentiments"
+          },
+          {
+            "id": "step-4",
+            "name": "Step 4: Search"
+          }
+        ]
+      },
+      "external": false,
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false
+        }
+      },
+      "description": "Create nested tabs inside the main tab for navigation"
+    },
+    {
+      "id": "3c419b3e-827a-4a97-a4af-e4b5d03bee22",
+      "widgetId": "navigation_bar",
+      "name": "Navigation Bar",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-1",
+      "storage": {
+        "tabs": [
+          {
+            "id": "overview",
+            "name": "Intro"
+          },
+          {
+            "id": "step-1",
+            "name": "Step 1: Guidance"
+          },
+          {
+            "id": "step-2",
+            "name": "Step 2: Filings"
+          },
+          {
+            "id": "step-3",
+            "name": "Step 3: Market Sentiments"
+          },
+          {
+            "id": "step-4",
+            "name": "Step 4: Search"
+          }
+        ]
+      },
+      "external": false,
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "c4c71e67-744c-4232-9c02-9247a1444e7b",
+      "widgetId": "navigation_bar",
+      "name": "Navigation Bar",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-2",
+      "storage": {
+        "tabs": [
+          {
+            "id": "overview",
+            "name": "Intro"
+          },
+          {
+            "id": "step-1",
+            "name": "Step 1: Guidance"
+          },
+          {
+            "id": "step-2",
+            "name": "Step 2: Filings"
+          },
+          {
+            "id": "step-3",
+            "name": "Step 3: Market Sentiments"
+          },
+          {
+            "id": "step-4",
+            "name": "Step 4: Search"
+          }
+        ]
+      },
+      "external": false,
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "25fe9cb8-4f5b-4a9d-9c50-ed9478d4601c",
+      "widgetId": "navigation_bar",
+      "name": "Navigation Bar",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-3",
+      "storage": {
+        "tabs": [
+          {
+            "id": "overview",
+            "name": "Intro"
+          },
+          {
+            "id": "step-1",
+            "name": "Step 1: Guidance"
+          },
+          {
+            "id": "step-2",
+            "name": "Step 2: Filings"
+          },
+          {
+            "id": "step-3",
+            "name": "Step 3: Market Sentiments"
+          },
+          {
+            "id": "step-4",
+            "name": "Step 4: Search"
+          }
+        ]
+      },
+      "external": false,
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "8d86fdd1-4bf6-4ece-9668-35d98cda8886",
+      "widgetId": "navigation_bar",
+      "name": "Navigation Bar",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-4",
+      "storage": {
+        "tabs": [
+          {
+            "id": "overview",
+            "name": "Intro"
+          },
+          {
+            "id": "step-1",
+            "name": "Step 1: Guidance"
+          },
+          {
+            "id": "step-2",
+            "name": "Step 2: Filings"
+          },
+          {
+            "id": "step-3",
+            "name": "Step 3: Market Sentiments"
+          },
+          {
+            "id": "step-4",
+            "name": "Step 4: Search"
+          }
+        ]
+      },
+      "external": false,
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false
+        }
+      },
+      "description": ""
+    },
+    {
+      "id": "295e9863-9c5e-4204-bb64-bc0bdb6de5fb",
+      "widgetId": "rich_note",
+      "name": "Step 1: Guidance",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-1",
+      "storage": {
+        "html": "<h1>Extract Management Guidance from Transcripts</h1><ol class=\"list-decimal pl-6\"><li><p>Click <strong>[+] \"Add widget as Context\" </strong>on the Earnings Transcript widget (top right).</p></li><li><p>Use this prompt for Copilot:</p></li></ol><p><em>\"Analyze NVDA's Q1 2025 earning transcript from the Earnings Transcript widget and extract the key management guidance. Present the result in a table with the following column: Metric, Period, Value.\"</em></p><ol class=\"list-decimal pl-6\" start=\"3\"><li><p>Tips:</p></li></ol><p>To focus <strong>Copilot</strong> on querying specific widget data, click the <strong>[+] \"Add widget as Context\"</strong> feature at the top right corner of the widget. To broaden the query to the dashboard or to focus on a different widget, click the<strong> [+] </strong>again to deselect it.</p><p>Use the search feature <strong>(Ctrl / CMD + K)</strong> to explore all built-in datasets. Then, select a widget or dashboard template to get started.</p><p></p>",
+        "color": "#004466"
+      },
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false,
+          "enableCharts": true
+        }
+      },
+      "type": "table",
+      "description": ""
+    },
+    {
+      "id": "e44d02eb-fd37-47e5-a97d-417239901ab8",
+      "widgetId": "earnings_transcripts",
+      "name": "Earnings Transcripts",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-1",
+      "storage": {
+        "params": {
+          "symbol": "NVDA",
+          "year": 2025,
+          "quarter": "Q1"
+        }
+      },
+      "external": false,
+      "params": [
+        {
+          "show": false,
+          "paramName": "symbol",
+          "type": "ticker",
+          "label": "Symbol",
+          "description": "The symbol of the asset, e.g. AAPL,GOOGL,MSFT",
+          "value": "AAPL"
+        },
+        {
+          "show": false,
+          "paramName": "year",
+          "label": "Year",
+          "description": "The year of the earnings call",
+          "type": "number",
+          "value": 2020
+        }
+      ],
+      "staleTime": 300000,
+      "refetchInterval": 900000,
+      "data": {
+        "mainTicker": {
+          "id": "NVDA",
+          "symbol": "NVDA",
+          "category": "equity",
+          "color": "#4ADE80",
+          "type": "stock",
+          "name": "NVIDIA Corporation",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "industry": "Semiconductors",
+          "sector": "Technology",
+          "country": "US",
+          "cik": "0001045810",
+          "isin": "US67066G1040",
+          "cusip": "67066G104"
+        },
+        "table": {
+          "transpose": false
+        }
+      },
+      "description": "Full transcripts of earnings call"
+    },
+    {
+      "id": "5e72bd0b-c280-49ef-a29f-a2e005832637",
+      "widgetId": "copilot_table",
+      "name": "Q2 2025 Financial Metrics Overview",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-1",
+      "storage": {
+        "columns": ["Metric", "Period", "Value"],
+        "rowsData": [
+          {
+            "Metric": "Revenue",
+            "Period": "Q2 2025",
+            "Value": "$28 billion ± 2%"
+          },
+          {
+            "Metric": "GAAP Gross Margin",
+            "Period": "Q2 2025",
+            "Value": "74.8% ± 50 basis points"
+          },
+          {
+            "Metric": "Non-GAAP Gross Margin",
+            "Period": "Q2 2025",
+            "Value": "75.5% ± 50 basis points"
+          },
+          {
+            "Metric": "GAAP Operating Expenses",
+            "Period": "Q2 2025",
+            "Value": "$4 billion"
+          },
+          {
+            "Metric": "Non-GAAP Operating Expenses",
+            "Period": "Q2 2025",
+            "Value": "$2.8 billion"
+          },
+          {
+            "Metric": "GAAP Other Income/Expenses",
+            "Period": "Q2 2025",
+            "Value": "$300 million"
+          },
+          {
+            "Metric": "Non-GAAP Other Income/Expenses",
+            "Period": "Q2 2025",
+            "Value": "$300 million"
+          },
+          {
+            "Metric": "GAAP Tax Rate",
+            "Period": "Q2 2025",
+            "Value": "17% ± 1%"
+          },
+          {
+            "Metric": "Non-GAAP Tax Rate",
+            "Period": "Q2 2025",
+            "Value": "17% ± 1%"
+          },
+          {
+            "Metric": "Full-Year Gross Margin",
+            "Period": "FY 2025",
+            "Value": "Mid-70% range"
+          },
+          {
+            "Metric": "Full-Year Operating Expenses",
+            "Period": "FY 2025",
+            "Value": "Low 40% growth range"
+          }
+        ],
+        "chartView": {
+          "enabled": false,
+          "chartType": "line"
+        },
+        "paginationPageSize": 100
+      },
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "chartView": {
+            "enabled": false,
+            "chartType": "line"
+          },
+          "showAll": true,
+          "enableCharts": true,
+          "filterModel": {
+            "default_": {}
+          },
+          "columnState": {
+            "default_": {
+              "orderedColIds": ["Metric", "Period", "Value"],
+              "columnSizingModel": [
+                {
+                  "colId": "Metric",
+                  "width": 242.995
+                },
+                {
+                  "colId": "Period",
+                  "width": 122
+                },
+                {
+                  "colId": "Value",
+                  "width": 237
+                }
+              ]
+            }
+          }
+        }
+      },
+      "description": "A summary of key financial performance indicators including revenue, margins, and expenses for the second quarter of 2025."
+    },
+    {
+      "id": "5cffa9e1-42f9-4802-b64f-c7b121fb3b87",
+      "widgetId": "rich_note",
+      "name": "Step 2: Filings",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-2",
+      "storage": {
+        "html": "<h1>Compare Past Guidance with Results from Filings</h1><p>You can add your data, whether internal or third-party, to enhance your analysis. You'll find an uploaded 10Q for NVDA for Q2 2025 on the right.</p><p>Use <strong>Copilot</strong> to compare the management guidance with the actual results in Q2.</p><ol class=\"list-decimal pl-6\"><li><p>Click <strong>[+] \"Add widget as Context\"</strong> on the NVIDIA 10Q Q2 2025 widget</p></li><li><p>Use this prompt for <strong>Copilot</strong>:</p></li></ol><p><em>“Extract all key metrics from NVIDIA’s Q2 Financial Report and compare them with management guidance provided back in Q1. Provide a table with the following columns: Metric, Guidance High, Mid, Low, Actual Result, and % Difference from the Mid.”</em></p><ol class=\"list-decimal pl-6\" start=\"3\"><li><p>Tip:</p></li></ol><p>To <strong>\"Add data,\"</strong> you can:</p><ul class=\"list-disc pl-4\"><li><p>Go to the <strong>\"Data Connectors\"</strong> tab</p></li><li><p>Right-click the dashboard</p></li><li><p>Click the<strong> \"+\" </strong>icon in the bottom right corner</p></li></ul><p></p>",
+        "color": "#004466"
+      },
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false,
+          "enableCharts": true
+        }
+      },
+      "type": "table",
+      "description": ""
+    },
+    {
+      "id": "03335b50-cd1a-48e3-a7f2-687f58ea5777",
+      "widgetId": "file-c0ebd61e-39fa-4382-b82f-4374ea96a30f",
+      "name": "NVIDIA 10Q Q2 2025",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-2",
+      "storage": {
+        "params": {},
+        "chartView": {
+          "enabled": false,
+          "chartType": "line"
+        },
+        "currentPage": 3,
+        "scale": 1.3000000000000003
+      },
+      "external": true,
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "connectionType": "file",
+      "endpoint": {
+        "url": "",
+        "method": "GET",
+        "headers": {},
+        "query": {}
+      },
+      "data": {
+        "table": {},
+        "dataKey": ""
+      },
+      "description": "A comprehensive financial overview of NVIDIA Corporation's performance for the quarter ending July 28, 2024, including income statements, balance sheets, and management analysis.",
+      "type": "table"
+    },
+    {
+      "id": "5c2354a9-c554-46b7-bf3a-882851eda64e",
+      "widgetId": "copilot_table",
+      "name": "Financial Performance Overview",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-2",
+      "storage": {
+        "columns": [
+          "Metric",
+          "Management Guidance (Q1 2025)",
+          "Actual Result (Q2 2025)",
+          "% Difference"
+        ],
+        "rowsData": [
+          {
+            "Metric": "Revenue",
+            "Management Guidance (Q1 2025)": "$26.00 billion",
+            "Actual Result (Q2 2025)": "$30.04 billion",
+            "% Difference": "+15.54%"
+          },
+          {
+            "Metric": "Gross Margin",
+            "Management Guidance (Q1 2025)": "~75%",
+            "Actual Result (Q2 2025)": "75.1%",
+            "% Difference": "+0.13%"
+          },
+          {
+            "Metric": "Operating Expenses",
+            "Management Guidance (Q1 2025)": "Mid to upper 40% growth YoY",
+            "Actual Result (Q2 2025)": "48% growth",
+            "% Difference": "0%-6% higher (varies)"
+          },
+          {
+            "Metric": "Operating Income",
+            "Management Guidance (Q1 2025)": "Not specifically guided",
+            "Actual Result (Q2 2025)": "$18.64 billion",
+            "% Difference": "Not applicable (N/A)"
+          },
+          {
+            "Metric": "Net Income",
+            "Management Guidance (Q1 2025)": "Not specifically guided",
+            "Actual Result (Q2 2025)": "$16.60 billion",
+            "% Difference": "N/A"
+          },
+          {
+            "Metric": "Net Income per Diluted Share",
+            "Management Guidance (Q1 2025)": "Not specifically guided",
+            "Actual Result (Q2 2025)": "$0.67",
+            "% Difference": "N/A"
+          },
+          {
+            "Metric": "Data Center Revenue",
+            "Management Guidance (Q1 2025)": "Expected strong performance",
+            "Actual Result (Q2 2025)": "Up 154% YoY",
+            "% Difference": "N/A"
+          },
+          {
+            "Metric": "Gaming Revenue",
+            "Management Guidance (Q1 2025)": "Not specifically guided",
+            "Actual Result (Q2 2025)": "Up 16% YoY",
+            "% Difference": "N/A"
+          },
+          {
+            "Metric": "Professional Visualization",
+            "Management Guidance (Q1 2025)": "Not specifically guided",
+            "Actual Result (Q2 2025)": "Up 20% YoY",
+            "% Difference": "N/A"
+          },
+          {
+            "Metric": "Income Tax Expense",
+            "Management Guidance (Q1 2025)": "Not specifically guided",
+            "Actual Result (Q2 2025)": "$2.62 billion",
+            "% Difference": "N/A"
+          },
+          {
+            "Metric": "R&D Expenses",
+            "Management Guidance (Q1 2025)": "Expected growth mid to upper 40% range",
+            "Actual Result (Q2 2025)": "Up 51% YoY",
+            "% Difference": "Within guidance"
+          },
+          {
+            "Metric": "SG&A Expenses",
+            "Management Guidance (Q1 2025)": "Expected growth mid to upper 40% range",
+            "Actual Result (Q2 2025)": "Up 35% YoY",
+            "% Difference": "Below guidance"
+          }
+        ],
+        "chartView": {
+          "enabled": false,
+          "chartType": "line"
+        },
+        "paginationPageSize": 100
+      },
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "chartView": {
+            "enabled": false,
+            "chartType": "line"
+          },
+          "showAll": true,
+          "enableCharts": true,
+          "filterModel": {
+            "default_": {}
+          },
+          "columnState": {
+            "default_": {
+              "orderedColIds": [
+                "Metric",
+                "Management Guidance (Q1 2025)",
+                "Actual Result (Q2 2025)",
+                "% Difference"
+              ],
+              "columnSizingModel": [
+                {
+                  "colId": "Metric",
+                  "width": 185.995
+                },
+                {
+                  "colId": "Management Guidance (Q1 2025)",
+                  "width": 298
+                },
+                {
+                  "colId": "Actual Result (Q2 2025)",
+                  "width": 160
+                },
+                {
+                  "colId": "% Difference",
+                  "width": 164
+                }
+              ]
+            }
+          }
+        }
+      },
+      "description": "This widget presents a comparison of management guidance versus actual financial results for key metrics in Q2 2025."
+    },
+    {
+      "id": "1e8190eb-8231-4a5a-ab55-93b7928c27e2",
+      "widgetId": "rich_note",
+      "name": "Step 3: Market Sentiments",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-3",
+      "storage": {
+        "html": "<h1>Cross-reference with Market Sentiments</h1><p>With the comparison between management guidance vs actual results, let's see the market reaction to the filing release on August 28, 2024.</p><ol class=\"list-decimal pl-6\"><li><p>Use one of the out-of-the-box widgets, <strong>Charting &amp; Company News</strong>.</p></li><li><p>Use this prompt for <strong>Copilot</strong>:</p></li></ol><p><em>\"Using NVDA's company news and closing price, please summarize and comment on the market sentiment toward NVDA's Q2 earnings release on August 28, 2024.\"</em></p>",
+        "color": "#004466"
+      },
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false,
+          "enableCharts": true
+        }
+      },
+      "type": "table",
+      "description": ""
+    },
+    {
+      "id": "6b5bc672-9e54-41c4-8a53-72f4c9672f3e",
+      "widgetId": "charting",
+      "name": "Charting",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-3",
+      "storage": {
+        "params": {
+          "symbol": "AAPL"
+        }
+      },
+      "external": false,
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "mainTicker": {
+          "id": "NVDA",
+          "symbol": "NVDA",
+          "category": "equity",
+          "color": "#4ADE80",
+          "type": "stock",
+          "name": "NVIDIA Corporation",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "industry": "Semiconductors",
+          "sector": "Technology",
+          "country": "US",
+          "cik": "0001045810",
+          "isin": "US67066G1040",
+          "cusip": "67066G104"
+        },
+        "table": {
+          "transpose": false
+        }
+      },
+      "description": "Interactive tradingview charting"
+    },
+    {
+      "id": "315d93ef-69fb-4059-8ddb-084ee522c444",
+      "widgetId": "company_news",
+      "name": "Company News",
+      "description": "News articles, including events or announcements related to a particular company.",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-3",
+      "storage": {
+        "params": {
+          "symbol": "AMZN"
+        },
+        "start_date": "2024-08-25T23:00:00.000Z",
+        "end_date": "2024-09-05T23:00:00.000Z"
+      },
+      "external": false,
+      "params": [
+        {
+          "show": false,
+          "paramName": "symbol",
+          "type": "ticker",
+          "label": "Symbol",
+          "description": "The symbol of the asset, e.g. AAPL,GOOGL,MSFT",
+          "value": "AAPL"
+        },
+        {
+          "show": false,
+          "paramName": "channels",
+          "value": "All",
+          "description": "Channels of the news to retrieve.",
+          "type": "text",
+          "options": [
+            {
+              "label": "All",
+              "value": "All"
+            },
+            {
+              "label": "Top Stories",
+              "value": "Top Stories"
+            },
+            {
+              "label": "Exclusives",
+              "value": "Exclusives"
+            },
+            {
+              "label": "Hot",
+              "value": "Hot"
+            }
+          ]
+        },
+        {
+          "show": false,
+          "paramName": "start_date",
+          "type": "date",
+          "value": "$currentDate-4y",
+          "description": "The start date of the news to retrieve."
+        },
+        {
+          "show": false,
+          "paramName": "end_date",
+          "type": "date",
+          "value": "$currentDate",
+          "description": "The end date of the news to retrieve."
+        },
+        {
+          "show": false,
+          "paramName": "topics",
+          "type": "text",
+          "value": "",
+          "description": "Topics of the news to retrieve."
+        },
+        {
+          "show": false,
+          "paramName": "limit",
+          "type": "number",
+          "value": 50,
+          "description": "The number of news to retrieve."
+        }
+      ],
+      "staleTime": 300000,
+      "refetchInterval": 900000,
+      "data": {
+        "mainTicker": {
+          "id": "NVDA",
+          "symbol": "NVDA",
+          "category": "equity",
+          "color": "#4ADE80",
+          "type": "stock",
+          "name": "NVIDIA Corporation",
+          "exchange": "NASDAQ",
+          "currency": "USD",
+          "industry": "Semiconductors",
+          "sector": "Technology",
+          "country": "US",
+          "cik": "0001045810",
+          "isin": "US67066G1040",
+          "cusip": "67066G104"
+        },
+        "table": {
+          "transpose": false
+        }
+      }
+    },
+    {
+      "id": "052e19b5-f99c-4134-b07a-2d05f8c5014f",
+      "widgetId": "rich_note",
+      "name": "Step 4: Search",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-4",
+      "storage": {
+        "html": "<h1>Search the web with Copilot tools</h1><p>Notably, despite a positive earnings report, NVIDIA's stock still fell. Ask Copilot to search the web and explore the reasons behind this decline.</p><ol class=\"list-decimal pl-6\"><li><p>Try asking Copilot:</p></li></ol><p><em>\"Nvidia recently had a positive earnings report. Why did the stock price decline?\"</em></p><ol class=\"list-decimal pl-6\" start=\"2\"><li><p>Tip:</p></li></ol><p>To access <strong>Copilot</strong> tools provided by your team or through third-party solutions, use the search and feature toggles in Copilot settings.</p>",
+        "color": "#004466"
+      },
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false,
+          "enableCharts": true
+        }
+      },
+      "type": "table",
+      "description": ""
+    },
+    {
+      "id": "f63f1fd7-5288-459a-8256-5b080374bd02",
+      "widgetId": "rich_note",
+      "name": "Nvidia Earnings Analysis",
+      "groupId": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "innerTab": "step-4",
+      "storage": {
+        "html": "<p>Despite Nvidia's recent earnings report showing strong performance, several factors contributed to the decline in its stock price:</p><h2><strong>High Expectations</strong></h2><p>Nvidia has consistently surpassed Wall Street estimates by significant margins in recent quarters. However, in the latest earnings report, the company's revenue beat was narrower than in previous quarters, with a 4.1% exceedance of estimates, which is the smallest margin in the last four quarters. This fell short of the high expectations that investors had become accustomed to.</p><h2><strong>Blackwell Chip Delays</strong></h2><p>There were concerns about delays in the launch of Nvidia's upcoming Blackwell AI chip. Although the company has shipped Blackwell samples to customers and expects significant revenue from the chip in the fourth quarter, the delays and the need for adjustments to enhance production yields may have contributed to investor caution.</p><h2><strong>Gross Margin and Guidance</strong></h2><p>Nvidia's gross margin dipped slightly, and while the company provided optimistic revenue guidance for the third quarter, the projected growth rate represents a deceleration from the previous quarter's performance. This slight deceleration and the minor dip in gross margins might have influenced investor sentiment.</p><h2><strong>Market Sentiment and Valuation</strong></h2><p>Nvidia's stock has seen a meteoric rise, with shares up over 150% this year alone. This rapid growth has raised concerns about valuation and the potential for a correction. Investors may be adjusting their expectations and valuations, leading to a temporary decline in the stock price despite the strong earnings report.</p><p>Overall, the decline in Nvidia's stock price reflects a combination of high investor expectations, concerns over the Blackwell chip's launch timeline, and broader market sentiment regarding the company's valuation.</p>"
+      },
+      "external": false,
+      "params": [],
+      "staleTime": 900000,
+      "refetchInterval": 900000,
+      "data": {
+        "table": {
+          "transpose": false
+        }
+      },
+      "description": ""
+    }
+  ],
+  "groups": [
+    {
+      "id": "e6a816de-5c3a-49d4-83fe-7af24a487dc5",
+      "name": "Group 1",
+      "color": "#EF6689",
+      "type": "ticker",
+      "value": {
+        "symbol": "NVDA",
+        "exchange": "NASDAQ",
+        "name": "Nvidia Corp",
+        "type": "stock",
+        "category": "equity",
+        "id": "NVDA"
+      },
+      "acceptAssetClasses": ["all"]
+    }
+  ],
+  "gridLayout": {
+    "overview": [
+      {
+        "w": 40,
+        "h": 9,
+        "x": 0,
+        "y": 2,
+        "i": "c636d4ed-8566-4e50-afcc-322245182cba",
+        "minW": 8,
+        "minH": 4,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 40,
+        "h": 16,
+        "x": 0,
+        "y": 11,
+        "i": "7962ab9c-688e-4ed4-b6b5-96be68064503",
+        "minW": 8,
+        "minH": 4,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 40,
+        "h": 2,
+        "x": 0,
+        "y": 0,
+        "i": "c5f373ca-4651-4a23-b385-93fbec9d519b",
+        "minW": 40,
+        "minH": 2,
+        "maxH": 2,
+        "moved": false,
+        "static": false
+      }
+    ],
+    "step-1": [
+      {
+        "w": 40,
+        "h": 2,
+        "x": 0,
+        "y": 0,
+        "i": "3c419b3e-827a-4a97-a4af-e4b5d03bee22",
+        "minW": 40,
+        "minH": 2,
+        "maxH": 2,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 40,
+        "h": 9,
+        "x": 0,
+        "y": 2,
+        "i": "295e9863-9c5e-4204-bb64-bc0bdb6de5fb",
+        "minW": 8,
+        "minH": 4,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 20,
+        "h": 34,
+        "x": 0,
+        "y": 11,
+        "i": "e44d02eb-fd37-47e5-a97d-417239901ab8",
+        "minW": 8,
+        "minH": 0,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 20,
+        "h": 14,
+        "x": 20,
+        "y": 11,
+        "i": "5e72bd0b-c280-49ef-a29f-a2e005832637",
+        "minW": 8,
+        "minH": 0,
+        "moved": false,
+        "static": false
+      }
+    ],
+    "step-2": [
+      {
+        "w": 40,
+        "h": 2,
+        "x": 0,
+        "y": 0,
+        "i": "c4c71e67-744c-4232-9c02-9247a1444e7b",
+        "minW": 40,
+        "minH": 2,
+        "maxH": 2,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 40,
+        "h": 13,
+        "x": 0,
+        "y": 2,
+        "i": "5cffa9e1-42f9-4802-b64f-c7b121fb3b87",
+        "minW": 8,
+        "minH": 0,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 20,
+        "h": 33,
+        "x": 0,
+        "y": 15,
+        "i": "03335b50-cd1a-48e3-a7f2-687f58ea5777",
+        "minW": 8,
+        "minH": 0,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 20,
+        "h": 15,
+        "x": 20,
+        "y": 15,
+        "i": "5c2354a9-c554-46b7-bf3a-882851eda64e",
+        "minW": 8,
+        "minH": 0,
+        "moved": false,
+        "static": false
+      }
+    ],
+    "step-3": [
+      {
+        "w": 40,
+        "h": 2,
+        "x": 0,
+        "y": 0,
+        "i": "25fe9cb8-4f5b-4a9d-9c50-ed9478d4601c",
+        "minW": 40,
+        "minH": 2,
+        "maxH": 2,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 40,
+        "h": 9,
+        "x": 0,
+        "y": 2,
+        "i": "1e8190eb-8231-4a5a-ab55-93b7928c27e2",
+        "minW": 8,
+        "minH": 4,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 24,
+        "h": 24,
+        "x": 0,
+        "y": 11,
+        "i": "6b5bc672-9e54-41c4-8a53-72f4c9672f3e",
+        "minW": 8,
+        "minH": 0,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 16,
+        "h": 24,
+        "x": 24,
+        "y": 11,
+        "i": "315d93ef-69fb-4059-8ddb-084ee522c444",
+        "minW": 8,
+        "minH": 0,
+        "moved": false,
+        "static": false
+      }
+    ],
+    "step-4": [
+      {
+        "w": 40,
+        "h": 2,
+        "x": 0,
+        "y": 0,
+        "i": "8d86fdd1-4bf6-4ece-9668-35d98cda8886",
+        "minW": 40,
+        "minH": 2,
+        "maxH": 2,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 40,
+        "h": 9,
+        "x": 0,
+        "y": 2,
+        "i": "052e19b5-f99c-4134-b07a-2d05f8c5014f",
+        "minW": 8,
+        "minH": 4,
+        "moved": false,
+        "static": false
+      },
+      {
+        "w": 20,
+        "h": 20,
+        "x": 0,
+        "y": 11,
+        "i": "f63f1fd7-5288-459a-8256-5b080374bd02",
+        "minW": 8,
+        "minH": 4,
+        "moved": false,
+        "static": false
+      }
+    ]
+  }
+}

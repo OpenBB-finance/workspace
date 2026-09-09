@@ -1,0 +1,422 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/AppsJson"
+  },
+  "definitions": {
+    "AppsJson": {
+      "type": "object",
+      "properties": {
+        "templateId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^custom-.+"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "selected_agent": {
+          "type": "string"
+        },
+        "img": {
+          "type": "string"
+        },
+        "img_dark": {
+          "type": "string"
+        },
+        "img_light": {
+          "type": "string"
+        },
+        "authentication": {
+          "type": "string"
+        },
+        "tabs": {
+          "$ref": "#/definitions/Tabs"
+        },
+        "groups": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Group"
+          }
+        },
+        "prompts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mcpServers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "name",
+              "url"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "allowCustomization": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "tabs"
+      ],
+      "additionalProperties": false
+    },
+    "Tabs": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "layout": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Layout"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "layout"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "Layout": {
+      "type": "object",
+      "properties": {
+        "i": {
+          "type": "string"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "w": {
+          "type": "number"
+        },
+        "h": {
+          "type": "number"
+        },
+        "minW": {
+          "type": "number"
+        },
+        "minH": {
+          "type": "number"
+        },
+        "maxW": {
+          "type": "number"
+        },
+        "maxH": {
+          "type": "number"
+        },
+        "moved": {
+          "type": "boolean"
+        },
+        "static": {
+          "type": "boolean"
+        },
+        "isDraggable": {
+          "type": "boolean"
+        },
+        "state": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/WidgetState"
+            }
+          ]
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "i",
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
+      "additionalProperties": {}
+    },
+    "WidgetState": {
+      "type": "object",
+      "properties": {
+        "paramOrder": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "params": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {}
+        },
+        "chartView": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "default": false,
+              "type": "boolean"
+            },
+            "chartType": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ChartType"
+                }
+              ]
+            },
+            "ignoreCellRange": {
+              "type": "boolean"
+            },
+            "cellRangeCols": {
+              "type": "object",
+              "propertyNames": {
+                "$ref": "#/definitions/ChartType"
+              },
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "columnLineCombo",
+                "areaColumnCombo",
+                "customCombo",
+                "column",
+                "groupedColumn",
+                "stackedColumn",
+                "normalizedColumn",
+                "bar",
+                "groupedBar",
+                "stackedBar",
+                "normalizedBar",
+                "line",
+                "stackedLine",
+                "normalizedLine",
+                "scatter",
+                "bubble",
+                "pie",
+                "donut",
+                "doughnut",
+                "area",
+                "stackedArea",
+                "normalizedArea",
+                "histogram",
+                "radarLine",
+                "radarArea",
+                "nightingale",
+                "radialColumn",
+                "radialBar",
+                "sunburst",
+                "rangeBar",
+                "rangeArea",
+                "boxPlot",
+                "treemap",
+                "heatmap",
+                "waterfall",
+                "funnel",
+                "coneFunnel",
+                "pyramid"
+              ]
+            },
+            "chartSettingsOpen": {
+              "default": false,
+              "type": "boolean"
+            },
+            "xLabel": {
+              "type": "string"
+            },
+            "yLabel": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "chartModel": {
+          "type": "object",
+          "properties": {
+            "modelType": {
+              "type": "string",
+              "enum": [
+                "range",
+                "pivot"
+              ]
+            },
+            "chartType": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ChartType"
+                }
+              ]
+            },
+            "chartOptions": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {}
+            },
+            "cellRange": {
+              "type": "object",
+              "properties": {
+                "columns": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": {}
+            },
+            "suppressChartRanges": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": {}
+        },
+        "columnState": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": {}
+        },
+        "filterModel": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": {}
+        },
+        "storage": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "html": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": {}
+        }
+      },
+      "additionalProperties": {}
+    },
+    "ChartType": {
+      "default": "line",
+      "type": "string",
+      "enum": [
+        "columnLineCombo",
+        "areaColumnCombo",
+        "customCombo",
+        "column",
+        "groupedColumn",
+        "stackedColumn",
+        "normalizedColumn",
+        "bar",
+        "groupedBar",
+        "stackedBar",
+        "normalizedBar",
+        "line",
+        "stackedLine",
+        "normalizedLine",
+        "scatter",
+        "bubble",
+        "pie",
+        "donut",
+        "doughnut",
+        "area",
+        "stackedArea",
+        "normalizedArea",
+        "histogram",
+        "radarLine",
+        "radarArea",
+        "nightingale",
+        "radialColumn",
+        "radialBar",
+        "sunburst",
+        "rangeBar",
+        "rangeArea",
+        "boxPlot",
+        "treemap",
+        "heatmap",
+        "waterfall",
+        "funnel",
+        "coneFunnel",
+        "pyramid"
+      ]
+    },
+    "Group": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "paramName": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "widgetIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "defaultValue": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

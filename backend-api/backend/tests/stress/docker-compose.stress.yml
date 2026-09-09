@@ -1,0 +1,22 @@
+# Parameterized stress overlay — replaces the old per-scenario override files.
+# Layered on top of a base stack (docker-compose-local-dev.yml for MySQL, or
+# docker-compose-lite.yml for SQLite). Driven by env vars set by run_stress.sh:
+#
+#   STRESS_WORKERS    number of uvicorn worker processes (default 1)
+#   STRESS_HOST_PORT  host port to publish on (default 8001)
+#
+# It runs N native uvicorn workers (no --reload) on container port 8000, turns on Prometheus +
+# a fast metrics sample interval, and `!override`s the published port so the host always lands
+# on STRESS_HOST_PORT regardless of what the base stack mapped (lists otherwise merge/append).
+services:
+  fastapi:
+    command:
+      - "sh"
+      - "-c"
+      - "python -m alembic upgrade head && exec python -m uvicorn main:app --host 0.0.0.0 --port 8000 --workers ${STRESS_WORKERS:-1}"
+    environment:
+      WORKERS: "${STRESS_WORKERS:-1}"
+      PROMETHEUS: "1"
+      RUNTIME_METRICS_INTERVAL: "0.25"
+    ports: !override
+      - "${STRESS_HOST_PORT:-8001}:8000"

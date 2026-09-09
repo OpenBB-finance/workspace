@@ -1,0 +1,35 @@
+# The build context is assembled from this repo + the backend/ (openbb-hub) and
+# terminalpro/ source trees. Keep heavy / irrelevant directories out so the
+# context stays small and Docker layer caching stays effective.
+
+# Dependency / build artifacts pulled in when copying local checkouts.
+**/node_modules
+**/.venv
+**/venv
+**/__pycache__
+**/*.pyc
+**/dist
+**/build
+**/.next
+**/coverage
+**/.turbo
+**/.vite
+
+# VCS metadata — never needed in the image.
+**/.git
+**/.gitignore
+**/.gitmodules
+_hub
+
+# Local env / editor noise.
+**/.env.local
+**/.DS_Store
+**/.idea
+**/.vscode
+
+# This repo's own tooling that the image doesn't need.
+.github
+build-local.sh
+publish.sh
+README.md
+README-ENDUSER.md

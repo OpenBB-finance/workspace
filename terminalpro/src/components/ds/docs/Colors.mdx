@@ -1,0 +1,70 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { base, main, dark, light, error, success, warning, informative, extra } from "../colors";
+
+<Meta title="Foundations/Colors" />
+
+# Color Palette
+
+All primitive colors live in `src/components/ds/colors.ts`. Semantic tokens in `src/styles/tokens.css` reference these primitives.
+
+export const Swatch = ({ color, label }) => (
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+    <div
+      style={{
+        width: 48,
+        height: 48,
+        borderRadius: 6,
+        background: color,
+        border: "1px solid rgba(128,128,128,0.2)",
+      }}
+    />
+    <span style={{ fontSize: 10, fontFamily: "monospace", opacity: 0.7 }}>{label}</span>
+    <span style={{ fontSize: 9, fontFamily: "monospace", opacity: 0.5 }}>{color}</span>
+  </div>
+);
+
+export const PaletteRow = ({ name, palette }) => (
+  <div style={{ marginBottom: 24 }}>
+    <h3>{name}</h3>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+      {Object.entries(palette).map(([key, value]) => (
+        <Swatch key={key} color={value} label={`${key}`} />
+      ))}
+    </div>
+  </div>
+);
+
+## Base
+
+<PaletteRow name="base" palette={base} />
+
+## Brand (Main)
+
+<PaletteRow name="main" palette={main} />
+
+## Dark Neutrals
+
+<PaletteRow name="dark" palette={dark} />
+
+## Light Neutrals
+
+<PaletteRow name="light" palette={light} />
+
+## Feedback
+
+<PaletteRow name="error" palette={error} />
+<PaletteRow name="success" palette={success} />
+<PaletteRow name="warning" palette={warning} />
+<PaletteRow name="informative" palette={informative} />
+
+## Extra
+
+export const ExtraPalettes = () => (
+  <div>
+    {Object.entries(extra).map(([name, palette]) => (
+      <PaletteRow key={name} name={name} palette={palette} />
+    ))}
+  </div>
+);
+
+<ExtraPalettes />

@@ -1,0 +1,58 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# OpenBB Design System
+
+The design system powering OpenBB Workspace. All components use **semantic color tokens** that automatically adapt to light and dark themes.
+
+## Quick start
+
+```tsx
+import { Button } from "~/components/ds/atoms/Button";
+import { Input } from "~/components/ds/atoms/Input";
+import { Tag } from "~/components/ds/atoms/Tag";
+```
+
+## Principles
+
+- **Token-driven** — Colors reference semantic CSS variables (`--general-bg-primary`, `--btn-primary-bg`, etc.) defined in `src/styles/tokens.css`. Never hardcode hex values.
+- **Tailwind v4** — Utility classes map to the tokens via the Tailwind config. Use classes like `bg-general-bg-primary` or `text-ds-text-heading`.
+- **Dark mode** — Toggled by adding `class="dark"` to the root element. Tokens resolve to the correct palette automatically.
+- **CVA variants** — Components use `class-variance-authority` for variant/size props, keeping style logic co-located with the component.
+
+## File structure
+
+```
+src/components/ds/
+├── atoms/          # Button, Input, Tag, Switch, etc.
+├── molecules/      # Tabs, ColorPicker, Form, etc.
+├── dialogs/        # Dialog, ConfirmDialog
+├── colors.ts       # Primitive color palette
+├── plugins/        # TW plugins (typography, stroke)
+└── utils/          # cn(), react helpers
+```
+
+## Adding a story
+
+1. Create `ComponentName.stories.tsx` next to the component file.
+2. Use `tags: ["autodocs"]` to auto-generate prop documentation from TypeScript types.
+3. Export named stories for each meaningful state.
+
+```tsx
+import type { Meta, StoryObj } from "@storybook/react";
+import { MyComponent } from "./MyComponent";
+
+const meta = {
+  title: "Atoms/MyComponent",
+  component: MyComponent,
+  tags: ["autodocs"],
+} satisfies Meta<typeof MyComponent>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: { /* ... */ },
+};
+```

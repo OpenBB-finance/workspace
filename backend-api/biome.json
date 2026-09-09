@@ -1,0 +1,60 @@
+{
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "off",
+				"noArrayIndexKey": "off",
+				"useValidTypeof": "off",
+				"noPrototypeBuiltins": "off",
+				"noAssignInExpressions": "off"
+			},
+			"style": {
+				"noParameterAssign": "off",
+				"noArguments": "off",
+				"noNonNullAssertion": "off"
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "off",
+				"useButtonType": "off",
+				"useValidAnchor": "off",
+				"useKeyWithClickEvents": "off",
+				"useIframeTitle": "off",
+				"useAltText": "off",
+				"useMediaCaption": "off"
+			},
+			"correctness": {
+				"noInnerDeclarations": "off",
+				"noChildrenProp": "off",
+				"useExhaustiveDependencies": "off"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "off"
+			},
+			"complexity":{
+				"noUselessSwitchCase": "off",
+				"noBannedTypes": "off"
+			}
+		}
+	},
+	"files": {
+		"ignore": ["frontend/public", "frontend/build", "frontend/node_modules"]
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": false,
+		"indentStyle": "space",
+		"indentWidth": 2,
+		"lineWidth": 88,
+		"ignore": []
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	}
+}

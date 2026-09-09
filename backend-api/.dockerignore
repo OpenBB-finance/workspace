@@ -1,0 +1,56 @@
+# .dockerignore for the one-box build (docker/onebox/Dockerfile), which uses
+# the repo root as build context. Other Dockerfiles in the repo use narrower
+# contexts (backend/, on-prem-deploy/docker/) and ship their own ignore files.
+
+# Heavy / unrelated dirs
+.git
+.github
+.idea
+.vscode
+admin_cli
+admin_frontend
+on-prem-deploy
+snowflake
+docker/native-backend
+
+# Python build artifacts
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.venv
+**/venv
+**/.pytest_cache
+**/.ruff_cache
+**/.mypy_cache
+**/.coverage
+**/htmlcov
+
+# Backend Cython artifacts must NOT leak into the image — stale .so files
+# silently override what setup_compile.py decides to build. See backend's
+# .dockerignore for the original rationale.
+**/*.so
+**/*.c
+**/build/
+
+# Backend env files (we generate fresh secrets at first start).
+backend/envs/.env
+backend/envs/.env.*
+
+# Frontend / node
+**/node_modules
+**/dist
+**/.next
+**/.turbo
+terminalpro/playwright-report
+terminalpro/test-results
+terminalpro/src-tauri/target
+
+# Editor cruft
+**/.DS_Store
+**/*.swp
+**/*~
+
+# SQLite scratch DBs from local dev
+backend/test_sqlite.db*
+backend/local_storage

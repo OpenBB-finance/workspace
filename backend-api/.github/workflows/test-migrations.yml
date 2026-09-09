@@ -1,0 +1,38 @@
+name: Migration Tests
+
+on:
+  pull_request:
+    paths:
+      - 'backend/alembic/**'
+      - 'backend/api/models/**'
+      - 'backend/tests/test_migration_dialects.py'
+      - 'backend/pyproject.toml'
+      - 'backend/poetry.lock'
+
+jobs:
+  test-migrations:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    # Docker is available on GitHub runners, so the MySQL/PostgreSQL
+    # testcontainers run too; SQLite needs nothing.
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry config virtualenvs.create false
+          poetry install --with dev
+
+      - name: Run migration dialect tests
+        run: |
+          pytest tests/test_migration_dialects.py -v

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "ignoreDeprecations": "6.0",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "vite.config.ts",
+    "postcss.config.cjs",
+    "src/lib/runtimeConfigSchema.ts"
+  ],
+  "exclude": ["vite.config.ts"]
+}

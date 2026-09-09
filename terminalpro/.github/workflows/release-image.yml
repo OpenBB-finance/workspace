@@ -1,0 +1,70 @@
+name: Build & Push Release Image
+
+# on:
+#   pull_request:
+#     branches: [develop]
+#   push:
+#     branches: [develop]
+#     tags: ["v*"]
+
+on: workflow_dispatch
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: ${{ secrets.IMAGE_AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+  ECR_REPOSITORY: openbb-frontend
+
+jobs:
+  build:
+    runs-on: [self-hosted, linux, X64]
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS credentials
+        # if: github.event_name == 'push'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.IMAGE_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.IMAGE_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to ECR
+        # if: github.event_name == 'push'
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Determine tags
+        id: tags
+        run: |
+          REGISTRY="${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}"
+
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            # Tag push (e.g. v1.2.0) → semver + stable
+            VERSION="${{ github.ref_name }}"
+            echo "tags=${REGISTRY}:${VERSION},${REGISTRY}:stable" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            # Push to develop → latest
+            echo "tags=${REGISTRY}:latest" >> "$GITHUB_OUTPUT"
+          else
+            # PR → build only, no push
+            echo "tags=openbb-frontend:pr-check" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ github.event_name == 'workflow_dispatch' }}
+          tags: ${{ steps.tags.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

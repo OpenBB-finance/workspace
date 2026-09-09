@@ -1,0 +1,13 @@
+[entity]
+name = "Local Development"
+seats = 10
+aum = 1000
+company_type = "CORPORATION"
+organization_size = "SMALL"
+country = "DOM"
+
+[[admins]]
+email = "admin@openbb.co"
+first_name = "Local"
+last_name = "Admin"
+password = "asdQWE123!"

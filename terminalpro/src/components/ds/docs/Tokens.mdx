@@ -1,0 +1,240 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Tokens" />
+
+# Semantic Tokens
+
+Semantic tokens are CSS custom properties defined in `src/styles/tokens.css`. They reference the primitive palette and automatically switch between light and dark values. Toggle the theme in the toolbar to see both modes.
+
+export const TokenSwatch = ({ token, label }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "6px 0" }}>
+    <div
+      style={{
+        width: 32,
+        height: 32,
+        borderRadius: 4,
+        background: `var(${token})`,
+        border: "1px solid rgba(128,128,128,0.2)",
+        flexShrink: 0,
+      }}
+    />
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <code style={{ fontSize: 12 }}>{label || token}</code>
+      <span style={{ fontSize: 10, fontFamily: "monospace", opacity: 0.5 }}>var({token})</span>
+    </div>
+  </div>
+);
+
+export const TokenGroup = ({ title, tokens }) => (
+  <div style={{ marginBottom: 32 }}>
+    <h3>{title}</h3>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "0 24px" }}>
+      {tokens.map((t) => (
+        <TokenSwatch key={t} token={t} />
+      ))}
+    </div>
+  </div>
+);
+
+## General
+
+<TokenGroup
+  title="Backgrounds"
+  tokens={[
+    "--general-bg-primary",
+    "--general-bg-primary-hover",
+    "--general-bg-primary-disabled",
+    "--general-bg-secondary",
+    "--general-bg-secondary-hover",
+    "--general-bg-secondary-disabled",
+  ]}
+/>
+
+<TokenGroup
+  title="Borders"
+  tokens={[
+    "--general-border-primary",
+    "--general-border-secondary",
+    "--general-border-disabled",
+  ]}
+/>
+
+<TokenGroup
+  title="Labels"
+  tokens={[
+    "--general-label",
+    "--general-label-hover",
+    "--general-label-disabled",
+  ]}
+/>
+
+## Surface
+
+<TokenGroup
+  title="Surface"
+  tokens={[
+    "--surface-page",
+    "--surface-header",
+    "--surface-divider",
+    "--surface-card",
+  ]}
+/>
+
+## Alerts
+
+<TokenGroup
+  title="Alerts"
+  tokens={[
+    "--alert-success",
+    "--alert-warning",
+    "--alert-error",
+    "--alert-informative",
+  ]}
+/>
+
+## Buttons
+
+<TokenGroup
+  title="Primary"
+  tokens={[
+    "--btn-primary-bg",
+    "--btn-primary-bg-hover",
+    "--btn-primary-bg-disabled",
+    "--btn-primary-label",
+    "--btn-primary-label-disabled",
+  ]}
+/>
+
+<TokenGroup
+  title="Secondary"
+  tokens={[
+    "--btn-secondary-bg",
+    "--btn-secondary-border",
+    "--btn-secondary-bg-hover",
+    "--btn-secondary-bg-disabled",
+  ]}
+/>
+
+<TokenGroup
+  title="Outlined"
+  tokens={[
+    "--btn-outlined-border",
+    "--btn-outlined-border-hover",
+    "--btn-outlined-border-disabled",
+  ]}
+/>
+
+<TokenGroup
+  title="Ghost"
+  tokens={[
+    "--btn-ghost-bg-hover",
+  ]}
+/>
+
+<TokenGroup
+  title="Destructive"
+  tokens={[
+    "--btn-destructive-bg",
+    "--btn-destructive-bg-hover",
+    "--btn-destructive-bg-disabled",
+    "--btn-destructive-label",
+  ]}
+/>
+
+<TokenGroup
+  title="Warning"
+  tokens={[
+    "--btn-warning-bg",
+    "--btn-warning-bg-hover",
+    "--btn-warning-bg-disabled",
+    "--btn-warning-label",
+  ]}
+/>
+
+## Input
+
+<TokenGroup
+  title="Input"
+  tokens={[
+    "--input-bg",
+    "--input-bg-hover",
+    "--input-bg-disabled",
+  ]}
+/>
+
+## Tabs
+
+<TokenGroup
+  title="Tab"
+  tokens={[
+    "--tab-bg-primary",
+    "--tab-bg-secondary",
+    "--tab-action-active",
+    "--tab-filled-primary-bg-active",
+    "--tab-filled-primary-text-active",
+    "--tab-filled-secondary-text",
+    "--tab-filled-secondary-text-active",
+    "--tab-filled-secondary-bg-active",
+  ]}
+/>
+
+## Tags
+
+<TokenGroup
+  title="Tag Colors"
+  tokens={[
+    "--tag-grey-bg",
+    "--tag-grey-label",
+    "--tag-brand-bg",
+    "--tag-brand-label",
+    "--tag-green-bg",
+    "--tag-green-label",
+    "--tag-red-bg",
+    "--tag-red-label",
+    "--tag-orange-bg",
+    "--tag-orange-label",
+    "--tag-yellow-bg",
+    "--tag-yellow-label",
+    "--tag-blue-bg",
+    "--tag-blue-label",
+    "--tag-purple-bg",
+    "--tag-purple-label",
+    "--tag-pink-bg",
+    "--tag-pink-label",
+    "--tag-burgundy-bg",
+    "--tag-burgundy-label",
+  ]}
+/>
+
+## Table
+
+<TokenGroup
+  title="Table"
+  tokens={[
+    "--table-header-bg",
+    "--table-cell-bg",
+    "--table-cell-bg-hover",
+  ]}
+/>
+
+## Text
+
+<TokenGroup
+  title="Text"
+  tokens={[
+    "--text-heading",
+    "--text-subtitle",
+    "--text-body",
+    "--text-caption",
+  ]}
+/>
+
+## Toggle
+
+<TokenGroup
+  title="Toggle"
+  tokens={[
+    "--toggle-bg",
+    "--toggle-bg-disabled",
+  ]}
+/>

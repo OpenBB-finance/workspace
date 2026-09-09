@@ -1,0 +1,201 @@
+name: Runner Cleanup
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+jobs:
+  cleanup-runner-workspace:
+    runs-on: [self-hosted, linux, aws-dev]
+    steps:
+      - name: Check Initial Disk Space
+        run: |
+          df -h
+          echo "Initial directory sizes:"
+          du -ah . | sort -rh | head -n 50
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup Git Objects
+        run: |
+          echo "Cleaning up Git repositories..."
+
+          # Prune all unreachable objects
+          git gc --prune=now --aggressive
+
+          # Remove old pack files
+          find .git/objects/pack -type f -name "pack-*.old" -delete
+
+          # Clean up loose objects
+          git prune --expire now
+
+          # Remove refs to deleted remote branches
+          git remote prune origin
+
+          # Clean reflog
+          git reflog expire --expire=now --all
+          git gc --prune=now
+
+      - name: Cleanup Build Artifacts
+        run: |
+          echo "Cleaning up build artifacts..."
+          cd /home/ubuntu/actions-runner/_work/terminalpro
+
+          # Remove build artifacts and caches
+          find . -name "dist" -type d -prune -exec rm -rf {} \;
+          find . -name "node_modules" -type d -prune -exec rm -rf {} \;
+          find . -name ".git/index.lock" -type f -delete
+          find . -name ".git/refs/remotes/origin/*" -type f -not -name "main" -not -name "HEAD" -delete
+          find . -name "dist-config.json" -type f -delete
+          find . -name "bucket-policy.json" -type f -delete
+
+      - name: Cleanup AWS and Config Files
+        run: |
+          echo "Cleaning up AWS artifacts..."
+          rm -rf ~/.aws/cli/cache/*
+          rm -rf /home/ubuntu/.aws/cli/cache/*
+          find /home/ubuntu/actions-runner/_work -name "*.aws" -type f -delete
+
+      - name: Cleanup bun and Build Cache
+        run: |
+          echo "Cleaning bun and build cache..."
+          bun pm cache rm 2>/dev/null || true
+          rm -rf /home/ubuntu/.bun/install/cache
+          rm -rf ~/.bun/install/cache
+          rm -rf /home/ubuntu/.npm/_cacache
+          rm -rf ~/.npm/_cacache
+          find /home/ubuntu/actions-runner/_work -name ".cache" -type d -prune -exec rm -rf {} \;
+
+      - name: Cleanup Node.js Tools
+        run: |
+          echo "Cleaning up Node.js installations..."
+          # Keep only the latest Node.js version
+          if [ -d /home/ubuntu/actions-runner/_work/_tool/node ]; then
+            cd /home/ubuntu/actions-runner/_work/_tool/node
+            ls -t | tail -n +2 | xargs -r rm -rf
+          fi
+
+          # Clean node externals
+          rm -rf /home/ubuntu/actions-runner/externals/node20/include/node/openssl/archs/*
+
+      - name: Cleanup Temporary Directories
+        run: |
+          echo "Cleaning temporary directories..."
+          rm -rf /home/ubuntu/actions-runner/_work/_temp/*
+          rm -rf /home/ubuntu/actions-runner/_work/_PipelineMapping/*
+
+          # Clean old action runs (keep last 7 days)
+          find /home/ubuntu/actions-runner/_work/_actions -type d -mtime +7 -exec rm -rf {} \;
+
+          # Clean old tool installations (keep last 30 days)
+          if [ -d /home/ubuntu/actions-runner/_work/_tool ]; then
+            find /home/ubuntu/actions-runner/_work/_tool -type d -mtime +30 -exec rm -rf {} \;
+          fi
+
+      - name: Show Final Disk Space
+        run: |
+          echo "Final disk usage:"
+          df -h
+          echo "Final directory sizes:"
+          du -sh /home/ubuntu/actions-runner/_work/*
+
+  cleanup-juan-workspace:
+    runs-on: [self-hosted, linux, X64]
+    steps:
+      - name: Check Initial Disk Space
+        run: |
+          df -h
+          echo "Initial directory sizes:"
+          du -ah . | sort -rh | head -n 50
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup Git Objects
+        run: |
+          echo "Cleaning up Git repositories..."
+
+          # Prune all unreachable objects
+          git gc --prune=now --aggressive
+
+          # Remove old pack files
+          find .git/objects/pack -type f -name "pack-*.old" -delete
+
+          # Clean up loose objects
+          git prune --expire now
+
+          # Remove refs to deleted remote branches
+          git remote prune origin
+
+          # Clean reflog
+          git reflog expire --expire=now --all
+          git gc --prune=now
+
+      - name: Cleanup Build Artifacts
+        run: |
+          echo "Cleaning up build artifacts..."
+          cd /home/tehcoderer/actions-runner/_work/terminalpro
+
+          # Remove build artifacts and caches
+          find . -name "dist" -type d -prune -exec rm -rf {} \;
+          find . -name "node_modules" -type d -prune -exec rm -rf {} \;
+          find . -name ".git/index.lock" -type f -delete
+          find . -name ".git/refs/remotes/origin/*" -type f -not -name "main" -not -name "HEAD" -delete
+          find . -name "dist-config.json" -type f -delete
+          find . -name "bucket-policy.json" -type f -delete
+
+      - name: Cleanup AWS and Config Files
+        run: |
+          echo "Cleaning up AWS artifacts..."
+          find /home/tehcoderer/actions-runner/_work -name "*.aws" -type f -delete
+
+      - name: Cleanup bun and Build Cache
+        run: |
+          echo "Cleaning bun and build cache..."
+          bun pm cache rm 2>/dev/null || true
+          rm -rf /home/tehcoderer/.bun/install/cache
+          rm -rf ~/.bun/install/cache
+          rm -rf /home/tehcoderer/.npm/_cacache
+          rm -rf ~/.npm/_cacache
+          find /home/tehcoderer/actions-runner/_work -name ".cache" -type d -prune -exec rm -rf {} \;
+
+      - name: Cleanup Node.js Tools
+        run: |
+          echo "Cleaning up Node.js installations..."
+          # Keep only the latest Node.js version
+          if [ -d /home/tehcoderer/actions-runner/_work/_tool/node ]; then
+            cd /home/tehcoderer/actions-runner/_work/_tool/node
+            ls -t | tail -n +2 | xargs -r rm -rf
+          fi
+
+          # Clean node externals
+          rm -rf /home/tehcoderer/actions-runner/externals/node20/include/node/openssl/archs/*
+
+      - name: Cleanup Temporary Directories
+        run: |
+          echo "Cleaning temporary directories..."
+          rm -rf /home/tehcoderer/actions-runner/_work/_temp/*
+          rm -rf /home/tehcoderer/actions-runner/_work/_PipelineMapping/*
+
+          # Clean old action runs (keep last 7 days)
+          find /home/tehcoderer/actions-runner/_work/_actions -type d -mtime +7 -exec rm -rf {} \;
+
+          # Clean old tool installations (keep last 30 days)
+          if [ -d /home/tehcoderer/actions-runner/_work/_tool ]; then
+            find /home/tehcoderer/actions-runner/_work/_tool -type d -mtime +30 -exec rm -rf {} \;
+          fi
+
+      - name: Show Final Disk Space
+        run: |
+          echo "Final disk usage:"
+          df -h
+          echo "Final directory sizes:"
+          du -sh /home/tehcoderer/actions-runner/_work/*

@@ -1,0 +1,81 @@
+import { tags as t } from "@lezer/highlight";
+import { createTheme } from "@uiw/codemirror-themes";
+
+const darkTheme = createTheme({
+  theme: "dark",
+  settings: {
+    caret: "#FFFFFF",
+    background: "#303038",
+    backgroundImage: "",
+    foreground: "#d4d4d4",
+    selection: "#264f78",
+    selectionMatch: "#264f78",
+    lineHighlight: "transparent",
+    gutterBackground: "#1e1e1e",
+    gutterForeground: "#d4d4d4",
+  },
+  styles: [
+    { tag: t.comment, color: "#787b80" },
+    { tag: t.string, color: "#d69d85" },
+    { tag: t.special(t.string), color: "#d69d85" },
+    { tag: t.character, color: "#d69d85" },
+    { tag: t.number, color: "#b5cea8" },
+    { tag: t.bool, color: "#569cd6" },
+    { tag: t.null, color: "#569cd6" },
+    { tag: t.keyword, color: "#569cd6" },
+    { tag: t.operator, color: "#d4d4d4" },
+    { tag: t.className, color: "#4ec9b0" },
+    { tag: t.definition(t.typeName), color: "#4ec9b0" },
+    { tag: t.typeName, color: "#4ec9b0" },
+    { tag: t.angleBracket, color: "#4ec9b0" },
+    { tag: t.tagName, color: "#4ec9b0" },
+    { tag: t.attributeName, color: "#9cdcfe" },
+    { tag: t.attributeValue, color: "#ce9178" },
+    { tag: t.meta, color: "#569cd6" },
+    { tag: t.link, color: "#569cd6" },
+    { tag: t.invalid, color: "#f44747" },
+    { tag: t.squareBracket, color: "#09885a" },
+  ],
+});
+
+const lightTheme = createTheme({
+  theme: "light",
+  settings: {
+    caret: "#000000",
+    background: "transparent",
+    backgroundImage: "",
+    foreground: "#000000",
+    selection: "#add6ff",
+    selectionMatch: "#add6ff",
+    lineHighlight: "transparent",
+    gutterBackground: "#f0f0f0",
+    gutterForeground: "#000000",
+  },
+  styles: [
+    { tag: t.comment, color: "#008000" },
+    { tag: t.string, color: "#a31515" },
+    { tag: t.special(t.string), color: "#a31515" },
+    { tag: t.character, color: "#a31515" },
+    { tag: t.number, color: "#09885a" },
+    { tag: t.bool, color: "#800000" },
+    { tag: t.null, color: "#800000" },
+    { tag: t.keyword, color: "#0000ff" },
+    { tag: t.operator, color: "#000000" },
+    { tag: t.className, color: "#2b91af" },
+    { tag: t.definition(t.typeName), color: "#2b91af" },
+    { tag: t.typeName, color: "#2b91af" },
+    { tag: t.angleBracket, color: "#2b91af" },
+    { tag: t.tagName, color: "#2b91af" },
+    { tag: t.attributeName, color: "#2b91af" },
+    { tag: t.attributeValue, color: "#2b91af" },
+    { tag: t.meta, color: "#0000ff" },
+    { tag: t.link, color: "#0000ff" },
+    { tag: t.invalid, color: "#ff0000" },
+    { tag: t.squareBracket, color: "#09885a" },
+  ],
+});
+
+export const editorThemes = {
+  dark: darkTheme,
+  light: lightTheme,
+};

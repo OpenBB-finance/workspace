@@ -1,0 +1,1644 @@
+#!/usr/bin/env python3
+"""
+OpenBB Hub Admin CLI - v2.0.0
+
+A single-file CLI tool for managing OpenBB Hub entities and users.
+Dependencies: Python 3.8+ stdlib only (no external packages required)
+"""
+
+import argparse
+import getpass
+import json
+import logging
+import os
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from pathlib import Path
+from typing import Any, Dict, List, Literal, NoReturn, Optional, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "WARNING").upper(),
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    stream=sys.stdout,
+)
+logger = logging.getLogger("openbb-admin")
+
+VERSION = "2.0.0"
+
+CONFIG_DIR = Path.home() / ".openbb-hub"
+CONFIG_FILE = CONFIG_DIR / "config.json"
+BASE_URL = os.getenv("OPENBB_BASE_URL", "https://localhost:8080")
+
+
+class APIError(Exception):
+    """Custom exception for API errors"""
+
+    def __init__(self, status_code: int, message: str) -> None:
+        self.status_code = status_code
+        self.message = message
+        super().__init__(f"API Error {status_code}: {message}")
+
+
+ERROR_GUIDANCE = {
+    403: {
+        "Maximum seats reached": (
+            "The entity has reached its seat limit.\n"
+            "Fix: openbb-admin entity update <uuid> --data '{\"seats\": N}'"
+        ),
+    },
+    404: {"default": "Resource not found. Check the UUID and try again."},
+    409: {"default": "Conflict - resource already exists or duplicate detected."},
+    422: {"default": "Validation error - check your input data."},
+}
+
+
+DEFAULT_ENTITLEMENT = {
+    "tier": "pro",
+    "number_copilot_calls_day": 10_000,
+    "total_file_upload_size_gb": 10,
+    "bundle_name": "On-Premise",
+}
+
+
+class HubAPIClient:
+    """OpenBB Hub API client using stdlib only"""
+
+    def __init__(self, base_url: str, access_token: Optional[str] = None) -> None:
+        self.base_url = base_url.rstrip("/")
+        self.access_token = access_token
+
+    def _request(
+        self,
+        method: Literal["DELETE", "GET", "PATCH", "POST", "PUT"],
+        endpoint: str,
+        data: Optional[Dict[str, Any]] = None,
+        params: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """Make HTTP request with error handling and retries"""
+        url = f"{self.base_url}{endpoint}"
+
+        if params:
+            query_string = urllib.parse.urlencode(params)
+            url = f"{url}?{query_string}"
+
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": f"openbb-admin/{VERSION}",
+        }
+
+        if self.access_token:
+            headers["Authorization"] = f"Bearer {self.access_token}"
+
+        logger.debug(f"{method} {url}")
+        logger.debug(f"Headers: {json.dumps(headers, default=str)}")
+        if data:
+            logger.debug(f"Payload: {json.dumps(data, indent=2)}")
+
+        req_data = json.dumps(data).encode("utf-8") if data else None
+        request = urllib.request.Request(
+            url, data=req_data, headers=headers, method=method
+        )
+
+        retries = 3
+        backoff = 1
+
+        for attempt in range(retries):
+            try:
+                with urllib.request.urlopen(request, timeout=30) as response:
+                    response_data = response.read().decode("utf-8")
+                    return json.loads(response_data) if response_data else {}
+            except urllib.error.HTTPError as e:
+                error_body = e.read().decode("utf-8")
+                try:
+                    error_data = json.loads(error_body)
+                    raise APIError(e.code, error_data.get("detail", error_body))
+                except json.JSONDecodeError:
+                    raise APIError(e.code, error_body)
+            except urllib.error.URLError as e:
+                if attempt < retries - 1:
+                    time.sleep(backoff)
+                    backoff *= 2
+                    continue
+                raise APIError(0, f"Network error: {e.reason}")
+            except Exception as e:
+                if attempt < retries - 1:
+                    time.sleep(backoff)
+                    backoff *= 2
+                    continue
+                raise APIError(0, f"Unexpected error: {str(e)}")
+        return {}
+
+    def _request_binary(
+        self,
+        method: Literal["GET", "POST"],
+        endpoint: str,
+        params: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[bytes, str]:
+        """Fetch a binary response body. Returns (payload, suggested filename).
+
+        Separate from _request because that one decodes UTF-8 and parses JSON,
+        which would corrupt a zip. No retry loop here either: these responses
+        can be large, and silently re-downloading is worse than reporting the
+        failure.
+        """
+        url = f"{self.base_url}{endpoint}"
+        if params:
+            url = f"{url}?{urllib.parse.urlencode(params)}"
+
+        headers = {"User-Agent": f"openbb-admin/{VERSION}"}
+        if self.access_token:
+            headers["Authorization"] = f"Bearer {self.access_token}"
+
+        logger.debug(f"{method} {url}")
+        request = urllib.request.Request(url, headers=headers, method=method)
+
+        try:
+            with urllib.request.urlopen(request, timeout=600) as response:
+                payload = response.read()
+                disposition = response.headers.get("Content-Disposition", "")
+                filename = ""
+                if "filename=" in disposition:
+                    filename = disposition.split("filename=", 1)[1].strip().strip('"')
+                return payload, filename
+        except urllib.error.HTTPError as e:
+            error_body = e.read().decode("utf-8", errors="replace")
+            try:
+                raise APIError(e.code, json.loads(error_body).get("detail", error_body))
+            except json.JSONDecodeError:
+                raise APIError(e.code, error_body)
+        except urllib.error.URLError as e:
+            raise APIError(0, f"Network error: {e.reason}")
+
+    # AUTH
+    def auth_login(self, email: str, password: str) -> str:
+        data = {
+            "email": email,
+            "password": password,
+            "remember": False,
+            "ip_address": "",
+            "source": "pro",
+            "totp_token": None,
+        }
+        response = self._request("POST", "/pro/login", data)
+        return str(response["access_token"])
+
+    # ENTITY
+    def entity_create(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        # Compatibility mapping for create
+        if "entity_type_uuid" in data and "entity_code" not in data:
+            data["entity_code"] = data.pop("entity_type_uuid")
+        return self._request("POST", "/entity/entity", data)
+
+    def entity_entitlements_update(self, entity_uuid: str) -> Dict[str, Any]:
+        return self._request(
+            "PATCH",
+            f"/entity/entitlement/{entity_uuid}",
+            DEFAULT_ENTITLEMENT,
+            {"update_all": True},
+        )
+
+    def entity_create_with_entitlements(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Create entity and auto-configure default entitlements.
+
+        Args:
+            data: Entity configuration dict
+
+        Returns:
+            Entity response dict (without permission_map_uuid key)
+
+        Raises:
+            APIError: If creation or entitlements update fails
+        """
+        e_resp = self.entity_create(data)
+        entity_uuid = e_resp.get("entity_uuid")
+
+        # Remove permission_map_uuid (internal implementation detail)
+        e_resp.pop("permission_map_uuid", None)
+
+        # Auto-configure entitlements
+        self.entity_entitlements_update(entity_uuid)
+
+        return e_resp
+
+    def entity_list(self, page: int = 1, size: int = 100) -> Dict[str, Any]:
+        return self._request(
+            "GET", "/entity/entity", params={"page": page, "size": size}
+        )
+
+    def entity_get(self, entity_uuid: str) -> Dict[str, Any]:
+        page = 1
+        while True:
+            entities = self.entity_list(page=page, size=100)
+            for item in entities.get("items", []):
+                if item.get("uuid") == entity_uuid:
+                    return item
+            total_pages = entities.get("pages")
+            if total_pages is None or page >= total_pages:
+                break
+            page += 1
+        raise APIError(404, f"Entity {entity_uuid} not found")
+
+    def entity_update(self, entity_uuid: str, **kwargs: Any) -> Dict[str, Any]:
+        """Smart partial update: Fetch -> Merge -> Transform -> Put"""
+        current = self.entity_get(entity_uuid)
+
+        # 1. Map GET structure to PUT structure
+        entity_code = None
+        et = current.get("entity_type")
+        if isinstance(et, dict):
+            entity_code = et.get("uuid")
+
+        payload: Dict[str, Any] = {
+            "name": current.get("name"),
+            "entity_code": entity_code,
+            "email": current.get("email"),
+            "company_type": current.get("company_type"),
+            "organization_size": current.get("organization_size"),
+            "aum": current.get("aum"),
+            "country": current.get("country"),
+            "seats": current.get("seats"),
+            "expiration_date": current.get("expiration_date"),
+        }
+
+        # 2. Merge user changes (ignore unknown keys)
+        if "entity_type_uuid" in kwargs and "entity_code" not in kwargs:
+            kwargs["entity_code"] = kwargs.get("entity_type_uuid")
+        if "entity_type" in kwargs and "entity_code" not in kwargs:
+            et_arg = kwargs.get("entity_type")
+            if isinstance(et_arg, dict):
+                kwargs["entity_code"] = et_arg.get("uuid")
+
+        for key in payload:
+            if key in kwargs:
+                payload[key] = kwargs[key]
+
+        # 3. PUT full payload
+        return self._request("PUT", f"/entity/entity/{entity_uuid}", payload)
+
+    def entity_remove(self, entity_uuid: str) -> Dict[str, Any]:
+        return self._request("DELETE", f"/entity/entity/{entity_uuid}")
+
+    # ENTITY TYPE
+    def entity_type_create(self, name: str, code: str) -> Dict[str, Any]:
+        data = {
+            "entity_type": name,
+            "code": code,
+            "active": True,
+            "permission_hierarchy": 0,
+        }
+        return self._request("POST", "/entity/entity-type", data)
+
+    def entity_type_list(self, page: int = 1, size: int = 100) -> Dict[str, Any]:
+        return self._request(
+            "GET", "/entity/entity-type", params={"page": page, "size": size}
+        )
+
+    # PERMISSION MAPS
+    def permission_map_list(
+        self,
+        entity_uuid: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
+        """
+        List permission maps, optionally filtered by entity.
+
+        Iterates through all pages to find maps for the specified entity.
+        For a specific entity, expects to find 2 maps (Admin + User).
+        """
+        all_items: List[Dict[str, Any]] = []
+        page = 1
+
+        while True:
+            response = self._request(
+                "GET", "/entity/entity-map", params={"size": 100, "page": page}
+            )
+            items = response.get("items", [])
+
+            if entity_uuid:
+                # Filter for this entity
+                matching = [
+                    item for item in items if item["entity_uuid"] == entity_uuid
+                ]
+                all_items.extend(matching)
+                # Entities have 2 permission maps (Admin + User), stop when we have both
+                if len(all_items) >= 2:
+                    break
+            else:
+                all_items.extend(items)
+
+            # Check if there are more pages
+            total_pages = response.get("pages", 1)
+            if page >= total_pages:
+                break
+            page += 1
+
+        return all_items
+
+    def get_permission_map_by_role(self, entity_uuid: str, role: str) -> Dict[str, Any]:
+        """
+        Get permission map for entity by role name.
+
+        Args:
+            entity_uuid: Entity UUID
+            role: Role name ('admin' or 'user', case-insensitive)
+
+        Returns:
+            Permission map dict with keys: uuid, name, entity_uuid
+
+        Raises:
+            APIError: If permission map not found for role
+        """
+        maps = self.permission_map_list(entity_uuid)
+        role_name = "Admin" if role.lower() == "admin" else "User"
+        p_map = next((m for m in maps if m["name"] == role_name), None)
+
+        if not p_map:
+            raise APIError(
+                404, f"Permission map '{role_name}' not found for entity {entity_uuid}"
+            )
+
+        return p_map
+
+    # USER
+    def user_create(
+        self,
+        entity_uuid: str,
+        email: str,
+        first_name: str,
+        last_name: str,
+        role: str = "user",
+        permissions_uuid: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """
+        Create user in entity with specified role.
+
+        Args:
+            entity_uuid: Entity UUID
+            email: User email
+            first_name: User first name
+            last_name: User last name
+            role: Role name ('admin' or 'user', default: 'user')
+            permissions_uuid: Optional permission map UUID (skips lookup if provided)
+
+        Returns:
+            User creation response with email and role added
+
+        Raises:
+            APIError: If permission map not found or user creation fails
+        """
+        # Lookup permission map from role if not provided
+        if not permissions_uuid:
+            p_map = self.get_permission_map_by_role(entity_uuid, role)
+            permissions_uuid = p_map["uuid"]
+
+        # Call backend API with low-level parameters
+        resp = self._request(
+            "POST",
+            "/admin/create-user",
+            {
+                "email": email,
+                "permissions_uuid": permissions_uuid,
+                "first_name": first_name,
+                "last_name": last_name,
+            },
+        )
+
+        # Add friendly metadata to response
+        resp["email"] = email
+        resp["role"] = role
+
+        return resp
+
+    def user_list(
+        self,
+        page: int = 1,
+        size: int = 100,
+        email: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        params: Dict[str, Any] = {"page": page, "size": size}
+        if email:
+            params["email"] = email
+        return self._request("GET", "/entity/user", params=params)
+
+    def user_get_by_email(self, email: str) -> Dict[str, Any]:
+        """
+        Get user by email address.
+
+        Args:
+            email: User email address
+
+        Returns:
+            User dict with keys: uuid, email, first_name, last_name, entity_uuid
+
+        Raises:
+            APIError: If user not found
+        """
+        resp = self.user_list(email=email)
+        items = resp.get("items", [])
+
+        if not items:
+            raise APIError(404, f"User {email} not found")
+
+        return items[0]
+
+    def user_delete(self, user_uuid: str) -> Dict[str, Any]:
+        return self._request("DELETE", f"/admin/users/{user_uuid}/remove")
+
+    def user_reset_password(self, user_uuid: str) -> Dict[str, Any]:
+        return self._request("POST", f"/admin/reset-password/{user_uuid}")
+
+    def user_export(
+        self,
+        user_uuid: str,
+        include_history: bool = False,
+        include_legacy: bool = False,
+        with_files: bool = False,
+    ) -> Tuple[bytes, str]:
+        """Download a user's data archive. Returns (zip bytes, filename)."""
+        params: Dict[str, Any] = {}
+        if include_history:
+            params["include_history"] = "true"
+        if include_legacy:
+            params["include_legacy"] = "true"
+        if with_files:
+            params["with_files"] = "true"
+        return self._request_binary(
+            "POST", f"/admin/users/{user_uuid}/export", params=params or None
+        )
+
+    def user_update_entity(
+        self, user_uuid: str, permissions_uuid: str
+    ) -> Dict[str, Any]:
+        return self._request(
+            "PUT",
+            f"/entity/user/{user_uuid}",
+            {"permissions_uuid": permissions_uuid},
+        )
+
+    # DATA BACKENDS
+    def data_backend_add(
+        self,
+        entity_uuid: str,
+        name: str,
+        url: str,
+        endpoint_headers: Optional[List[Dict[str, str]]] = None,
+    ) -> Dict[str, Any]:
+        data: Dict[str, Any] = {"name": name, "url": url}
+        if endpoint_headers:
+            data["endpointHeaders"] = endpoint_headers
+        return self._request("POST", f"/entity/data-backends/{entity_uuid}", data)
+
+    def data_backend_delete(
+        self, entity_uuid: str, backend_name: str
+    ) -> Dict[str, Any]:
+        return self._request(
+            "DELETE", f"/entity/data-backends/{entity_uuid}/{backend_name}"
+        )
+
+    def data_backend_list(self, entity_uuid: str) -> Any:
+        return self._request("GET", f"/entity/data-backends/{entity_uuid}")
+
+    # ENTITLEMENTS
+    def entitlement_update(
+        self, entity_uuid: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        return self._request(
+            "PATCH",
+            f"/entity/entitlement/{entity_uuid}",
+            data,
+            {"update_all": True},
+        )
+
+    def provision_full(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Execute complete provisioning workflow: entity + users.
+
+        Args:
+            config: Provisioning config dict with keys:
+                - entity: Entity configuration
+                - users: List of user dicts (email, first_name, last_name, role)
+
+        Returns:
+            Results dict with keys:
+                - entity: Entity response
+                - users: List of user responses
+                - failed_users: List of dicts with email and error message
+
+        Raises:
+            APIError: If entity creation fails (user failures are collected, not raised)
+        """
+        results: Dict[str, Any] = {
+            "entity": None,
+            "users": [],
+            "failed_users": [],
+        }
+
+        # Step 1: Create entity with entitlements
+        entity_resp = self.entity_create_with_entitlements(config["entity"])
+        results["entity"] = entity_resp
+        entity_uuid = entity_resp["entity_uuid"]
+
+        # Step 2: Fetch permission maps once (with retry for eventual consistency)
+        permission_maps: Dict[str, str] = {}
+        max_retries = 3
+        for attempt in range(max_retries):
+            maps = self.permission_map_list(entity_uuid)
+            for m in maps:
+                permission_maps[m["name"]] = m["uuid"]
+            # We expect both Admin and User maps
+            if "Admin" in permission_maps and "User" in permission_maps:
+                break
+            # Wait a bit for eventual consistency
+            if attempt < max_retries - 1:
+                time.sleep(0.5)
+
+        # Step 3: Create users using cached permission maps
+        for user_cfg in config.get("users", []):
+            try:
+                role = user_cfg.get("role", "user")
+                role_name = "Admin" if role.lower() == "admin" else "User"
+                perm_uuid = permission_maps.get(role_name)
+
+                if not perm_uuid:
+                    raise APIError(
+                        404,
+                        f"Permission map '{role_name}' not found for entity {entity_uuid}",
+                    )
+
+                resp = self.user_create(
+                    entity_uuid=entity_uuid,
+                    email=user_cfg["email"],
+                    first_name=user_cfg["first_name"],
+                    last_name=user_cfg["last_name"],
+                    role=role,
+                    permissions_uuid=perm_uuid,
+                )
+                results["users"].append(resp)
+            except APIError as e:
+                results["failed_users"].append(
+                    {"email": user_cfg["email"], "error": str(e)}
+                )
+
+        return results
+
+
+# ============================================================================
+# CONFIG & STATE
+# ============================================================================
+
+
+def load_config() -> Dict[str, Any]:
+    if CONFIG_FILE.exists():
+        return json.loads(CONFIG_FILE.read_text(encoding="utf-8", newline="\n"))
+    return {"base_url": BASE_URL, "access_token": None}
+
+
+def save_config(config: Dict[str, Any]) -> None:
+    CONFIG_DIR.mkdir(exist_ok=True, parents=True)
+    CONFIG_FILE.write_text(json.dumps(config, indent=2), encoding="utf-8", newline="\n")
+
+
+def handle_api_error(error: APIError) -> NoReturn:
+    print(f"✗ Error ({error.status_code}): {error.message}", file=sys.stderr)
+    if error.status_code in ERROR_GUIDANCE:
+        matched = False
+        for key, guidance in ERROR_GUIDANCE[error.status_code].items():
+            if key != "default" and key.lower() in error.message.lower():
+                print(f"\n{guidance}", file=sys.stderr)
+                matched = True
+                break
+        if not matched and "default" in ERROR_GUIDANCE[error.status_code]:
+            print(f"\n{ERROR_GUIDANCE[error.status_code]['default']}", file=sys.stderr)
+    sys.exit(1)
+
+
+def get_client() -> HubAPIClient:
+    cfg = load_config()
+    if not cfg.get("access_token"):
+        print("✗ Not authenticated. Run: openbb-admin auth login", file=sys.stderr)
+        sys.exit(1)
+    return HubAPIClient(
+        str(cfg["base_url"]), str(cfg["access_token"]) if cfg["access_token"] else None
+    )
+
+
+def get_config_json(path: str) -> Dict[str, Any]:
+    """Load JSON config from file path"""
+    file_path = Path(path).resolve()
+    if not file_path.exists():
+        raise FileNotFoundError(f"File not found: {path}")
+    return json.loads(file_path.read_text(encoding="utf-8", newline="\n"))
+
+
+# ============================================================================
+# RENDERING UTILITIES
+# ============================================================================
+
+
+def get_val(data: Dict[str, Any], path: str) -> str:
+    """Get value from nested dict using dot notation"""
+    parts = path.split(".")
+    curr = data
+    for p in parts:
+        if isinstance(curr, dict):
+            curr = curr.get(p, {})
+        else:
+            return "N/A"
+    return str(curr) if curr is not None and curr != {} else "N/A"
+
+
+def render_record(data: Dict[str, Any], fields: List[tuple], json_mode: bool) -> None:
+    """Render a single record as Key-Value text or JSON"""
+    if json_mode:
+        print(json.dumps(data, indent=2))
+        return
+
+    width = max(len(f[0]) for f in fields)
+    for label, path in fields:
+        val = get_val(data, path)
+        print(f"{label.ljust(width)} : {val}")
+
+
+def render_list(
+    response: Dict[str, Any],
+    json_mode: bool,
+    text_formatter: Any,
+) -> None:
+    """Render a list of items as formatted text rows or JSON"""
+    if json_mode:
+        print(json.dumps(response, indent=2))
+        return
+
+    items = response.get("items", [])
+    if not items:
+        print("No items found")
+        return
+
+    for item in items:
+        print(text_formatter(item))
+
+
+# ============================================================================
+# COMMAND HANDLERS
+# ============================================================================
+
+
+def auth_login(args: argparse.Namespace) -> None:
+    cfg = load_config()
+    base_url = args.api_url or cfg["base_url"]
+    email = args.email or input("Email: ")
+    password = args.password or getpass.getpass("Password: ")
+    client = HubAPIClient(base_url)
+    try:
+        token = client.auth_login(email, password)
+        save_config({"base_url": base_url, "access_token": token})
+        if args.json:
+            print(json.dumps({"success": True, "access_token": token}, indent=2))
+        else:
+            print("✓ Authenticated successfully")
+    except APIError as e:
+        handle_api_error(e)
+
+
+def auth_logout(args: argparse.Namespace) -> None:
+    if CONFIG_FILE.exists():
+        CONFIG_FILE.unlink()
+
+    print("✓ Logged out")
+
+
+def auth_status(args: argparse.Namespace) -> None:
+    cfg = load_config()
+    authenticated = bool(cfg.get("access_token"))
+    status = {
+        "authenticated": authenticated,
+        "base_url": cfg.get("base_url", ""),
+        "access_token": (cfg["access_token"][:10] + "..." if authenticated else None),
+    }
+
+    fields = [
+        ("Authenticated", "authenticated"),
+        ("Base URL", "base_url"),
+        ("Token", "access_token"),
+    ]
+    render_record(status, fields, args.json)
+
+
+def entity_create(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        data = get_config_json(args.config)
+        resp = client.entity_create_with_entitlements(data)
+        entity_uuid = resp.get("entity_uuid")
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            print(f"✓ Entity created: {entity_uuid}")
+    except Exception as e:
+        print(f"✗ Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def entity_list(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        resp = client.entity_list(args.page, args.size)
+        render_list(
+            resp,
+            args.json,
+            lambda i: (
+                f"{i['uuid']} | "
+                f"{get_val(i, 'entity_type.code')} | "
+                f"{i['name']} | "
+                f"{get_val(i, 'entity_type.entity_type')} | "
+                f"{i.get('seats', 'N/A')} seats"
+            ),
+        )
+    except APIError as e:
+        handle_api_error(e)
+
+
+def entity_sample(args: argparse.Namespace) -> None:
+    """Print a sample entity creation configuration"""
+    sample = {
+        "name": "string (Required) - e.g., 'Acme Corp'",
+        "entity_type_uuid": "UUID (Required) - Maps to 'entity_code'",
+        "email": "email (Required) - General contact email for the entity (e.g., billing@acme.com)",
+        "admin_email": "email (Required) - Email of the primary admin (e.g., admin@acme.com)",
+        "company_type": "string (Required) - e.g., 'Investment Firm'",
+        "organization_size": "string (Required) - e.g., '10-50'",
+        "aum": "integer (Required) - Assets Under Management",
+        "country": "string (Required) - ISO country code or name",
+        "seats": "integer (Required) - Number of seats licensed",
+        "expiration_date": "datetime (Required) - ISO 8601 format (e.g., '2025-12-31T00:00:00Z')",
+    }
+    print(json.dumps(sample, indent=2))
+
+
+def entity_show(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        entity = client.entity_get(args.entity_uuid)
+        fields = [
+            ("Entity", "name"),
+            ("UUID", "uuid"),
+            ("Code", "entity_type.code"),
+            ("Type", "entity_type.entity_type"),
+            ("Email", "email"),
+            ("Seats", "seats"),
+            ("Country", "country"),
+            ("Expiration", "expiration_date"),
+        ]
+        render_record(entity, fields, args.json)
+    except APIError as e:
+        handle_api_error(e)
+
+
+def entity_update(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        if args.json_input:
+            data: dict[str, Any] = json.loads(args.json_input)
+        else:
+            data = get_config_json(args.config)
+
+        resp = client.entity_update(args.entity_uuid, **data)
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            print(f"✓ Entity {args.entity_uuid} updated")
+    except APIError as e:
+        handle_api_error(e)
+    except Exception as e:
+        print(f"✗ Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def entity_remove(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        resp = client.entity_remove(args.entity_uuid)
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            print(f"✓ Entity {args.entity_uuid} deleted")
+    except APIError as e:
+        handle_api_error(e)
+
+
+def entity_type_create(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        resp = client.entity_type_create(args.name, args.code)
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            print(f"✓ Entity type created: {resp.get('uuid')}")
+    except APIError as e:
+        handle_api_error(e)
+
+
+def entity_type_list(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        resp = client.entity_type_list(args.page, args.size)
+        render_list(
+            resp,
+            args.json,
+            lambda i: (
+                f"{i['uuid']} | {i['code']} | {i['entity_type']} | "
+                f"Active: {i.get('active', False)} | "
+                f"Level: {i.get('permission_hierarchy', 0)}"
+            ),
+        )
+    except APIError as e:
+        handle_api_error(e)
+
+
+def user_create(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        # Trivial pass-through to class method
+        resp = client.user_create(
+            entity_uuid=args.entity_uuid,
+            email=args.email,
+            first_name=args.first_name,
+            last_name=args.last_name,
+            role=args.role,
+        )
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            print(f"✓ User created. Temp password: {resp.get('temporary_password')}")
+    except APIError as e:
+        handle_api_error(e)
+
+
+def user_list(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        resp = client.user_list(args.page, args.size, args.email)
+        render_list(
+            resp,
+            args.json,
+            lambda i: (
+                f"{i['uuid']} | {i['email']} | "
+                f"{get_val(i, 'permissions.name')} | "
+                f"{get_val(i, 'permissions.entity.name')}"
+            ),
+        )
+    except APIError as e:
+        handle_api_error(e)
+
+
+def user_delete(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        # Compose primitives: lookup user + delete
+        user = client.user_get_by_email(args.email)
+        res = client.user_delete(user["uuid"])
+        if args.json:
+            print(json.dumps(res, indent=2))
+        else:
+            print(f"✓ User {args.email} deleted")
+    except APIError as e:
+        handle_api_error(e)
+
+
+def user_reset_password(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        # Compose primitives: lookup user + reset password
+        user = client.user_get_by_email(args.email)
+        res = client.user_reset_password(user["uuid"])
+        if args.json:
+            print(json.dumps(res, indent=2))
+        else:
+            print(f"✓ Password reset. Temp password: {res.get('temporary_password')}")
+    except APIError as e:
+        handle_api_error(e)
+
+
+def print_import_instructions(
+    archive: Path, email: str, with_files: bool = False
+) -> None:
+    """Print the steps to hand to the person receiving the archive.
+
+    The same instructions ship inside the archive as README.md, but the operator
+    passing the file on should not have to unzip it to find them.
+    """
+    name = archive.name
+    print("-" * 72)
+    print(f"  SEND THIS TO {email}")
+    print("-" * 72)
+    print(f"""
+  Your OpenBB data is in {name}.
+
+  To load it into OpenBB Lite:
+
+    1. Start OpenBB Lite with the folder holding this file mounted:
+
+       docker run -d --name openbb -p 3000:3000 \\
+           -v openbb-data:/data \\
+           -v /path/to/the/folder:/import \\
+           openbb/lite
+
+    2. Import it:
+
+       docker exec openbb openbb-import /import/{name}
+
+    3. Get the admin login and sign in at http://localhost:3000
+
+       docker exec openbb credentials
+
+    4. As the admin, set a password for {email}.
+       Your old OpenBB password does not carry over -- it was never exported.
+
+  Notes:""")
+    if with_files:
+        print(
+            "    - Your uploaded files are in the archive's files/ folder. They are\n"
+            "      NOT loaded into Lite, so unzip and keep them somewhere safe."
+        )
+    else:
+        print(
+            "    - This archive does not include your uploaded files, only the\n"
+            "      record of them. Ask for an export with files if you need them."
+        )
+    print(
+        "    - The archive holds your data connector credentials in the clear.\n"
+        "      Keep it private and delete it once you have imported it."
+    )
+    print()
+    print("-" * 72)
+
+
+def user_export(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        # Compose primitives: lookup user + download their archive
+        user = client.user_get_by_email(args.email)
+        payload, suggested = client.user_export(
+            user["uuid"],
+            include_history=args.include_history,
+            include_legacy=args.include_legacy,
+            with_files=args.with_files,
+        )
+    except APIError as e:
+        handle_api_error(e)
+        return
+
+    out = Path(args.out)
+    if out.is_dir() or not out.suffix:
+        out.mkdir(parents=True, exist_ok=True)
+        out = out / (suggested or f"openbb-export-{user['uuid']}.zip")
+    else:
+        out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(payload)
+
+    if args.json:
+        print(json.dumps({"path": str(out), "bytes": len(payload)}, indent=2))
+        return
+
+    print(f"✓ Exported {args.email} to {out} ({len(payload) / 1024:.0f} KB)")
+    print()
+    print("  This archive contains unencrypted backend and copilot credentials.")
+    print("  Treat it as a secret and delete it once it has been imported.")
+    print()
+    print_import_instructions(out, args.email, with_files=args.with_files)
+
+
+def user_move(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        # Compose primitives: lookup user + get permission map + move
+        user = client.user_get_by_email(args.email)
+        p_map = client.get_permission_map_by_role(args.entity_uuid, args.role)
+        resp = client.user_update_entity(user["uuid"], p_map["uuid"])
+
+        role_name = "Admin" if args.role == "admin" else "User"
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            print(
+                f"✓ User {args.email} moved to entity {args.entity_uuid} as {role_name}"
+            )
+
+    except APIError as e:
+        handle_api_error(e)
+
+
+def data_backend_add_cmd(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        endpoint_headers = None
+        if args.headers:
+            endpoint_headers = []
+            for h in args.headers:
+                parts = h.split(":", 2)
+                if len(parts) < 2:
+                    print(
+                        f"✗ Invalid header format: {h}. "
+                        "Use key:value or key:value:location",
+                        file=sys.stderr,
+                    )
+                    sys.exit(1)
+                header: Dict[str, str] = {"key": parts[0], "value": parts[1]}
+                if len(parts) == 3:
+                    header["location"] = parts[2]
+                endpoint_headers.append(header)
+
+        resp = client.data_backend_add(
+            args.entity_uuid, args.name, args.url, endpoint_headers
+        )
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            print(
+                f"✓ Data backend '{args.name}' added to entity {args.entity_uuid}"
+            )
+    except APIError as e:
+        handle_api_error(e)
+
+
+def data_backend_delete_cmd(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        resp = client.data_backend_delete(args.entity_uuid, args.name)
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            print(
+                f"✓ Data backend '{args.name}' deleted from entity {args.entity_uuid}"
+            )
+    except APIError as e:
+        handle_api_error(e)
+
+
+def data_backend_list_cmd(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        resp = client.data_backend_list(args.entity_uuid)
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            if not resp:
+                print("No data backends found")
+                return
+            for backend in resp:
+                print(
+                    f"{backend.get('uuid', 'N/A')} | "
+                    f"{backend.get('name', 'N/A')} | "
+                    f"{backend.get('url', 'N/A')}"
+                )
+    except APIError as e:
+        handle_api_error(e)
+
+
+def entitlement_update_cmd(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        if args.json_input:
+            data: dict[str, Any] = json.loads(args.json_input)
+        else:
+            data = get_config_json(args.config)
+
+        resp = client.entitlement_update(args.entity_uuid, data)
+        if args.json:
+            print(json.dumps(resp, indent=2))
+        else:
+            print(f"✓ Entitlements updated for entity {args.entity_uuid}")
+    except APIError as e:
+        handle_api_error(e)
+    except Exception as e:
+        print(f"✗ Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def entitlement_sample(args: argparse.Namespace) -> None:
+    sample = {
+        "tier": "pro | terminal",
+        "number_copilot_calls_day": 10000,
+        "total_file_upload_size_gb": 10,
+        "share_widgets": "public | private",
+        "bring_your_own_data": True,
+        "bring_your_own_copilot": True,
+        "admin_access": True,
+        "support": True,
+        "excel_add_in": True,
+        "data_add_ons_redistribution": True,
+        "bundle_name": "On-Premise",
+        "allow_custom_backends": True,
+    }
+    print(json.dumps(sample, indent=2))
+
+
+def provision_check(args: argparse.Namespace) -> None:
+    """Validate provisioning configuration schema locally"""
+    try:
+        data = get_config_json(args.config)
+
+        errors = []
+
+        # Validate Entity
+        if "entity" not in data:
+            errors.append("Missing top-level 'entity' object")
+        else:
+            required_entity = [
+                "name",
+                "entity_type_uuid",
+                "email",
+                "company_type",
+                "organization_size",
+                "aum",
+                "country",
+                "seats",
+                "expiration_date",
+                "admin_email",
+            ]
+            for field in required_entity:
+                if field not in data["entity"]:
+                    errors.append(f"Entity missing required field: {field}")
+
+        # Validate Users (Optional)
+        roles = {"admins": data.get("admins", []), "users": data.get("users", [])}
+        for role, users in roles.items():
+            for idx, user in enumerate(users):
+                for field in ["email", "first_name", "last_name"]:
+                    if field not in user:
+                        errors.append(f"User ({role} #{idx}) missing field: {field}")
+
+        if errors:
+            if args.json:
+                print(json.dumps({"valid": False, "errors": errors}, indent=2))
+            else:
+                print("✗ Configuration invalid:")
+                for err in errors:
+                    print(f"  - {err}")
+            sys.exit(1)
+
+        if args.json:
+            print(json.dumps({"valid": True}, indent=2))
+        else:
+            print("✓ Configuration is valid")
+
+    except json.JSONDecodeError as e:
+        if args.json:
+            print(
+                json.dumps({"valid": False, "errors": [f"Invalid JSON: {e}"]}, indent=2)
+            )
+        else:
+            print(f"✗ Invalid JSON file: {e}", file=sys.stderr)
+        sys.exit(1)
+    except FileNotFoundError:
+        if args.json:
+            print(json.dumps({"valid": False, "errors": ["File not found"]}, indent=2))
+        else:
+            print(f"✗ File not found: {args.config}", file=sys.stderr)
+        sys.exit(1)
+
+
+def provision_sample(args: argparse.Namespace) -> None:
+    """Print a sample provisioning configuration"""
+    sample = {
+        "entity": {
+            "name": "Acme Corp",
+            "entity_type_uuid": "<UUID of Entity Type>",
+            "email": "billing@acme.com",
+            "company_type": "Investment Firm",
+            "organization_size": "10-50",
+            "aum": 10000000,
+            "country": "USA",
+            "seats": 50,
+            "expiration_date": "2025-12-31T00:00:00Z",
+            "admin_email": "admin@acme.com",
+        },
+        "admins": [
+            {
+                "email": "admin@acme.com",
+                "first_name": "Admin",
+                "last_name": "User",
+            }
+        ],
+        "users": [
+            {
+                "email": "analyst@acme.com",
+                "first_name": "Analyst",
+                "last_name": "One",
+            }
+        ],
+    }
+    print(json.dumps(sample, indent=2))
+
+
+def provision_apply(args: argparse.Namespace) -> None:
+    client = get_client()
+    try:
+        p_cfg = get_config_json(args.config)
+
+        # Transform config: merge admins and users into single users array with role
+        users_list = []
+        for admin in p_cfg.get("admins", []):
+            users_list.append({**admin, "role": "admin"})
+        for user in p_cfg.get("users", []):
+            users_list.append({**user, "role": "user"})
+
+        provision_config = {"entity": p_cfg["entity"], "users": users_list}
+
+        # Use library method for orchestration
+        if not args.json:
+            print(f"Creating entity: {p_cfg['entity']['name']}...")
+
+        lib_results = client.provision_full(provision_config)
+
+        # Display progress (CLI responsibility)
+        if not args.json:
+            entity = lib_results["entity"]
+            print(f"✓ Entity created: {entity['entity_uuid']}")
+
+            for user in lib_results["users"]:
+                role_label = "admin" if user.get("role") == "admin" else "member"
+                print(f"✓ Creating {role_label}: {user['email']}")
+
+            for failed in lib_results["failed_users"]:
+                print(
+                    f"✗ Failed to create {failed['email']}: {failed['error']}",
+                    file=sys.stderr,
+                )
+
+        # Transform results back to original format for JSON output
+        results: Dict[str, Any] = {
+            "entity": lib_results["entity"],
+            "admins": [u for u in lib_results["users"] if u.get("role") == "admin"],
+            "users": [u for u in lib_results["users"] if u.get("role") == "user"],
+        }
+
+        if args.json:
+            print(json.dumps(results, indent=2))
+        else:
+            print("✓ Provisioning complete")
+
+    except Exception as e:
+        if args.json:
+            print(json.dumps({"success": False, "error": str(e)}, indent=2))
+        else:
+            print(f"✗ Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+# ============================================================================
+# MAIN & ARGPARSE
+# ============================================================================
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        prog="openbb-admin",
+        description="OpenBB Hub Admin CLI - Manage entities, users, and provisioning.",
+        epilog=f"Version {VERSION} | Config: {CONFIG_FILE}",
+        fromfile_prefix_chars="@",
+    )
+    subparsers = parser.add_subparsers(
+        dest="noun", required=True, help="Resource to manage"
+    )
+
+    # ==========================
+    # Auth
+    # ==========================
+    auth = subparsers.add_parser("auth", help="Manage authentication session")
+    auth_sub = auth.add_subparsers(dest="verb", required=True, help="Action")
+
+    login = auth_sub.add_parser("login", help="Authenticate with the Hub API")
+    login.add_argument("--api-url", help="Target API URL")
+    login.add_argument("--email", help="Admin account email address")
+    login.add_argument(
+        "--password", help="Admin password (interactive prompt if omitted)"
+    )
+    login.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    login.set_defaults(func=auth_login)
+
+    auth_sub.add_parser("logout", help="Clear local session credentials").set_defaults(
+        func=auth_logout
+    )
+
+    status_parser = auth_sub.add_parser("status", help="Show current session status")
+    status_parser.add_argument(
+        "--json", action="store_true", help="Output status as JSON object"
+    )
+    status_parser.set_defaults(func=auth_status)
+
+    # ==========================
+    # Entity
+    # ==========================
+    entity = subparsers.add_parser("entity", help="Manage organization entities")
+    entity_sub = entity.add_subparsers(dest="verb", required=True, help="Action")
+
+    e_create = entity_sub.add_parser("create", help="Create a new entity")
+    e_create.add_argument(
+        "--config",
+        "-c",
+        required=True,
+        help="Path to JSON config file with entity details",
+    )
+    e_create.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    e_create.set_defaults(func=entity_create)
+
+    e_list = entity_sub.add_parser("list", help="List all entities")
+    e_list.add_argument("--page", type=int, default=1, help="Page number (default: 1)")
+    e_list.add_argument(
+        "--size", type=int, default=100, help="Items per page (default: 100)"
+    )
+    e_list.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    e_list.set_defaults(func=entity_list)
+
+    e_sample = entity_sub.add_parser(
+        "sample", help="Output a valid sample entity creation JSON to stdout"
+    )
+    e_sample.set_defaults(func=entity_sample)
+
+    e_show = entity_sub.add_parser("show", help="Show details of a specific entity")
+    e_show.add_argument("entity_uuid", help="Unique identifier (UUID) of the entity")
+    e_show.add_argument(
+        "--json", action="store_true", help="Output full entity object as JSON"
+    )
+    e_show.set_defaults(func=entity_show)
+
+    e_update = entity_sub.add_parser("update", help="Update an existing entity")
+    e_update.add_argument("entity_uuid", help="Unique identifier (UUID) of the entity")
+    e_grp = e_update.add_mutually_exclusive_group(required=True)
+    e_grp.add_argument(
+        "--config", "-c", help="Path to JSON file containing fields to update"
+    )
+    e_grp.add_argument(
+        "--data",
+        "-d",
+        dest="json_input",
+        help="JSON string with fields to update (e.g. '{\"seats\": 50}')",
+    )
+    e_update.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    e_update.set_defaults(func=entity_update)
+
+    e_delete = entity_sub.add_parser("delete", help="Delete an existing entity")
+    e_delete.add_argument("entity_uuid", help="Unique identifier (UUID) of the entity")
+    e_delete.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    e_delete.set_defaults(func=entity_remove)
+
+    # ==========================
+    # Entity Type
+    # ==========================
+    et = subparsers.add_parser("entity-type", help="Manage entity definitions")
+    et_sub = et.add_subparsers(dest="verb", required=True, help="Action")
+
+    et_create = et_sub.add_parser("create", help="Define a new entity type")
+    et_create.add_argument(
+        "--name", required=True, help="Display name for the entity type"
+    )
+    et_create.add_argument("--code", required=True, help="Internal code identifier")
+    et_create.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    et_create.set_defaults(func=entity_type_create)
+
+    et_list = et_sub.add_parser("list", help="List available entity types")
+    et_list.add_argument("--page", type=int, default=1, help="Page number (default: 1)")
+    et_list.add_argument(
+        "--size", type=int, default=100, help="Items per page (default: 100)"
+    )
+    et_list.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    et_list.set_defaults(func=entity_type_list)
+
+    # ==========================
+    # User
+    # ==========================
+    user = subparsers.add_parser("user", help="Manage users within entities")
+    user_sub = user.add_subparsers(dest="verb", required=True, help="Action")
+
+    u_create = user_sub.add_parser(
+        "create", help="Create and assign a user to an entity"
+    )
+    u_create.add_argument("entity_uuid", help="UUID of the target entity")
+    u_create.add_argument("--email", required=True, help="User's email address")
+    u_create.add_argument("--first-name", required=True, help="User's first name")
+    u_create.add_argument("--last-name", required=True, help="User's last name")
+    u_create.add_argument(
+        "--role",
+        choices=["admin", "user"],
+        default="user",
+        help="Role assignment (default: user)",
+    )
+    u_create.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    u_create.set_defaults(func=user_create)
+
+    u_list = user_sub.add_parser("list", help="List users (globally or filtered)")
+    u_list.add_argument("--page", type=int, default=1, help="Page number (default: 1)")
+    u_list.add_argument(
+        "--size", type=int, default=100, help="Items per page (default: 100)"
+    )
+    u_list.add_argument("--email", help="Filter by exact email match")
+    u_list.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    u_list.set_defaults(func=user_list)
+
+    u_export = user_sub.add_parser(
+        "export", help="Download a user's data as a portable archive"
+    )
+    u_export.add_argument("email", help="Email address of the account to export")
+    u_export.add_argument(
+        "--out",
+        default=".",
+        help="Directory or file path to write the archive to (default: .)",
+    )
+    u_export.add_argument(
+        "--include-history",
+        action="store_true",
+        help="Include dashboard version history (much larger archive)",
+    )
+    u_export.add_argument(
+        "--include-legacy",
+        action="store_true",
+        help="Include the legacy copilot chat table (archived, never imported)",
+    )
+    u_export.add_argument(
+        "--with-files",
+        action="store_true",
+        help="Download the account's uploaded files into the archive. Slow, and "
+        "on a large account may exceed the server's proxy timeout.",
+    )
+    u_export.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    u_export.set_defaults(func=user_export)
+
+    u_del = user_sub.add_parser("delete", help="Remove a user from the system")
+    u_del.add_argument("email", help="Email address of the user to remove")
+    u_del.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    u_del.set_defaults(func=user_delete)
+
+    u_reset = user_sub.add_parser(
+        "reset-password", help="Trigger password reset for a user"
+    )
+    u_reset.add_argument("email", help="Email address of the user")
+    u_reset.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    u_reset.set_defaults(func=user_reset_password)
+
+    u_move = user_sub.add_parser(
+        "move", help="Move a user to another entity without invitation"
+    )
+    u_move.add_argument(
+        "--entity-uuid", required=True, help="UUID of the target entity"
+    )
+    u_move.add_argument(
+        "--email", required=True, help="Email address of the user to move"
+    )
+    u_move.add_argument(
+        "--role",
+        choices=["admin", "user"],
+        default="user",
+        help="Role assignment in new entity (default: user)",
+    )
+    u_move.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    u_move.set_defaults(func=user_move)
+
+    # ==========================
+    # Data Backend
+    # ==========================
+    db = subparsers.add_parser("data-backend", help="Manage entity data backends")
+    db_sub = db.add_subparsers(dest="verb", required=True, help="Action")
+
+    db_add = db_sub.add_parser("add", help="Add a data backend to an entity")
+    db_add.add_argument("entity_uuid", help="UUID of the target entity")
+    db_add.add_argument("--name", required=True, help="Name of the data backend")
+    db_add.add_argument("--url", required=True, help="URL of the data backend")
+    db_add.add_argument(
+        "--header",
+        dest="headers",
+        action="append",
+        help="Endpoint header as key:value or key:value:location (repeatable)",
+    )
+    db_add.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    db_add.set_defaults(func=data_backend_add_cmd)
+
+    db_del = db_sub.add_parser(
+        "delete", help="Remove a data backend from an entity"
+    )
+    db_del.add_argument("entity_uuid", help="UUID of the target entity")
+    db_del.add_argument(
+        "--name", required=True, help="Name of the data backend to remove"
+    )
+    db_del.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    db_del.set_defaults(func=data_backend_delete_cmd)
+
+    db_list = db_sub.add_parser("list", help="List data backends for an entity")
+    db_list.add_argument("entity_uuid", help="UUID of the target entity")
+    db_list.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    db_list.set_defaults(func=data_backend_list_cmd)
+
+    # ==========================
+    # Entitlement
+    # ==========================
+    ent = subparsers.add_parser("entitlement", help="Manage entity entitlements")
+    ent_sub = ent.add_subparsers(dest="verb", required=True, help="Action")
+
+    ent_update = ent_sub.add_parser(
+        "update", help="Update entitlements for an entity"
+    )
+    ent_update.add_argument("entity_uuid", help="UUID of the target entity")
+    ent_grp = ent_update.add_mutually_exclusive_group(required=True)
+    ent_grp.add_argument(
+        "--config", "-c", help="Path to JSON file with entitlement fields"
+    )
+    ent_grp.add_argument(
+        "--data",
+        "-d",
+        dest="json_input",
+        help="JSON string with entitlement fields "
+        "(e.g. '{\"allow_custom_backends\": true}')",
+    )
+    ent_update.add_argument(
+        "--json", action="store_true", help="Output raw API response as JSON"
+    )
+    ent_update.set_defaults(func=entitlement_update_cmd)
+
+    ent_sample = ent_sub.add_parser(
+        "sample", help="Output sample entitlement fields to stdout"
+    )
+    ent_sample.set_defaults(func=entitlement_sample)
+
+    # ==========================
+    # Provision
+    # ==========================
+    prov = subparsers.add_parser("provision", help="Bulk provisioning workflows")
+    prov_sub = prov.add_subparsers(dest="verb", required=True, help="Action")
+
+    p_check = prov_sub.add_parser(
+        "check", help="Validate a provisioning config file without executing"
+    )
+    p_check.add_argument(
+        "--config", "-c", required=True, help="Path to JSON config file"
+    )
+    p_check.add_argument(
+        "--json", action="store_true", help="Output validation result as JSON"
+    )
+    p_check.set_defaults(func=provision_check)
+
+    p_sample = prov_sub.add_parser(
+        "sample", help="Output a valid sample provisioning JSON to stdout"
+    )
+    p_sample.set_defaults(func=provision_sample)
+
+    p_apply = prov_sub.add_parser(
+        "apply", help="Apply a full provisioning configuration"
+    )
+    p_apply.add_argument(
+        "--config",
+        "-c",
+        required=True,
+        help="Path to JSON defining entity and users",
+    )
+    p_apply.add_argument(
+        "--json",
+        action="store_true",
+        help="Output summary of created resources as JSON",
+    )
+    p_apply.set_defaults(func=provision_apply)
+
+    args = parser.parse_args()
+    if hasattr(args, "func"):
+        args.func(args)
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,123 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+
+## IMPORTANT THINGS TO REMEMBER / DO 
+
+When editing a file - always write the code first then do the imports
+
+Try not to use "any" as types - make sure we are using correct type hinting when available.
+
+## Commands
+
+### Development
+- `npm run dev` - Start development server on http://localhost:1420
+- `npm run build` - Production build
+- `npm run preview` - Preview production build on http://localhost:4173
+
+### Code Quality
+- `npm run lint` - Format and lint code using Biome (formats and fixes automatically)
+
+### Testing
+- `npm run test:unit` - Run unit tests with Vitest
+- `bunx vitest run tests/unit/path/to/specific.test.tsx` - Run specific unit test
+- `npm run test:unit --coverage` - Generate test coverage report
+- `npm run test:integration` - Run integration tests
+- `npm run test:e2e` - Run end-to-end tests with Playwright
+
+### Other Commands
+- `npm run update-icons` - Update Icon types after adding new icons to sprite.svg
+
+## Architecture Overview
+
+This is OpenBB Workspace, a financial data visualization web application built with React, TypeScript, and Vite. It features a dashboard-based interface where users can create widgets to display financial data, charts, and AI-powered insights.
+
+### Core Technologies
+- **React 18** with TypeScript for the UI layer
+- **Vite** as build tool and development server
+- **Zustand** for state management (global app state)  
+- **Tailwind CSS** with custom design system components
+- **Radix UI** for accessible UI primitives
+- **TanStack Query** for data fetching and caching
+- **React Router** for navigation
+- **AG Grid** and **AG Charts** for data tables and visualizations
+- **Plotly.js** and **Highcharts** for advanced charting
+- **TradingView** charting library integration
+- **Biome** for code formatting and linting
+- **Vitest** for unit testing, **Playwright** for E2E testing
+
+### Key Directories
+
+#### `/src/components/`
+- **AI/** - Copilot chat interface and AI-powered features
+- **Widgets/** - Financial data widgets (charts, tables, economy data, equity analysis)
+- **DataConnectors/** - Data source management and connection interfaces
+- **LayoutAuth/** - Main authenticated app layout, sidebars, search
+- **General/** - Shared UI components (tables, modals, forms)
+- **ds/** - Design system components (atoms, dialogs, forms)
+
+#### `/src/lib/`
+- **state/** - Zustand stores for global state management
+  - `app.ts` - Main application state (dashboards, widgets, layouts)
+  - `auth.ts` - Authentication state
+  - `copilot.ts` - AI chat state
+  - `theme.ts` - Theme and appearance settings
+- **api/** - API client functions and data fetching
+- **utils/** - Utility functions for widgets, data processing, etc.
+
+#### `/src/routes/`
+Page components organized by route (login, dashboard, settings, etc.)
+
+### State Management Pattern
+Uses Zustand with subscribeWithSelector middleware. State is organized into domain-specific stores:
+- App state handles dashboard layouts, widget management, and grid positioning
+- Auth state manages user authentication and permissions  
+- Copilot state manages AI chat sessions and context
+- Each store uses TypeScript interfaces and includes both state and actions
+
+### Widget System
+The application centers around a flexible widget system:
+- Widgets are React components that display financial data
+- Support for various data sources (financial APIs, user uploads, SQL databases)
+- Grid-based layout system using react-grid-layout
+- Widgets can be parameterized, grouped, and share ticker symbols
+- Export capabilities to Excel, PDF, and images
+
+### Styling Approach
+- Utility-first Tailwind CSS with custom design tokens
+- CSS custom properties for theming (light/dark mode)
+- Component-level styling using Tailwind classes
+- Radix UI for accessibility and behavior
+- Custom animations and micro-interactions
+
+### Testing Strategy
+- Unit tests in `/tests/unit/` mirror `/src/` structure
+- Use React Testing Library for component testing
+- E2E tests with Playwright for critical user flows
+- Test files named with `.test.tsx` extension
+- Use `data-testid` attributes for test element selection
+
+### Icon Management
+Icons are managed through an SVG sprite system:
+1. Add SVG to `/public/assets/icons/sprite.svg`
+2. Run `npm run update-icons` to regenerate TypeScript types
+3. Use `<Icon id="icon-name" />` component
+
+### Development Notes
+- Uses path alias `~` for `/src` directory
+- TradingView widgets require special handling for classname updates
+- Custom classes prefixed with `_` (e.g., `_copy-chart-data-button`) are used for testing selectors
+- Mobile-first responsive design approach
+- PWA-enabled with service worker support
+
+### Critical Type Definition Files
+  When adding new features, always check and update these type definition files:
+
+#### `/src/lib/types/app.ts`
+
+-Contains Zod schemas for runtime validation
+-Defines core data types: `TickerSchema`, `ParamDefSchema`, `WidgetSchemaBase`
+-Widget visualization types in `WidgetVizTypes` array
+-Chart types and table column definitions
+**Must be updated when**: Adding new widget types, param types, or chart types

@@ -1,0 +1,44 @@
+name: 🚭 Smoke tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+jobs:
+  smoke_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .env file
+        run: |
+          cp .env.example .env
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            sed -i 's|^VITE_ADDIN_BASE_URL=.*|VITE_ADDIN_BASE_URL=${{ secrets.PROD_VITE_ADDIN_BASE_URL }}|' .env
+            sed -i 's|^VITE_PLATFORM_URL=.*|VITE_PLATFORM_URL=${{ secrets.PROD_VITE_PLATFORM_URL }}|' .env
+            sed -i 's|^VITE_BACKEND_URL=.*|VITE_BACKEND_URL=${{ secrets.PROD_VITE_BACKEND_URL }}|' .env
+            sed -i 's|^PAYMENTS_AUTH_TOKEN=.*|PAYMENTS_AUTH_TOKEN=${{ secrets.PROD_PAYMENTS_AUTH_TOKEN }}|' .env
+            sed -i 's|^TEST_PLATFORM_EMAIL=.*|TEST_PLATFORM_EMAIL=${{ secrets.PROD_TEST_PLATFORM_EMAIL }}|' .env
+            sed -i 's|^TEST_PLATFORM_PASSWORD=.*|TEST_PLATFORM_PASSWORD=${{ secrets.PROD_TEST_PLATFORM_PASSWORD }}|' .env
+          else
+            sed -i 's|^VITE_ADDIN_BASE_URL=.*|VITE_ADDIN_BASE_URL=${{ secrets.DEV_VITE_ADDIN_BASE_URL }}|' .env
+            sed -i 's|^VITE_PLATFORM_URL=.*|VITE_PLATFORM_URL=${{ secrets.DEV_VITE_PLATFORM_URL }}|' .env
+            sed -i 's|^VITE_BACKEND_URL=.*|VITE_BACKEND_URL=${{ secrets.DEV_VITE_BACKEND_URL }}|' .env
+            sed -i 's|^PAYMENTS_AUTH_TOKEN=.*|PAYMENTS_AUTH_TOKEN=${{ secrets.DEV_PAYMENTS_AUTH_TOKEN }}|' .env
+            sed -i 's|^TEST_PLATFORM_EMAIL=.*|TEST_PLATFORM_EMAIL=${{ secrets.DEV_TEST_PLATFORM_EMAIL }}|' .env
+            sed -i 's|^TEST_PLATFORM_PASSWORD=.*|TEST_PLATFORM_PASSWORD=${{ secrets.DEV_TEST_PLATFORM_PASSWORD }}|' .env
+          fi
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test:integration-smoke

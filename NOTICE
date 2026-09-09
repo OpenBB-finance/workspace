@@ -1,0 +1,12 @@
+OpenBB Workspace
+Copyright 2026 OpenBB, Inc.
+
+This product includes software developed at OpenBB, Inc. (https://openbb.co/).
+
+Third-party components:
+
+- The TradingView Advanced Charts library is proprietary to TradingView, Inc.
+  and is NOT licensed under the Apache License 2.0. It is not distributed
+  with this repository. To build with it, obtain the library under
+  TradingView's own license agreement and place it in
+  terminalpro/src/lib/charting_library/.

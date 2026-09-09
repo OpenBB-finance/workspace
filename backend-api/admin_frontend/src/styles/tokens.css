@@ -1,0 +1,89 @@
+:root {
+  --font-family: "Inter";
+  --text-scale: 1;
+
+  --color-base-0: #ffffff;
+  --color-base-100: #0c0c0e;
+  --color-main-50: #33bbff;
+  --color-main-100: #0077b3;
+  --color-main-200: #006699;
+
+  --color-dark-50: #8a8a90;
+  --color-dark-200: #5a5961;
+  --color-dark-400: #46464f;
+  --color-dark-700: #2a2a31;
+  --color-dark-800: #212127;
+  --color-dark-850: #1c1b20;
+  --color-dark-900: #151518;
+
+  --color-light-50: #f7f8f9;
+  --color-light-100: #f3f4f7;
+  --color-light-200: #ebecf0;
+  --color-light-300: #d6dce5;
+  --color-light-400: #d0d5dd;
+  --color-light-700: #485468;
+  --color-light-750: #3d4758;
+  --color-light-800: #354055;
+  --color-light-850: #1e2939;
+  --color-light-900: #0f1828;
+}
+
+:root {
+  --general-border-primary: var(--color-light-400);
+  --general-bg-primary: var(--color-base-0);
+  --general-bg-primary-hover: var(--color-light-100);
+  --general-bg-secondary: var(--color-light-100);
+  --general-bg-secondary-hover: var(--color-light-200);
+  --general-label: var(--color-light-800);
+  --general-label-hover: var(--color-light-900);
+  --general-label-disabled: var(--color-light-400);
+
+  --surface-page: var(--color-light-50);
+  --surface-card: var(--color-light-100);
+  --surface-header: var(--color-base-0);
+  --surface-divider: var(--color-light-200);
+
+  --btn-primary-bg: var(--color-main-100);
+  --btn-primary-bg-hover: var(--color-main-200);
+  --btn-primary-label: var(--color-base-0);
+  --btn-secondary-bg: var(--color-light-100);
+  --btn-secondary-bg-hover: var(--color-light-50);
+
+  --input-bg: var(--color-base-0);
+  --input-bg-hover: var(--color-light-50);
+  --link-color: var(--color-main-100);
+
+  --text-heading: var(--color-light-850);
+  --text-subtitle: var(--color-light-750);
+  --text-body: var(--color-light-700);
+}
+
+.dark {
+  --general-border-primary: var(--color-dark-400);
+  --general-bg-primary: var(--color-dark-900);
+  --general-bg-primary-hover: var(--color-dark-850);
+  --general-bg-secondary: var(--color-dark-800);
+  --general-bg-secondary-hover: var(--color-dark-700);
+  --general-label: var(--color-light-100);
+  --general-label-hover: var(--color-base-0);
+  --general-label-disabled: var(--color-dark-200);
+
+  --surface-page: var(--color-base-100);
+  --surface-card: var(--color-dark-800);
+  --surface-header: var(--color-dark-900);
+  --surface-divider: var(--color-dark-700);
+
+  --btn-primary-bg: var(--color-main-100);
+  --btn-primary-bg-hover: var(--color-main-200);
+  --btn-primary-label: var(--color-base-0);
+  --btn-secondary-bg: var(--color-dark-800);
+  --btn-secondary-bg-hover: var(--color-dark-700);
+
+  --input-bg: var(--color-dark-900);
+  --input-bg-hover: var(--color-dark-850);
+  --link-color: var(--color-main-50);
+
+  --text-heading: var(--color-base-0);
+  --text-subtitle: var(--color-light-50);
+  --text-body: var(--color-light-100);
+}

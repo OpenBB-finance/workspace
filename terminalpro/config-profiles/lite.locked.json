@@ -1,0 +1,88 @@
+{
+  "_comment": "OpenBB Lite lock policy — the single source of truth for what a Lite operator can NEVER change. Strict profile: EVERY field in RuntimeConfigSchema must be either locked here (given a value, baked into the JS bundle at build time and forcibly overriding config.js / window.__APP_CONFIG__ at runtime) or listed in _unlocked (operator-configurable in the Lite image via docker run -e). If you added a schema field and a test sent you here: decide whether Lite gets it — lock it with a value below, or add its path to _unlocked. Full workflow: https://github.com/OpenBB-finance/lite#changing-what-lite-locks. Selected at build time via VITE_LOCKED_CONFIG_PROFILE=lite; consumed by the lite repo.",
+  "_strict": true,
+  "_unlocked": [
+    "urls.*",
+    "authentication.sendUserEmailAsHeader",
+    "copilot.enabled",
+    "copilot.openbbCopilot",
+    "copilot.aiEnhancements",
+    "copilot.saveSkillFromChat",
+    "ui.showCompanionMode",
+    "ui.showMinimizeWidget",
+    "ui.showChartGeneration",
+    "ui.showChangelog",
+    "ui.showCopilotSwitcher",
+    "ui.showMarketplace",
+    "mcp.defaultServerEnabled",
+    "data.allowHtmlJsExecution"
+  ],
+  "authentication": {
+    "allowEmailLogin": true,
+    "allowRegistration": false,
+    "allowForgotPassword": false,
+    "identityProviders": [],
+    "sendMicrosoftIdToken": false,
+    "sendOktaIdToken": false
+  },
+  "authProviders": {
+    "googleClientId": "",
+    "azureClientId": "",
+    "azureTenantId": "",
+    "oktaClientId": "",
+    "oktaDomain": ""
+  },
+  "copilot": {
+    "documentationLinks": false,
+    "webSearch": false,
+    "secFilings": false,
+    "jinaAi": false,
+    "showCustomKey": false
+  },
+  "ui": {
+    "showFeedbackButton": false,
+    "showInviteButton": false,
+    "showDemoRequestButton": false,
+    "showEnterpriseTags": false,
+    "showExternalDocLinks": false,
+    "showHelpDocumentation": false,
+    "showOnboardingQuestions": false,
+    "showTos": false,
+    "showRemoveFromOrg": false,
+    "defaultTheme": "dark",
+    "odpDownloadInstaller": false,
+    "showSalesEmail": false,
+    "isLite": true
+  },
+  "services": {
+    "posthog": false,
+    "hubspotForms": false,
+    "email": false,
+    "nixtla": false,
+    "cloudflareWorker": false
+  },
+  "data": {
+    "packageDataEnabled": false,
+    "allowedDataVendors": [],
+    "allowedDbTypes": ["database", "snowflake", "databricks", "clickhouse"],
+    "openDataPlatformInstallerEnabled": false
+  },
+  "analytics": {
+    "posthogKey": "",
+    "posthogUrl": ""
+  },
+  "whiteLabel": {
+    "name": "OpenBB Lite",
+    "shortName": "OpenBB",
+    "loginImage": "/assets/images/openbb_lettering.svg",
+    "loginImageDark": "/assets/images/openbb_lettering_light.svg",
+    "leftSidebarLogo": "",
+    "leftSidebarLogoDark": "",
+    "favicon": "/favicon/favicon.ico",
+    "description": "OpenBB Lite — self-hosted workspace.",
+    "keywords": "OpenBB, finance, workspace, self-hosted",
+    "mainColor": "#0088CC",
+    "fontFamily": "Inter",
+    "showFloatingThemePreview": false
+  }
+}

@@ -1,0 +1,1199 @@
+[
+	{
+		"symbol": "XU100.IS",
+		"name": "BIST 100",
+		"currency": "TRY",
+		"stockExchange": "Istanbul",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^OVX",
+		"name": "CBOE Crude Oil Volatility Index ",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^IBEX",
+		"name": "IBEX 35",
+		"currency": "EUR",
+		"stockExchange": "MCE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SSMI",
+		"name": "SMI PR",
+		"currency": "CHF",
+		"stockExchange": "Swiss",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^TECDAX",
+		"name": "TECDAX TR",
+		"currency": "EUR",
+		"stockExchange": "XETRA",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^GDAXI",
+		"name": "DAX PERFORMANCE-INDEX",
+		"currency": "EUR",
+		"stockExchange": "XETRA",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "TX60.TS",
+		"name": "S&P/TSX 60 Index",
+		"currency": "CAD",
+		"stockExchange": "Toronto",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "IMOEX.ME",
+		"name": "MOEX Russia Index",
+		"currency": "RUB",
+		"stockExchange": "MCX",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXJO",
+		"name": "S&P/ASX 200",
+		"currency": "AUD",
+		"stockExchange": "ASX",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^STOXX",
+		"name": "STXE 600 PR.EUR",
+		"currency": "EUR",
+		"stockExchange": "Zurich",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RUI",
+		"name": "Russell 1000",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "TXBA.TS",
+		"name": "S&P/TSX Composite Index - Banks",
+		"currency": "CAD",
+		"stockExchange": "Toronto",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^NOMUC.SR",
+		"name": "Parallel Market Capped Index ",
+		"currency": "SAR",
+		"stockExchange": "Saudi",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^TASI.SR",
+		"name": "Tadawul All Shares Index",
+		"currency": "SAR",
+		"stockExchange": "Saudi",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^OEX",
+		"name": "S&P 100 INDEX",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^NMX0530",
+		"name": "FTSE 350 Index - Oil & Gas Prod",
+		"currency": "GBP",
+		"stockExchange": "FTSE Index",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^FTMC",
+		"name": "FTSE 250",
+		"currency": "GBP",
+		"stockExchange": "FTSE Index",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SPGNRUP",
+		"name": "S&P Global Natural Resources Index",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RUITR",
+		"name": "Russell 1000 Total Return",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RUTTR",
+		"name": "Russell 2000 Total Return",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RUATR",
+		"name": "Russell 3000 Total Return",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SP500TR",
+		"name": "S&P 500 (TR)",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^TYX",
+		"name": "Treasury Yield 30 Years",
+		"currency": "USD",
+		"stockExchange": "ICE Futures",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^FVX",
+		"name": "Treasury Yield 5 Years",
+		"currency": "USD",
+		"stockExchange": "ICE Futures",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^TNX",
+		"name": "Treasury Yield 10 Years",
+		"currency": "USD",
+		"stockExchange": "ICE Futures",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SPGSCI",
+		"name": "S&P GSCI Index",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^BVSP",
+		"name": "IBOVESPA",
+		"currency": "BRL",
+		"stockExchange": "São Paulo",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^MXX",
+		"name": "IPC MEXICO",
+		"currency": "MXN",
+		"stockExchange": "Mexico",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^GSPTSE",
+		"name": "S&P/TSX Composite index",
+		"currency": "CAD",
+		"stockExchange": "Toronto",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VIX",
+		"name": "CBOE Volatility Index",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "TXGM.TS",
+		"name": "S&P/TSX Global Mining Index",
+		"currency": "CAD",
+		"stockExchange": "Toronto Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^NZ50",
+		"name": "S&P/NZX 50 INDEX GROSS",
+		"currency": "NZD",
+		"stockExchange": "NZSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^N225",
+		"name": "Nikkei 225",
+		"currency": "JPY",
+		"stockExchange": "Osaka",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^TWII",
+		"name": "TSEC weighted index",
+		"currency": "TWD",
+		"stockExchange": "Taiwan",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^BFX",
+		"name": "BEL 20",
+		"currency": "EUR",
+		"stockExchange": "Brussels",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^TA125.TA",
+		"name": "TA-125",
+		"currency": "ILS",
+		"stockExchange": "Tel Aviv",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^KLSE",
+		"name": "FTSE Bursa Malaysia KLCI",
+		"currency": "MYR",
+		"stockExchange": "Kuala Lumpur",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^BSESN",
+		"name": "S&P BSE SENSEX",
+		"currency": "INR",
+		"stockExchange": "BSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^STOXX50E",
+		"name": "ESTX 50 PR.EUR",
+		"currency": "EUR",
+		"stockExchange": "Zurich",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^KS11",
+		"name": "KOSPI Composite Index",
+		"currency": "KRW",
+		"stockExchange": "KSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^MERV",
+		"name": "MERVAL",
+		"currency": "",
+		"stockExchange": "Buenos Aires",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^JN0U.JO",
+		"name": "Top 40 USD Net TRI Index",
+		"currency": "USD",
+		"stockExchange": "Johannesburg",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "000001.SS",
+		"name": "SSE Composite Index",
+		"currency": "CNY",
+		"stockExchange": "Shanghai",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^FTSE",
+		"name": "FTSE 100",
+		"currency": "GBP",
+		"stockExchange": "FTSE Index",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^BUK100P",
+		"name": "Cboe UK 100 Price Return",
+		"currency": "GBP",
+		"stockExchange": "Stuttgart",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AORD",
+		"name": "ALL ORDINARIES",
+		"currency": "AUD",
+		"stockExchange": "ASX",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RUT",
+		"name": "Russell 2000",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^XNDX",
+		"name": "NASDAQ 100 Total Return Index",
+		"currency": "USD",
+		"stockExchange": "Nasdaq GIDS",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RMCCTR",
+		"name": "Russell Midcap Total Return",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AEX",
+		"name": "AEX-INDEX",
+		"currency": "EUR",
+		"stockExchange": "Amsterdam",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^IRX",
+		"name": "13 Week Treasury Bill",
+		"currency": "USD",
+		"stockExchange": "ICE Futures",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^NDX",
+		"name": "NASDAQ 100",
+		"currency": "USD",
+		"stockExchange": "Nasdaq GIDS",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RUA",
+		"name": "Russell 3000",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RVX",
+		"name": "Cboe Russell 2000 Volatility Index",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VXN",
+		"name": "CBOE NASDAQ 100 Volatility",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^JKSE",
+		"name": "Jakarta Composite Index",
+		"currency": "IDR",
+		"stockExchange": "Jakarta",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^N300",
+		"name": "Nikkei 300",
+		"currency": "JPY",
+		"stockExchange": "Osaka",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^ATX",
+		"name": "Austrian Traded Index in EUR",
+		"currency": "EUR",
+		"stockExchange": "Vienna",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^OMXS30",
+		"name": "XCSE:OMX Stockholm 30 Index",
+		"currency": "SEK",
+		"stockExchange": "Nasdaq GIDS",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^XAX",
+		"name": "NYSE AMEX COMPOSITE INDEX",
+		"currency": "USD",
+		"stockExchange": "NYSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^NYA",
+		"name": "NYSE COMPOSITE (DJ)",
+		"currency": "USD",
+		"stockExchange": "NYSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^TRCCRBTR",
+		"name": "Thomson Reuters/CoreCommodity C",
+		"currency": "USD",
+		"stockExchange": "NYSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^PSE",
+		"name": "NYSE Arca Tech 100 Index",
+		"currency": "USD",
+		"stockExchange": "NYSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AMZ",
+		"name": "ALERIAN MLP INDEX",
+		"currency": "USD",
+		"stockExchange": "NYSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^W5000",
+		"name": "Wilshire 5000 Total Market Index",
+		"currency": "USD",
+		"stockExchange": "NYSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^NSEBANK",
+		"name": "NIFTY BANK",
+		"currency": "INR",
+		"stockExchange": "NSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^STI",
+		"name": "STI Index",
+		"currency": "SGD",
+		"stockExchange": "SES",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^HSCE",
+		"name": "HANG SENG CHINA ENTERPRISES INDEX",
+		"currency": "HKD",
+		"stockExchange": "HKSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^NSEI",
+		"name": "NIFTY 50",
+		"currency": "INR",
+		"stockExchange": "NSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^FCHI",
+		"name": "CAC 40",
+		"currency": "EUR",
+		"stockExchange": "Paris",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^N100",
+		"name": "EURONEXT 100",
+		"currency": "EUR",
+		"stockExchange": "Paris",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^HSI",
+		"name": "HANG SENG INDEX",
+		"currency": "HKD",
+		"stockExchange": "HKSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^CASE30",
+		"name": "EGX 30 Price Return Index",
+		"currency": "EGP",
+		"stockExchange": "EGX",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^IXIC",
+		"name": "NASDAQ Composite",
+		"currency": "USD",
+		"stockExchange": "Nasdaq GIDS",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RMZ",
+		"name": "MSCIUSREIT INDEX",
+		"currency": "USD",
+		"stockExchange": "New York Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DWCF",
+		"name": "Dow Jones U.S. Total Stock Mark",
+		"currency": "USD",
+		"stockExchange": "NASDAQ",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJUSSC",
+		"name": "Dow Jones U.S. Semiconductors Index",
+		"currency": "USD",
+		"stockExchange": "NASDAQ",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJU",
+		"name": "Dow Jones Utility Average",
+		"currency": "USD",
+		"stockExchange": "NASDAQ",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJT",
+		"name": "Dow Jones Transportation Average",
+		"currency": "USD",
+		"stockExchange": "NASDAQ",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJITR",
+		"name": "Dow Jones Industrial Average TR",
+		"currency": "USD",
+		"stockExchange": "NASDAQ",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^GSPC",
+		"name": "S&P 500",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XTUMY.IS",
+		"name": "BIST TUM-100",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XFINK.IS",
+		"name": "BIST FIN KIR FAKTORING",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "399967.SZ",
+		"name": "CSI NATIONAL DEFENSE",
+		"currency": "CNY",
+		"stockExchange": "Shenzhen",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VVIX",
+		"name": "CBOE VIX VOLATILITY INDEX",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^NYITR",
+		"name": "NYSE International 100 Index",
+		"currency": "USD",
+		"stockExchange": "NYSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^MID",
+		"name": "S&P MID CAP 400 INDEX",
+		"currency": "USD",
+		"stockExchange": "NYSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XBANK.IS",
+		"name": "BIST BANKA",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^GVZ",
+		"name": "CBOE Gold Volatitity Index",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VXSLV",
+		"name": "CBOE SILVER ETF VOLATILITY INDEX",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "DX-Y.NYB",
+		"name": "US Dollar/USDX - Index - Cash ",
+		"currency": "USD",
+		"stockExchange": "ICE Futures",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XGIDA.IS",
+		"name": "BIST GIDA ICECEK",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XU050.IS",
+		"name": "BIST 50",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XTRZM.IS",
+		"name": "BIST TURIZM",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XYUZO.IS",
+		"name": "BIST 100-30",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XUHIZ.IS",
+		"name": "BIST HIZMETLER",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XINSA.IS",
+		"name": "BIST INSAAT",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XMADN.IS",
+		"name": "BIST MADENCILIK",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XMANA.IS",
+		"name": "BIST METAL ANA",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XKMYA.IS",
+		"name": "BIST KIMYA PETROL PLASTIK",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XULAS.IS",
+		"name": "BIST ULASTIRMA",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XTCRT.IS",
+		"name": "BIST TICARET",
+		"currency": "TRY",
+		"stockExchange": "Istanbul Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SP500-30",
+		"name": "S&P 500 Consumer Staples (Sector)",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SP500-40",
+		"name": "S&P 500 Financials (Sector)",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SP500-35",
+		"name": "S&P 500 Health Care (Sector)",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VIX3M",
+		"name": "CBOE S&P 500 3-Month Volatility",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AFLI",
+		"name": "S&P/ASX 50",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXEJ",
+		"name": "S&P/ASX 200 Energy",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXHJ",
+		"name": "S&P/ASX 200 Health Care",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXMJ",
+		"name": "S&P/ASX 200 Materials",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXNT",
+		"name": "S&P/ASX 200 Net Total Rtn",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^J20X.JO",
+		"name": "FTSE/JSE Top 40 Expiry Index",
+		"currency": "ZAR",
+		"stockExchange": "Johannesburg",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^OMXC20",
+		"name": "OMX Copenhagen 20",
+		"currency": "DKK",
+		"stockExchange": "Stockholm Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SPEUBDP",
+		"name": "S&P Euro Bund Futures Excess Re",
+		"currency": "EUR",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^COR3M",
+		"name": "Cboe Implied Correlation Index",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^OOI",
+		"name": "S&P100 GLOBAL ID",
+		"currency": "USD",
+		"stockExchange": "New York Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^W1DOW",
+		"name": "Dow Jones Global Index",
+		"currency": "USD",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RLV",
+		"name": "Russell 1000 Value",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJUSPM",
+		"name": "Dow Jones U.S. Gold Mining Inde",
+		"currency": "USD",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "IDX30.JK",
+		"name": "IDX30",
+		"currency": "IDR",
+		"stockExchange": "Jakarta Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SPCDNX",
+		"name": "S&P/TSX Venture Composite Index",
+		"currency": "CAD",
+		"stockExchange": "TSXV",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJBGIE",
+		"name": "Dow Jones Brookfield Global Inf",
+		"currency": "EUR",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJBGIPUP",
+		"name": "Dow Jones Brookfield Global Inf",
+		"currency": "USD",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJBAR",
+		"name": "Dow Jones Brookfield Airports I",
+		"currency": "USD",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VIF",
+		"name": "CBOE Far-term VIX Index",
+		"currency": "USD",
+		"stockExchange": "Cboe Indices",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VIX6M",
+		"name": "CBOE S&P 500 6 Month Volatility",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SPXESUP",
+		"name": "S&P 500 ESG Index (USD)",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^XEO",
+		"name": "S&P 100 INDEX (EUROPEAN STYLE)",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "XLHK",
+		"name": "Dow Jones Hong Kong Titans 30",
+		"currency": "HKD",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^105834-USD-STRD",
+		"name": "MSCI EAFE VALUE",
+		"currency": "USD",
+		"stockExchange": "MSCI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VIX1D",
+		"name": "Cboe 1-Day Volatility Index",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SP500-45",
+		"name": "S&P 500 Information Technology (Sector)",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SP500-25",
+		"name": "S&P 500 Consumer Discretionary (Sector)",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^FTLC",
+		"name": "FTSE 350",
+		"currency": "GBP",
+		"stockExchange": "FTSE Index",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SDAXI",
+		"name": "SDAX PERFORMANCEINDEX",
+		"currency": "EUR",
+		"stockExchange": "XETRA",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^MDAXI",
+		"name": "MDAX PERFORMANCE-INDEX",
+		"currency": "EUR",
+		"stockExchange": "XETRA",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJI",
+		"name": "Dow Jones Industrial Average",
+		"currency": "USD",
+		"stockExchange": "NASDAQ",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SET.BK",
+		"name": "SET Index",
+		"currency": "THB",
+		"stockExchange": "Thailand",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "ITLMS.MI",
+		"name": "FTSE Italia All-Share Index",
+		"currency": "EUR",
+		"stockExchange": "Milan",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "KOSPI200.KS",
+		"name": "KOSPI 200 Index",
+		"currency": "KRW",
+		"stockExchange": "KSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "512.HK",
+		"name": "CES CHINA HK MAINLAND INDEX",
+		"currency": "HKD",
+		"stockExchange": "HKSE",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "RTSI.ME",
+		"name": "RTS Index",
+		"currency": "USD",
+		"stockExchange": "MCX",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "NMX601010.FGI",
+		"name": "FTSE 350 Oil. Gas and Coal Inde",
+		"currency": "GBP",
+		"stockExchange": "FTSE Index",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "FTSEMIB.MI",
+		"name": "FTSE MIB Index",
+		"currency": "EUR",
+		"stockExchange": "Milan",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^XSP",
+		"name": "S&P 500 MINI SPX OPTIONS INDEX",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "OSXJ.DE",
+		"name": "Ossiam Japan ESG Low Carbon Minimum Variance",
+		"currency": "EUR",
+		"stockExchange": "XETRA",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "WIG20.WA",
+		"name": "WIG20",
+		"currency": "PLN",
+		"stockExchange": "Warsaw Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^MOVE",
+		"name": "ICE BofAML MOVE Index",
+		"currency": "USD",
+		"stockExchange": "New York Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VXTLT",
+		"name": "CBOE 20+ Year Treasury Bond ETF",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SP500-15",
+		"name": "S&P 500 Materials (Sector)",
+		"currency": "USD",
+		"stockExchange": "SNP",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXDJ",
+		"name": "S&P/ASX 200 Cons Disc",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXFJ",
+		"name": "S&P/ASX 200 Financials",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXIJ",
+		"name": "S&P/ASX 200 Info Tech",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXNJ",
+		"name": "S&P/ASX 200 Industrials",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXSJ",
+		"name": "S&P/ASX 200 Cons Staples",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXSO",
+		"name": "S&P/ASX SMALL ORDINARIES",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXTJ",
+		"name": "S&P/ASX 200 Communication",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^AXUJ",
+		"name": "S&P/ASX 200 Utilities",
+		"currency": "AUD",
+		"stockExchange": "Australian Securities Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJSH",
+		"name": "Dow Jones Shanghai Index",
+		"currency": "CNY",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^NQDEMC",
+		"name": "The NASDAQ Germany Mid Cap Inde",
+		"currency": "USD",
+		"stockExchange": "Nasdaq GIDS",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^OSEAX",
+		"name": "Oslo Bors All-Share Index_GI",
+		"currency": "NOK",
+		"stockExchange": "Oslo Stock Exchange",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "IAR.BA",
+		"name": "MERVAL ARGENTINA",
+		"currency": "",
+		"stockExchange": "Buenos Aires",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^W2DOW",
+		"name": "Dow Jones Global ex-U.S. Index",
+		"currency": "USD",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^RLG",
+		"name": "Russell 1000 Growth",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJBTR",
+		"name": "Dow Jones Brookfield Toll Roads",
+		"currency": "USD",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJBPR",
+		"name": "Dow Jones Brookfield Ports Infr",
+		"currency": "USD",
+		"stockExchange": "DJI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^VIN",
+		"name": "CBOE Near-term VIX Index",
+		"currency": "USD",
+		"stockExchange": "Cboe Indices",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^DJX",
+		"name": "1/100 DOW JONES INDUSTRIAL AVER",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^SPESG",
+		"name": "S&P 500 ESG Index",
+		"currency": "USD",
+		"stockExchange": "Chicago Options",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "^105833-USD-STRD",
+		"name": "MSCI EAFE GROWTH",
+		"currency": "USD",
+		"stockExchange": "MSCI",
+		"exchangeShortName": "INDEX"
+	},
+	{
+		"symbol": "SX8P.Z",
+		"name": "STXE 600 TECH PR EUR",
+		"currency": "USD",
+		"stockExchange": "Zurich",
+		"exchangeShortName": "INDEX"
+	}
+]

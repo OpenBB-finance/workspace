@@ -1,0 +1,24 @@
+name: 🧪 Unit tests
+
+on: [push, pull_request]
+
+jobs:
+  unit_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .env file
+        run: |
+          cp .env.example .env
+          sed -i 's|^VITE_ADDIN_BASE_URL=.*|VITE_ADDIN_BASE_URL=${{ secrets.PROD_VITE_ADDIN_BASE_URL }}|' .env
+          sed -i 's|^VITE_PLATFORM_URL=.*|VITE_PLATFORM_URL=${{ secrets.PROD_VITE_PLATFORM_URL }}|' .env
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test:unit

@@ -1,0 +1,46 @@
+# Environment & Configuration
+.env*
+envs
+
+# Testing & Coverage
+htmlcov
+tests
+.coverage
+.pytest_cache
+
+# Caching & Build Artifacts
+.ruff_cache
+.mypy_cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+# Cython/setuptools compile artifacts — must not leak into the image, or
+# stale local .so files override what setup_compile.py decides to build
+# (in particular bypassing EXCLUDE_FILES).
+*.so
+*.c
+build/
+
+# Virtual Environments
+venv
+.venv
+
+# Development Files
+.ipynb_checkpoints
+README.md
+.gitignore
+scripts/cfgs/
+
+# Docker Files
+*Dockerfile*
+.dockerignore
+
+# Editor & IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# System Files
+.DS_Store

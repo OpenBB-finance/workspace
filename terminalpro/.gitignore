@@ -1,0 +1,61 @@
+# Tests
+playwright-report/
+test-results/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+dev-dist
+*.local
+**/api2/*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*rome.json
+*.hintrc
+*.ignore
+yarn.lock
+package-lock.json
+
+# Bundled binaries
+src-tauri/binaries/*
+!src-tauri/binaries/.gitkeep
+packaging/macOS/target/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Test coverage reports
+coverage/
+
+# AI
+.cursorignore
+ai_artifacts
+
+.claude/settings.local.json
+
+# Storybook
+storybook-static/
+
+# TradingView Advanced Charts (proprietary, not redistributable)
+src/lib/charting_library/

@@ -1,0 +1,80 @@
+services:
+  redis:
+    image: redis:alpine
+    restart: always
+    container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+      - local-net
+    command: redis-server --save 20 1 --loglevel warning
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - data:/redis
+
+  fastapi:
+    build:
+      context: backend
+      dockerfile: fastapi.Dockerfile
+    container_name: fastapi
+    env_file:
+      - ./backend/envs/.env.sqlite
+    environment:
+      REDIS_HOST: redis
+    command:
+      [
+        "sh",
+        "-c",
+        "python -m alembic upgrade head && exec python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload --reload-dir /opt/code",
+      ]
+    ports:
+      - "8000:8000"
+    networks:
+      local-net:
+        aliases:
+          - fastapi
+    volumes:
+      - ./backend:/opt/code
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  rq_worker:
+    build:
+      context: backend
+      dockerfile: rqworker.Dockerfile
+    container_name: rq_worker
+    env_file:
+      - ./backend/envs/.env.sqlite
+    environment:
+      REDIS_HOST: redis
+    networks:
+      - local-net
+    volumes:
+      - ./backend:/opt/code
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./backend
+          target: /opt/code
+          ignore:
+            - .git/
+            - __pycache__/
+            - .pytest_cache/
+            - .ruff_cache/
+            - htmlcov/
+    depends_on:
+      redis:
+        condition: service_healthy
+
+networks:
+  local-net:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local

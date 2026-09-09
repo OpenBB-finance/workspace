@@ -1,0 +1,104 @@
+name: Build & publish OpenBB Lite image
+
+# Builds the single-image OpenBB Lite distribution. The backend comes from
+# OpenBB-finance/openbb-hub (its backend/ dir) and the frontend from
+# OpenBB-finance/terminalpro. Both default to `develop` but can be pointed at
+# any branch, tag, SHA, or PR (use refs/pull/<N>/head) per run.
+#
+# Auth: a fine-grained PAT with Contents:Read on openbb-hub + terminalpro,
+# stored as the secret SOURCE_REPOS_PAT. The image is pushed to GHCR using the
+# built-in GITHUB_TOKEN (no PAT needed for the push).
+
+on:
+  workflow_dispatch:
+    inputs:
+      hub_ref:
+        description: "openbb-hub ref for the backend (branch, tag, SHA, or refs/pull/<N>/head)"
+        default: develop
+      terminalpro_ref:
+        description: "terminalpro ref for the frontend (branch, tag, SHA, or refs/pull/<N>/head)"
+        default: develop
+      push_image:
+        description: "Push the image to GHCR (uncheck to build only)"
+        type: boolean
+        default: true
+      tag:
+        description: "Extra image tag (in addition to the VERSION file and git sha)"
+        default: ""
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE: openbb-finance/lite
+  # Defaults used by the `push` trigger (workflow_dispatch overrides via inputs).
+  DEFAULT_REF: develop
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout lite (Dockerfile + container config)
+        uses: actions/checkout@v4
+
+      - name: Checkout terminalpro (frontend)
+        uses: actions/checkout@v4
+        with:
+          repository: OpenBB-finance/terminalpro
+          ref: ${{ github.event.inputs.terminalpro_ref || env.DEFAULT_REF }}
+          token: ${{ secrets.SOURCE_REPOS_PAT }}
+          path: terminalpro
+
+      - name: Checkout openbb-hub (backend lives in backend/)
+        uses: actions/checkout@v4
+        with:
+          repository: OpenBB-finance/openbb-hub
+          ref: ${{ github.event.inputs.hub_ref || env.DEFAULT_REF }}
+          token: ${{ secrets.SOURCE_REPOS_PAT }}
+          submodules: false
+          path: _hub
+
+      - name: Assemble build context
+        run: |
+          rm -rf backend
+          mv _hub/backend ./backend
+          rm -rf _hub
+          echo "Backend ref:     ${{ github.event.inputs.hub_ref || env.DEFAULT_REF }}"
+          echo "Frontend ref:    ${{ github.event.inputs.terminalpro_ref || env.DEFAULT_REF }}"
+
+      - name: Resolve image tags
+        id: meta
+        run: |
+          version="$(tr -d '[:space:]' < VERSION)"
+          sha="${GITHUB_SHA::12}"
+          tags="${REGISTRY}/${IMAGE}:${version},${REGISTRY}/${IMAGE}:${sha},${REGISTRY}/${IMAGE}:latest"
+          extra="${{ github.event.inputs.tag }}"
+          if [ -n "$extra" ]; then tags="${tags},${REGISTRY}/${IMAGE}:${extra}"; fi
+          echo "tags=$tags" >> "$GITHUB_OUTPUT"
+          echo "Image tags: $tags"
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        if: ${{ github.event.inputs.push_image != 'false' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event.inputs.push_image != 'false' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

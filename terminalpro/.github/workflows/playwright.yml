@@ -1,0 +1,113 @@
+name: Playwright Tests
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: 🧪 ${{ matrix.project }} OpenBB Pro E2E Tests
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: chromium
+            os: ubuntu-latest
+            cache_dir: ~/.cache/ms-playwright
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .env file
+        run: |
+          VITE_RELEASE_VERSION=$(grep 'VITE_RELEASE_VERSION=' .env | cut -f2 -d'=')
+          echo "VITE_RELEASE_VERSION=$VITE_RELEASE_VERSION" > .env
+          echo "VITE_PAYMENTS_URL=${{secrets.DEV_VITE_PAYMENTS_URL}}" >> .env
+          echo "VITE_POSTHOG_KEY=${{secrets.DEV_VITE_POSTHOG_KEY}}" >> .env
+          echo "VITE_POSTHOG_URL=${{secrets.DEV_VITE_POSTHOG_URL}}" >> .env
+          echo "VITE_PLATFORM_URL=${{secrets.DEV_VITE_PLATFORM_URL}}" >> .env
+          echo "VITE_AI_API_URL=${{secrets.DEV_VITE_AI_API_URL}}" >> .env
+          echo "VITE_ENVIRONMENT=dev" >> .env
+          echo "VITE_PLAYWRIGHT_ACCOUNT_USERNAME=${{secrets.PLAYWRIGHT_ACCOUNT_USERNAME}}" >> .env
+          echo "VITE_PLAYWRIGHT_ACCOUNT_PASSWORD=${{secrets.PLAYWRIGHT_ACCOUNT_PASSWORD}}" >> .env
+          echo "VITE_PLAYWRIGHT_TEST_KEY=${{secrets.VITE_PLAYWRIGHT_TEST_KEY}}" >> .env
+          echo "VITE_AUTHENTICATION_ALLOW_EMAIL_LOGIN=true" >> .env
+          echo "VITE_AUTHENTICATION_ALLOW_REGISTRATION=true" >> .env
+          echo "VITE_AUTHENTICATION_ALLOW_FORGOT_PASSWORD=true" >> .env
+          echo "VITE_AUTHENTICATION_IDENTITY_PROVIDERS=google" >> .env
+          echo "VITE_AI_COPILOT_ENABLED=true" >> .env
+          echo "VITE_AI_COPILOT_OPENBB_COPILOT=true" >> .env
+          echo "VITE_AI_COPILOT_DOCUMENTATION_LINKS=true" >> .env
+          echo "VITE_AI_COPILOT_WEB_SEARCH=true" >> .env
+          echo "VITE_AI_COPILOT_SEC_FILINGS=true" >> .env
+          echo "VITE_AI_COPILOT_JINA_AI=true" >> .env
+          echo "VITE_AI_COPILOT_AI_ENHANCEMENTS=true" >> .env
+          echo "VITE_UI_SHOW_FEEDBACK_BUTTON=true" >> .env
+          echo "VITE_UI_SHOW_INVITE_BUTTON=true" >> .env
+          echo "VITE_UI_SHOW_DEMO_REQUEST_BUTTON=true" >> .env
+          echo "VITE_UI_SHOW_ENTERPRISE_TAGS=true" >> .env
+          echo "VITE_UI_SHOW_EXTERNAL_DOCUMENTATION_LINKS=true" >> .env
+          echo "VITE_UI_SHOW_HELP_DOCUMENTATION=true" >> .env
+          echo "VITE_UI_SHOW_CHANGELOG=true" >> .env
+          echo "VITE_UI_SHOW_ONBOARDING_QUESTIONS=true" >> .env
+          echo "VITE_UI_SHOW_TOS=true" >> .env
+          echo "VITE_UI_SHOW_REMOVE_FROM_ORG=true" >> .env
+          echo "VITE_DATA_PACKAGE_DATA_ENABLED=true" >> .env
+          echo "VITE_DATA_ALLOWED_DATA_VENDORS=fmp,benzinga,econdb,pyth,tradingview,intrinio,tradingeconomics,quartr" >> .env
+          echo "VITE_DATA_ALLOWED_DB_TYPES=database,snowflake,databricks,clickhouse" >> .env
+          echo "VITE_SERVICES_POSTHOG=true" >> .env
+          echo "VITE_SERVICES_HUBSPOT_FORMS=true" >> .env
+          echo "VITE_SERVICES_EMAIL=true" >> .env
+          echo "VITE_SERVICES_NIXTLA=true" >> .env
+          echo "VITE_SERVICES_CLOUDFLARE_WORKER=true" >> .env
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: ⚡️ Cache dependencies
+        uses: actions/cache@v3
+        id: cache-primes
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+
+      - name: 📥 Install deps
+        run: bun install
+
+      - name: 📥 Install ${{ matrix.project }} with Playwright
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: bunx playwright install --with-deps ${{ matrix.project }}
+
+      - name: 🎭 Playwright tests
+        run: |
+          bunx playwright test widgets.spec.ts \
+          tutorials.spec.ts \
+          charting.spec.ts \
+          news.spec.ts \
+          dashboards-templates.spec.ts \
+          dashboards.spec.ts \
+          transpose-table.spec.ts \
+          data-conectors.spec.ts \
+          --project=${{ matrix.project }}
+        env:
+          DEBUG: pw:api,pw:browser*
+
+      - name: 📊 Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: playwright-report/

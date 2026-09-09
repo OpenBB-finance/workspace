@@ -1,0 +1,46 @@
+name: Deploy Storybook to GitHub Pages
+
+on: workflow_dispatch
+# on:
+#   push:
+#     branches: [develop]
+#     paths:
+#       - "src/components/ds/**"
+#       - ".storybook/**"
+#       - "src/styles/tokens.css"
+#       - "src/index.css"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: storybook-deploy
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: npm ci
+
+      - run: npm run build-storybook
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: storybook-static
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

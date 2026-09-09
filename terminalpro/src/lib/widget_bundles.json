@@ -1,0 +1,95 @@
+{
+  "openbb": {
+    "name": "OpenBB Core",
+    "description": "Essential OpenBB widgets",
+    "widgets": [
+      "rich_note",
+      "rss_viewer",
+      "navigation_bar",
+      "iframe",
+      "youtube",
+      "clock",
+      "omni",
+      "copilot_table",
+      "html"
+    ],
+    "enabled_by_default": true,
+    "disabled": true
+  },
+  "fmp": {
+    "name": "Financial Modeling Prep",
+    "description": "Financial data and analytics from FMP",
+    "enabled_by_default": true,
+    "widgets": [
+      "charting",
+      "market_indices",
+      "ticker_information",
+      "watchlist",
+      "company_profile",
+      "price_performance",
+      "share_statistics",
+      "financial_ratios",
+      "stock_ownership",
+      "institutional_ownership",
+      "currency_snapshot",
+      "revenue_per_geography",
+      "revenue_per_bus_line",
+      "valuation_multiples",
+      "price_target",
+      "key_metrics",
+      "management_team",
+      "company_filings",
+      "dividend_payment",
+      "earnings_transcripts",
+      "insider_trading",
+      "stock_splits",
+      "financial_statements",
+      "earning_history",
+      "grouped_comparison",
+      "eod_price"
+    ]
+  },
+  "pyth": {
+    "name": "Pyth",
+    "description": "Real-time market data",
+    "enabled_by_default": true,
+    "widgets": ["pyth_price_feeds"]
+  },
+  "tradingview": {
+    "name": "TradingView",
+    "description": "Collection of 20+ TradingView widgets",
+    "enabled_by_default": false,
+    "widgets": [
+      "tv_charting",
+      "tv_ta",
+      "tv_market_overview",
+      "tv_market_data",
+      "tv_stock_market",
+      "tv_upcoming_economic_events",
+      "tv_ticker",
+      "tv_ticker_tape",
+      "tv_single_ticker",
+      "tv_mini_chart",
+      "tv_symbol_info",
+      "tv_symbol_overview",
+      "tv_forex_cross_rates",
+      "tv_forex_heatmap",
+      "tv_forex_screener",
+      "tv_crypto_screener",
+      "tv_cryptocurrency_market",
+      "tv_fundamental_data",
+      "tv_company_profile",
+      "tv_market_timeline",
+      "tv_timeline",
+      "tv_stock_heatmap",
+      "tv_crypto_coins_heatmap"
+    ]
+  },
+  "intrinio": {
+    "name": "Intrinio",
+    "description": "Intrinio API integration",
+    "enabled_by_default": true,
+    "pro_only": true,
+    "widgets": ["charting", "financial_statements", "options_chains_eod"]
+  }
+}

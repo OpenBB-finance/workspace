@@ -1,0 +1,74 @@
+name: 🚀 Unit Tests
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+  unit_tests:
+    runs-on: [self-hosted, linux, X64]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check for relevant changes
+        id: changed-files
+        uses: actions/github-script@v4
+        with:
+          result-encoding: string
+          script: |
+            const { data: commit } = await github.repos.getCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.payload.pull_request.head.sha
+            })
+
+            const files = commit.files.map(file => file.filename);
+            const filesChanged = files.filter(file => file.startsWith('src/') || file.startsWith('tests/'));
+
+            return filesChanged.length > 0;
+
+      - name: Get latest workflow run status
+        id: latest-status
+        uses: actions/github-script@v4
+        env:
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { data: runs } = await github.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "unit-tests.yml",
+              branch: process.env.BRANCH_NAME,
+              status: 'completed',
+              per_page: 1
+            });
+
+            return runs.workflow_runs?.[0]?.conclusion
+
+      - name: Setup Node
+        if: steps.changed-files.outputs.result == 'true' || steps.latest-status.outputs.result == 'failure'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup Bun
+        if: steps.changed-files.outputs.result == 'true' || steps.latest-status.outputs.result == 'failure'
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        if: steps.changed-files.outputs.result == 'true' || steps.latest-status.outputs.result == 'failure'
+        run: bun install --frozen-lockfile
+
+      - name: Run unit tests
+        if: steps.changed-files.outputs.result == 'true' || steps.latest-status.outputs.result == 'failure'
+        run: bun run test:unit

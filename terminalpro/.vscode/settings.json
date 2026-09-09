@@ -1,0 +1,66 @@
+{
+  "biome.lsp.trace.server": "verbose",
+  "biome.enabled": true,
+  "[javascript][javascriptreact]": {
+    "js/ts.format.enabled": false
+  },
+  "[typescript][typescriptreact]": {
+    "js/ts.format.enabled": true,
+    "editor.tabSize": 2,
+    "editor.indentSize": 2,
+    "editor.insertSpaces": true,
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "quickfix.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
+    }
+  },
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.test.ts": "typescript",
+    "*.test.tsx": "typescriptreact",
+    "*.spec.ts": "typescript",
+    "*.spec.tsx": "typescriptreact"
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "src/lib/charting_library/bundles": true,
+    "src/lib/charting_library/*js": true,
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+  },
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "class:list",
+    ".*ClassName",
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "classNames:\\s*{([\\s\\S]*?)}",
+      "\\s?[\\w].*:\\s*?[\"'`]([^\"'`]*).*?,?\\s?"
+    ],
+    [
+      "(?:\\b(?:const|let)\\s+)?[\\w$_]*(?:[Ss]tyles|[Cc]lasses|[Cc]lassnames)[\\w\\d]*\\s*(?:=|\\+=)\\s*['\"]([^'\"]*)['\"]"
+    ],
+    ["(?:cn|cva)\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    [
+      "classList[?]?.(?:add|remove|contains)\\(([^)]*)\\)",
+      "\\s?[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    [
+      "classList[?]?.toggle\\(([^)]*),?\\s*([^)]*?)\\)",
+      "\\s?[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    ["const\\s+.*?CLASSES\\s*=\\s*`([^`]*)`;?"]
+  ]
+}

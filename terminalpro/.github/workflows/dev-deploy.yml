@@ -1,0 +1,71 @@
+name: Deploy OpenBB Pro to Dev (AWS)
+
+on: workflow_dispatch
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEV_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEV_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup .env file
+        run: |
+          if [ -f .env ]; then
+            echo "Editing .env file..."
+            sed -i 's|^VITE_PAYMENTS_URL=.*|VITE_PAYMENTS_URL=${{ secrets.DEV_VITE_PAYMENTS_URL }}|' .env
+            sed -i 's|^VITE_POSTHOG_KEY=.*|VITE_POSTHOG_KEY=${{ secrets.DEV_VITE_POSTHOG_KEY }}|' .env
+            sed -i 's|^VITE_POSTHOG_URL=.*|VITE_POSTHOG_URL=${{ secrets.DEV_VITE_POSTHOG_URL }}|' .env
+            sed -i 's|^VITE_PLATFORM_URL=.*|VITE_PLATFORM_URL=${{ secrets.DEV_VITE_PLATFORM_URL }}|' .env
+            sed -i 's|^VITE_AI_API_URL=.*|VITE_AI_API_URL=${{ secrets.DEV_VITE_AI_API_URL }}|' .env
+            sed -i 's|^VITE_GOOGLE_OAUTH_CLIENT_ID=.*|VITE_GOOGLE_OAUTH_CLIENT_ID=${{ secrets.DEV_VITE_GOOGLE_OAUTH_CLIENT_ID }}|' .env
+
+            sed -i 's|^VITE_PLAYWRIGHT_TEST_KEY=.*|VITE_PLAYWRIGHT_TEST_KEY=""|' .env
+            sed -i 's|^VITE_PLAYWRIGHT_ACCOUNT_USERNAME=.*|VITE_PLAYWRIGHT_ACCOUNT_USERNAME=""|' .env
+            sed -i 's|^VITE_PLAYWRIGHT_ACCOUNT_PASSWORD=.*|VITE_PLAYWRIGHT_ACCOUNT_PASSWORD=""|' .env
+            sed -i 's|^VITE_PLAYWRIGHT_ACCOUNT_EMAIL=.*|VITE_PLAYWRIGHT_ACCOUNT_EMAIL=""|' .env
+            sed -i 's|^VITE_AZURE_CLIENT_ID=.*|VITE_AZURE_CLIENT_ID=""|' .env
+            sed -i 's|^VITE_AZURE_TENANT_ID=.*|VITE_AZURE_TENANT_ID=""|' .env
+          else
+            echo ".env file not found, skipping edit."
+          fi
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Deploy to S3 & Invalidate CloudFront
+        uses: staevs/s3-deploy-action@v1.2.3
+        with:
+          args: --follow-symlinks --delete --no-progress
+        env:
+          AWS_REGION: us-east-1
+          AWS_S3_BUCKET: ${{ secrets.PRO_DEV_S3_BUCKET }}
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.DEV_CLOUDFRONT_DISTRIBUTION_ID }}
+          S3_SOURCE_DIR: "dist"
+          CLOUDFRONT_PATHS: "/*"
+
+      - name: Set Cache Control for HTML files
+        run: aws s3 cp s3://${{ secrets.PRO_DEV_S3_BUCKET }}/ s3://${{ secrets.PRO_DEV_S3_BUCKET }}/ --recursive --exclude "*" --include "*.html" --metadata-directive REPLACE --cache-control "no-cache, stale-if-error=0" --content-type text/html
+        env:
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEV_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEV_SECRET_ACCESS_KEY }}

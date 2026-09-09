@@ -1,0 +1,1423 @@
+{
+  "currency_price_historical": {
+    "widgetId": "currency_price_historical",
+    "name": "OBB.CURRENCY.PRICE.HISTORICAL",
+    "description": "Currency Historical Price. Currency historical data.\n\nCurrency historical prices refer to the past exchange rates of one currency against\nanother over a specific period.\nThis data provides insight into the fluctuations and trends in the foreign exchange market,\nhelping analysts, traders, and economists understand currency performance,\nevaluate economic health, and make predictions about future movements.",
+    "endpoint": "api/v1/currency/price/historical",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Can use CURR1-CURR2 or CURR1CURR2 format. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "start_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Start Date",
+        "description": "Start date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "end_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "End Date",
+        "description": "End date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "interval",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Interval",
+        "description": "Time interval of the data to return. Options: 1m, 5m, 15m, 30m, 1h, 4h, 1d.",
+        "value": "1d"
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "currency_snapshots": {
+    "widgetId": "currency_snapshots",
+    "name": "OBB.CURRENCY.SNAPSHOTS",
+    "description": "Snapshots of currency exchange rates from an indirect or direct perspective of a base currency.",
+    "endpoint": "api/v1/currency/snapshots",
+    "params": [
+      {
+        "paramName": "base",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Base",
+        "description": "The base currency symbol. Multiple comma separated items allowed.",
+        "value": "usd"
+      },
+      {
+        "paramName": "quote_type",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Quote Type",
+        "description": "Whether the quote is direct or indirect. Selecting 'direct' will return the exchange rate as the amount of domestic currency required to buy one unit of the foreign currency. Selecting 'indirect' (default) will return the exchange rate as the amount of foreign currency required to buy one unit of the domestic currency.",
+        "value": "indirect"
+      },
+      {
+        "paramName": "counter_currencies",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Counter Currencies",
+        "description": "An optional list of counter currency symbols to filter for. None returns all."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "derivatives_options_chains": {
+    "widgetId": "derivatives_options_chains",
+    "name": "OBB.DERIVATIVES.OPTIONS.CHAINS",
+    "description": "Get the complete options chain for a ticker.",
+    "endpoint": "api/v1/derivatives/options/chains",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Date",
+        "description": "The end-of-day date for options chains data.",
+        "value": null
+      },
+      {
+        "paramName": "option_type",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Option Type",
+        "description": "The option type, call or put, 'None' is both (default). Options: call, put."
+      },
+      {
+        "paramName": "moneyness",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Moneyness",
+        "description": "Return only contracts that are in or out of the money, default is 'all'. Parameter is ignored when a date is supplied. Options: otm, itm, all.",
+        "value": "all"
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "intrinio",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "economy_country_profile": {
+    "widgetId": "economy_country_profile",
+    "name": "OBB.ECONOMY.COUNTRY_PROFILE",
+    "description": "Get a profile of country statistics and economic indicators.",
+    "endpoint": "api/v1/economy/country_profile",
+    "params": [
+      {
+        "paramName": "country",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Country",
+        "description": "The country to get data. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "latest",
+        "type": "boolean",
+        "optional": true,
+        "show": true,
+        "label": "Latest",
+        "description": "If True, return only the latest data. If False, return all available data for each indicator.",
+        "value": true
+      },
+      {
+        "paramName": "use_cache",
+        "type": "boolean",
+        "optional": true,
+        "show": true,
+        "label": "Use Cache",
+        "description": "If True, the request will be cached for one day.Using cache is recommended to avoid needlessly requesting the same data.",
+        "value": true
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "econdb",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "economy_indicators": {
+    "widgetId": "economy_indicators",
+    "name": "OBB.ECONOMY.INDICATORS",
+    "description": "Get economic indicators by country and indicator.",
+    "endpoint": "api/v1/economy/indicators",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. The base symbol for the indicator (e.g. GDP, CPI, etc.). Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "country",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Country",
+        "description": "The country to get data. The country represented by the indicator, if available. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "start_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Start Date",
+        "description": "Start date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "end_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "End Date",
+        "description": "End date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "transform",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Transform",
+        "description": "tusd` should only be used where values are currencies. Options: toya, tpop, tusd, tpgp."
+      },
+      {
+        "paramName": "frequency",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Frequency",
+        "description": "The frequency of the data, default is 'quarter'. Only valid when 'symbol' is 'main'. Options: annual, quarter, month.",
+        "value": "quarter"
+      },
+      {
+        "paramName": "use_cache",
+        "type": "boolean",
+        "optional": true,
+        "show": true,
+        "label": "Use Cache",
+        "description": "If True, the request will be cached for one day. Using cache is recommended to avoid needlessly requesting the same data.",
+        "value": true
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "econdb",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_compare_peers": {
+    "widgetId": "equity_compare_peers",
+    "name": "OBB.EQUITY.COMPARE.PEERS",
+    "description": "Get the closest peers for a given company.\n\nPeers consist of companies trading on the same exchange, operating within the same sector\nand with comparable market capitalizations.",
+    "endpoint": "api/v1/equity/compare/peers",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_estimates_consensus": {
+    "widgetId": "equity_estimates_consensus",
+    "name": "OBB.EQUITY.ESTIMATES.CONSENSUS",
+    "description": "Get consensus price target and recommendation.",
+    "endpoint": "api/v1/equity/estimates/consensus",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_estimates_forward_ebitda": {
+    "widgetId": "equity_estimates_forward_ebitda",
+    "name": "OBB.EQUITY.ESTIMATES.FORWARD_EBITDA",
+    "description": "Get forward EBITDA estimates.",
+    "endpoint": "api/v1/equity/estimates/forward_ebitda",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "fiscal_period",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Fiscal Period",
+        "description": "The future fiscal period to retrieve estimates for. Options: annual, quarter.",
+        "value": "annual"
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 500
+      },
+      {
+        "paramName": "include_historical",
+        "type": "boolean",
+        "optional": true,
+        "show": true,
+        "label": "Include Historical",
+        "description": "If True, the data will include all past data and the limit will be ignored.",
+        "value": false
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_estimates_price_target": {
+    "widgetId": "equity_estimates_price_target",
+    "name": "OBB.EQUITY.ESTIMATES.PRICE_TARGET",
+    "description": "Get analyst price targets by company.",
+    "endpoint": "api/v1/equity/estimates/price_target",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 200
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Provider",
+        "description": "Options: benzinga, fmp, defaults to benzinga.",
+        "value": "benzinga"
+      },
+      {
+        "paramName": "page",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Page",
+        "description": "Page offset. For optimization, performance and technical reasons, page offsets are limited from 0 - 100000. Limit the query results by other parameters such as date. Used in conjunction with the limit and date parameters.",
+        "value": 0
+      },
+      {
+        "paramName": "date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Date",
+        "description": "Date for calendar data, shorthand for date_from and date_to.",
+        "value": null
+      },
+      {
+        "paramName": "start_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Start Date",
+        "description": "Start date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "end_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "End Date",
+        "description": "End date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "updated",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Updated",
+        "description": "Records last Updated Unix timestamp (UTC). This will force the sort order to be Greater Than or Equal to the timestamp indicated. The date can be a date string or a Unix timestamp. The date string must be in the format of YYYY-MM-DD.",
+        "value": null
+      },
+      {
+        "paramName": "importance",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Importance",
+        "description": "Importance level to filter by. Uses Greater Than or Equal To the importance indicated"
+      },
+      {
+        "paramName": "action",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Action",
+        "description": "Filter by a specific action_company. Options: downgrades, maintains, reinstates, reiterates, upgrades, assumes, initiates, terminates, removes, suspends, firm_dissolved."
+      },
+      {
+        "paramName": "analyst_ids",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Analyst Ids",
+        "description": "Comma-separated list of analyst (person) IDs. Omitting will bring back all available analysts. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "firm_ids",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Firm Ids",
+        "description": "Comma-separated list of firm IDs. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "fields",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Fields",
+        "description": "Comma-separated list of fields to include in the response. See https://docs.benzinga.io/benzinga-apis/calendar/get-ratings to learn about the available fields. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "with_grade",
+        "type": "boolean",
+        "optional": true,
+        "show": true,
+        "label": "With Grade",
+        "description": "Include upgrades and downgrades in the response.",
+        "value": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_balance": {
+    "widgetId": "equity_fundamental_balance",
+    "name": "OBB.EQUITY.FUNDAMENTAL.BALANCE",
+    "description": "Get the balance sheet for a given company.",
+    "endpoint": "api/v1/equity/fundamental/balance",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "period",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Period",
+        "description": "Time period of the data to return.",
+        "value": "annual"
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 5
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_cash": {
+    "widgetId": "equity_fundamental_cash",
+    "name": "OBB.EQUITY.FUNDAMENTAL.CASH",
+    "description": "Get the cash flow statement for a given company.",
+    "endpoint": "api/v1/equity/fundamental/cash",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "period",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Period",
+        "description": "Time period of the data to return.",
+        "value": "annual"
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 5
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_dividends": {
+    "widgetId": "equity_fundamental_dividends",
+    "name": "OBB.EQUITY.FUNDAMENTAL.DIVIDENDS",
+    "description": "Get historical dividend data for a given company.",
+    "endpoint": "api/v1/equity/fundamental/dividends",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "start_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Start Date",
+        "description": "Start date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "end_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "End Date",
+        "description": "End date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_filings": {
+    "widgetId": "equity_fundamental_filings",
+    "name": "OBB.EQUITY.FUNDAMENTAL.FILINGS",
+    "description": "Get the URLs to SEC filings reported to EDGAR database, such as 10-K, 10-Q, 8-K, and more. SEC\nfilings include Form 10-K, Form 10-Q, Form 8-K, the proxy statement, Forms 3, 4, and 5, Schedule 13, Form 114,\nForeign Investment Disclosures and others. The annual 10-K report is required to be\nfiled annually and includes the company's financial statements, management discussion and analysis,\nand audited financial statements.",
+    "endpoint": "api/v1/equity/fundamental/filings",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "form_type",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Form Type",
+        "description": "Filter by form type. Check the data provider for available types."
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 100
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_historical_eps": {
+    "widgetId": "equity_fundamental_historical_eps",
+    "name": "OBB.EQUITY.FUNDAMENTAL.HISTORICAL_EPS",
+    "description": "Get historical earnings per share data for a given company.",
+    "endpoint": "api/v1/equity/fundamental/historical_eps",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 500
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_historical_splits": {
+    "widgetId": "equity_fundamental_historical_splits",
+    "name": "OBB.FUNDAMENTAL.HISTORICAL_SPLITS",
+    "description": "Get historical stock splits for a given company.",
+    "endpoint": "api/v1/equity/fundamental/historical_splits",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_income": {
+    "widgetId": "equity_fundamental_income",
+    "name": "OBB.EQUITY.FUNDAMENTAL.INCOME",
+    "description": "Get the income statement for a given company.",
+    "endpoint": "api/v1/equity/fundamental/income",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "period",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Period",
+        "description": "Time period of the data to return.",
+        "value": "annual"
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 5
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_management": {
+    "widgetId": "equity_fundamental_management",
+    "name": "OBB.EQUITY.FUNDAMENTAL.MANAGEMENT",
+    "description": "Get executive management team data for a given company.",
+    "endpoint": "api/v1/equity/fundamental/management",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_metrics": {
+    "widgetId": "equity_fundamental_metrics",
+    "name": "OBB.EQUITY.FUNDAMENTAL.METRICS",
+    "description": "Get fundamental metrics for a given company.",
+    "endpoint": "api/v1/equity/fundamental/metrics",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "period",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Period",
+        "description": "Time period of the data to return.",
+        "value": "annual"
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 100
+      },
+      {
+        "paramName": "with_ttm",
+        "type": "boolean",
+        "optional": true,
+        "show": true,
+        "label": "With Ttm",
+        "description": "Include trailing twelve months (TTM) data.",
+        "value": false
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_overview": {
+    "widgetId": "equity_fundamental_overview",
+    "name": "OBB.EQUITY.FUNDAMENTAL.OVERVIEW",
+    "description": "Get company general business and stock data for a given company.",
+    "endpoint": "api/v1/equity/fundamental/overview",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_ratios": {
+    "widgetId": "equity_fundamental_ratios",
+    "name": "OBB.EQUITY.FUNDAMENTAL.RATIOS",
+    "description": "Get an extensive set of financial and accounting ratios for a given company over time.",
+    "endpoint": "api/v1/equity/fundamental/ratios",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "period",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Period",
+        "description": "Time period of the data to return.",
+        "value": "annual"
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 12
+      },
+      {
+        "paramName": "with_ttm",
+        "type": "boolean",
+        "optional": true,
+        "show": true,
+        "label": "With Ttm",
+        "description": "Include trailing twelve months (TTM) data.",
+        "value": false
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_revenue_per_geography": {
+    "widgetId": "equity_fundamental_revenue_per_geography",
+    "name": "OBB.EQUITY.FUNDAMENTAL.REVENUE_PER_GEOGRAPHY",
+    "description": "Get the revenue geographic breakdown for a given company over time.",
+    "endpoint": "api/v1/equity/fundamental/revenue_per_geography",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "period",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Period",
+        "description": "Time period of the data to return.",
+        "value": "annual"
+      },
+      {
+        "paramName": "structure",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Structure",
+        "description": "Structure of the returned data.",
+        "value": "flat"
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_revenue_per_segment": {
+    "widgetId": "equity_fundamental_revenue_per_segment",
+    "name": "OBB.EQUITY.FUNDAMENTAL.REVENUE_PER_SEGMENT",
+    "description": "Get the revenue breakdown by business segment for a given company over time.",
+    "endpoint": "api/v1/equity/fundamental/revenue_per_segment",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "period",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Period",
+        "description": "Time period of the data to return.",
+        "value": "annual"
+      },
+      {
+        "paramName": "structure",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Structure",
+        "description": "Structure of the returned data.",
+        "value": "flat"
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_fundamental_transcript": {
+    "widgetId": "equity_fundamental_transcript",
+    "name": "OBB.EQUITY.FUNDAMENTAL.TRANSCRIPT",
+    "description": "Get earnings call transcripts for a given company.",
+    "endpoint": "api/v1/equity/fundamental/transcript",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "year",
+        "type": "number",
+        "optional": false,
+        "show": true,
+        "label": "Year",
+        "description": "Year of the earnings call transcript."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_ownership_insider_trading": {
+    "widgetId": "equity_ownership_insider_trading",
+    "name": "OBB.EQUITY.OWNERSHIP.INSIDER_TRADING",
+    "description": "Get data about trading by a company's management team and board of directors.",
+    "endpoint": "api/v1/equity/ownership/insider_trading",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "limit",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Limit",
+        "description": "The number of data entries to return.",
+        "value": 500
+      },
+      {
+        "paramName": "transactionType",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "TransactionType",
+        "description": "Type of the transaction. Options: award, conversion, return, expire_short, in_kind, gift, expire_long, discretionary, other, small, exempt, otm, purchase, sale, tender, will, itm, trust."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_ownership_institutional": {
+    "widgetId": "equity_ownership_institutional",
+    "name": "OBB.EQUITY.OWNERSHIP.INSTITUTIONAL",
+    "description": "Get data about institutional ownership for a given company over time.",
+    "endpoint": "api/v1/equity/ownership/institutional",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "include_current_quarter",
+        "type": "boolean",
+        "optional": true,
+        "show": true,
+        "label": "Include Current Quarter",
+        "description": "Include current quarter data.",
+        "value": false
+      },
+      {
+        "paramName": "date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Date",
+        "description": "A specific date to get data for.",
+        "value": null
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_ownership_major_holders": {
+    "widgetId": "equity_ownership_major_holders",
+    "name": "OBB.EQUITY.OWNERSHIP.MAJOR_HOLDERS",
+    "description": "Get data about major holders for a given company over time.",
+    "endpoint": "api/v1/equity/ownership/major_holders",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Date",
+        "description": "A specific date to get data for.",
+        "value": null
+      },
+      {
+        "paramName": "page",
+        "type": "number",
+        "optional": true,
+        "show": true,
+        "label": "Page",
+        "description": "Page number of the data to fetch.",
+        "value": 0
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_ownership_share_statistics": {
+    "widgetId": "equity_ownership_share_statistics",
+    "name": "OBB.EQUITY.OWNERSHIP.SHARE_STATISTICS",
+    "description": "Get data about share float for a given company.",
+    "endpoint": "api/v1/equity/ownership/share_statistics",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_price_historical": {
+    "widgetId": "equity_price_historical",
+    "name": "OBB.EQUITY.PRICE.HISTORICAL",
+    "description": "Get historical price data for a given stock. This includes open, high, low, close, and volume.",
+    "endpoint": "api/v1/equity/price/historical",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "interval",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Interval",
+        "description": "Time interval of the data to return.",
+        "value": "1d"
+      },
+      {
+        "paramName": "start_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Start Date",
+        "description": "Start date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "end_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "End Date",
+        "description": "End date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_price_performance": {
+    "widgetId": "equity_price_performance",
+    "name": "OBB.EQUITY.PRICE.PERFORMANCE",
+    "description": "Get price performance data for a given stock. This includes price changes for different time periods.",
+    "endpoint": "api/v1/equity/price/performance",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_price_quote": {
+    "widgetId": "equity_price_quote",
+    "name": "OBB.EQUITY.PRICE.QUOTE",
+    "description": "Get the latest quote for a given stock. Quote includes price, volume, and other data.",
+    "endpoint": "api/v1/equity/price/quote",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "equity_profile": {
+    "widgetId": "equity_profile",
+    "name": "OBB.EQUITY.PROFILE",
+    "description": "Get general information about a company. This includes company name, industry, sector and price data.",
+    "endpoint": "api/v1/equity/profile",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "fixedincome_government_yield_curve": {
+    "widgetId": "fixedincome_government_yield_curve",
+    "name": "OBB.FIXEDINCOME.GOVERNMENT.YIELD_CURVE",
+    "description": "Get yield curve data by country and date.",
+    "endpoint": "api/v1/fixedincome/government/yield_curve",
+    "params": [
+      {
+        "paramName": "date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Date",
+        "description": "A specific date to get data for. By default is the current data. Multiple comma separated items allowed.",
+        "value": null
+      },
+      {
+        "paramName": "use_cache",
+        "type": "boolean",
+        "optional": true,
+        "show": true,
+        "label": "Use Cache",
+        "description": "If true, cache the request for four hours.",
+        "value": true
+      },
+      {
+        "paramName": "country",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Country",
+        "description": "The country to get data. New Zealand, Mexico, Singapore, and Thailand have only monthly data. The nearest date to the requested one will be used. Options: australia, canada, china, hong_kong, india, japan, mexico, new_zealand, russia, saudi_arabia, singapore, south_africa, south_korea, taiwan, thailand, united_kingdom, united_states.",
+        "value": "united_states"
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "econdb",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  },
+  "index_market": {
+    "widgetId": "index_market",
+    "name": "OBB.INDEX.MARKET",
+    "description": "Get Historical Market Indices.",
+    "endpoint": "api/v1/index/market",
+    "params": [
+      {
+        "paramName": "symbol",
+        "type": "text",
+        "optional": false,
+        "show": true,
+        "label": "Symbol",
+        "description": "Symbol to get data for. Multiple comma separated items allowed."
+      },
+      {
+        "paramName": "start_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "Start Date",
+        "description": "Start date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "end_date",
+        "type": "date",
+        "optional": true,
+        "show": true,
+        "label": "End Date",
+        "description": "End date of the data, in YYYY-MM-DD format.",
+        "value": null
+      },
+      {
+        "paramName": "interval",
+        "type": "text",
+        "optional": true,
+        "show": true,
+        "label": "Interval",
+        "description": "Time interval of the data to return.",
+        "value": "1d"
+      },
+      {
+        "paramName": "provider",
+        "type": "text",
+        "value": "fmp",
+        "show": false
+      }
+    ],
+    "data": {
+      "dataKey": "results"
+    }
+  }
+}

@@ -1,0 +1,1529 @@
+{
+  "_note": "Generated from the canonical Workspace MCP sidecar surface. Update this fixture only when the MCP contract changes intentionally.",
+  "surface": {
+    "instructions": "Expose the active OpenBB Workspace browser session as MCP tools. All tools require a running local Workspace browser bridge.\n\nConventions:\n- Use snake_case payloads.\n- Do not invent identifiers: every dashboard_id, widget_uuid, tab_id, origin, backend_id, and skill slug must come from a previous tool result.\n- Do not use create_widget for rich_note; use add_generative_widget with widget_type='note'.\n\nRecommended workflow:\n1. Call get_workspace_snapshot first to discover valid dashboard_id, dashboard_composition, and skills from the live Workspace session.\n2. Call manage_dashboard with operation='create' when you need a fresh dashboard.\n3. Call list_available_widgets to enumerate candidate widgets, then get_widget_schema to inspect one exact widget contract before creating it.\n4. If a param returns requires_options_lookup=true, call get_params_options before create_widget or update_widget and do not invent values for that param.\n5. Call create_widget with explicit dashboard_id, origin, widget_id, data_args, and ui_args.\n\nDashboard targeting:\n- Every successful command result includes session_context.current_dashboard_uuid (and current_tab_id) \u2014 reuse that from the previous response instead of calling get_workspace_snapshot again. Use get_workspace_snapshot only on the first call, or after a navigation step that may have invalidated the tracked context.\n- Resolve dashboard_id from current_dashboard_uuid before each write. Provide dashboard_id explicitly when operating on a dashboard other than the current Workspace route.\n- Never match dashboards by name: duplicates with identical names are common. \"This dashboard\" means the current route; resolve via current_dashboard_uuid, not title.\n- Widget, navigation, and layout tools operate on an existing dashboard only; they never create dashboards. Use manage_dashboard with operation='create' to create a dashboard first. By default it activates the new dashboard route so follow-up snapshot and widget commands target it.\n\nLayout:\n- Visible placement is controlled by dashboard composition, not update_widget. Use manage_dashboard operation='read' or get_workspace_snapshot.dashboard_composition to inspect tabs and layout, then use update_widget_layout for x, y, w, h, and tab_id.\n- The grid is 40 columns wide: full width is w=40, half width is w=20, one quarter is w=10. Typical minimums are about min_w=8 and min_h=4. If a navigation_bar is present it usually occupies y=0 with h=2, so the first content row usually starts at y=2.\n\nNew-tab workflow:\n- add_generative_widget's inner_tab does not create tabs. To put content on a new tab: call manage_navigation_bar operation='add_tabs' with tabs such as [{\"name\":\"AAPL Analysis\"}], then navigate_workspace to the generated slug tab_id (e.g. aapl-analysis), then create the widget without inner_tab or move an existing widget with update_widget_layout.\n\nData availability:\n- Ground every dashboard in data the Workspace already has. Only use widgets returned by list_available_widgets; do not fetch data from external sources such as the web or local files, and do not build or modify a backend to supply missing data.\n- If requested data is not available from any existing widget, build the parts that are available, add a note widget via add_generative_widget widget_type='note' listing the missing data and where it could come from, and ask the user how they want to proceed.\n- Only follow the app-builder resources to create or extend a backend when the user explicitly asks for that.",
+    "prompts": [
+      {
+        "annotations": null,
+        "arguments": [],
+        "description": "Current tracked Workspace dashboard and tab context.",
+        "messages": [
+          {
+            "role": "user",
+            "text": "No Workspace browser session context is currently available."
+          }
+        ],
+        "meta": null,
+        "name": "workspace_session_context",
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "arguments": [],
+        "description": "Generic guidance for using the OpenBB Workspace MCP tool surface.",
+        "messages": [
+          {
+            "role": "user",
+            "text": "Expose the active OpenBB Workspace browser session as MCP tools. All tools require a running local Workspace browser bridge.\n\nConventions:\n- Use snake_case payloads.\n- Do not invent identifiers: every dashboard_id, widget_uuid, tab_id, origin, backend_id, and skill slug must come from a previous tool result.\n- Do not use create_widget for rich_note; use add_generative_widget with widget_type='note'.\n\nRecommended workflow:\n1. Call get_workspace_snapshot first to discover valid dashboard_id, dashboard_composition, and skills from the live Workspace session.\n2. Call manage_dashboard with operation='create' when you need a fresh dashboard.\n3. Call list_available_widgets to enumerate candidate widgets, then get_widget_schema to inspect one exact widget contract before creating it.\n4. If a param returns requires_options_lookup=true, call get_params_options before create_widget or update_widget and do not invent values for that param.\n5. Call create_widget with explicit dashboard_id, origin, widget_id, data_args, and ui_args.\n\nDashboard targeting:\n- Every successful command result includes session_context.current_dashboard_uuid (and current_tab_id) \u2014 reuse that from the previous response instead of calling get_workspace_snapshot again. Use get_workspace_snapshot only on the first call, or after a navigation step that may have invalidated the tracked context.\n- Resolve dashboard_id from current_dashboard_uuid before each write. Provide dashboard_id explicitly when operating on a dashboard other than the current Workspace route.\n- Never match dashboards by name: duplicates with identical names are common. \"This dashboard\" means the current route; resolve via current_dashboard_uuid, not title.\n- Widget, navigation, and layout tools operate on an existing dashboard only; they never create dashboards. Use manage_dashboard with operation='create' to create a dashboard first. By default it activates the new dashboard route so follow-up snapshot and widget commands target it.\n\nLayout:\n- Visible placement is controlled by dashboard composition, not update_widget. Use manage_dashboard operation='read' or get_workspace_snapshot.dashboard_composition to inspect tabs and layout, then use update_widget_layout for x, y, w, h, and tab_id.\n- The grid is 40 columns wide: full width is w=40, half width is w=20, one quarter is w=10. Typical minimums are about min_w=8 and min_h=4. If a navigation_bar is present it usually occupies y=0 with h=2, so the first content row usually starts at y=2.\n\nNew-tab workflow:\n- add_generative_widget's inner_tab does not create tabs. To put content on a new tab: call manage_navigation_bar operation='add_tabs' with tabs such as [{\"name\":\"AAPL Analysis\"}], then navigate_workspace to the generated slug tab_id (e.g. aapl-analysis), then create the widget without inner_tab or move an existing widget with update_widget_layout.\n\nData availability:\n- Ground every dashboard in data the Workspace already has. Only use widgets returned by list_available_widgets; do not fetch data from external sources such as the web or local files, and do not build or modify a backend to supply missing data.\n- If requested data is not available from any existing widget, build the parts that are available, add a note widget via add_generative_widget widget_type='note' listing the missing data and where it could come from, and ask the user how they want to proceed.\n- Only follow the app-builder resources to create or extend a backend when the user explicitly asks for that."
+          },
+          {
+            "role": "user",
+            "text": "No Workspace browser session context is currently available."
+          }
+        ],
+        "meta": null,
+        "name": "workspace_tool_usage",
+        "tags": [],
+        "title": null
+      }
+    ],
+    "resource_bodies": {
+      "openbb://workspace/app-builder/index": [
+        {
+          "content": "---\ntitle: App Builder Index\nuri: openbb://workspace/app-builder/index\nuse_when: You are about to build, review, debug, or extend an OpenBB Workspace app and need to find the right resource to read next.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/overview/what-is-workspace\n  - openbb://workspace/overview/ai-agent-contract\n  - openbb://workspace/contract/backend\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/guides/build-an-app\n---\n\n# OpenBB Workspace App Builder\n\nOpenBB Workspace apps are **language-agnostic HTTP backends plus JSON metadata contracts**. A backend can be written in any language or framework; Workspace only requires that it expose the right endpoints and return the right JSON shapes. FastAPI is the recommended starter path because most current examples use Python \u2014 not because Workspace requires Python.\n\n## How to use this resource set\n\nIf this is your first time touching Workspace, read the two **overview** docs before anything else \u2014 they are the consumer-side mental model. Then read the contract, then the spec for the file you are touching, then a guide for the workflow you are in. Examples are read on demand.\n\n| You are about to\u2026 | Read |\n|-------------------|------|\n| **Build a mental model of what Workspace is** | `openbb://workspace/overview/what-is-workspace` |\n| **Make widgets the AI Agent can actually use** | `openbb://workspace/overview/ai-agent-contract` |\n| Understand what a backend must expose | `openbb://workspace/contract/backend` |\n| Author or edit `widgets.json` | `openbb://workspace/specs/widgets-json` + `openbb://workspace/specs/widget-types` + `openbb://workspace/specs/widget-parameters` |\n| Author or edit `apps.json` | `openbb://workspace/specs/apps-json` + `openbb://workspace/specs/layout-grid` |\n| Build a brand-new app | `openbb://workspace/guides/build-an-app` |\n| Review someone else's app | `openbb://workspace/guides/review-app` + `openbb://workspace/validation/common-errors` |\n| Debug an app that doesn't load | `openbb://workspace/guides/debug-app` + `openbb://workspace/validation/common-errors` |\n| Wrap an existing HTTP endpoint as a widget | `openbb://workspace/guides/convert-endpoint-to-widget` |\n| Want a framework-neutral picture of the backend | `openbb://workspace/examples/generic-http/minimal` |\n| Want the recommended Python starter | `openbb://workspace/examples/python-fastapi/minimal` |\n\n## Reminders\n\n- The backend is HTTP-only. Workspace never imports your code.\n- `widgets.json` is a JSON **object** keyed by widget id. Not an array.\n- `apps.json` is a JSON **array** of app objects. Not an object.\n- Layout uses `i` for the widget id, not `id`.\n- Prefer `Group 1`, `Group 2`, ... names for parameter groups; put human-readable meaning in descriptions/categories.\n- A schema-valid app still needs a semantic output pass: verify default aggregates, parameter scenarios, units, table columns, and chart state columns.\n- Try to ship app thumbnails via `img`, `img_dark`, and `img_light`; a small backend-served SVG is enough.\n- FastAPI is one option. Use whatever fits the project.\n\n## Out of scope here\n\nThis resource is a router. It does not contain the specs themselves. If you need the shape of a field, read the matching spec resource instead of inferring.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/contract/backend": [
+        {
+          "content": "---\ntitle: Backend Contract\nuri: openbb://workspace/contract/backend\nuse_when: You need to understand what an OpenBB Workspace backend must expose, regardless of language or framework.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/examples/generic-http/minimal\n  - openbb://workspace/examples/python-fastapi/minimal\n---\n\n# Backend Contract\n\nAn OpenBB Workspace backend is an **HTTP service** that returns JSON. Workspace fetches metadata and data from your backend over HTTP; it does not import your code, run your runtime, or care which language you use.\n\nAny framework that can serve JSON over HTTP works: FastAPI, Flask, Django, Express, Fastify, Hono, Spring, Actix, ASP.NET, Go's `net/http`, etc. The contract below is identical for all of them.\n\n## Required endpoints\n\n| Method | Path | Returns | Required? |\n|--------|------|---------|-----------|\n| `GET`  | `/widgets.json` | JSON **object** keyed by widget id | Yes |\n| `GET`  | `/apps.json`    | JSON **array** of app templates    | Optional, but required for app templates |\n| `GET` (or `POST`) | One per widget | JSON shaped for that widget's `type` | One per widget referenced from `widgets.json` |\n\nThe widget data endpoint URL is whatever each widget declares in `widgets.json` under `endpoint`. It can be any path on the same backend.\n\n## Data endpoint response expectations\n\nThe shape Workspace expects is determined by the widget's `type`:\n\n| Widget `type` | Endpoint should return |\n|---------------|-------------------------|\n| `table`, `table_ssrm` | JSON array of row objects |\n| `chart` | Plotly figure JSON (or array of rows when `raw=true`) |\n| `metric` | JSON array of `{label, value, ...}` objects |\n| `markdown` | A markdown string |\n| `note` | A short text string |\n| `newsfeed` | JSON array of articles `{title, date, author, excerpt, body, ...}` |\n| `multi_file_viewer` | JSON describing the file collection |\n| `live_grid` | Initial rows JSON; live updates over WebSocket |\n| `advanced_charting`, `chart-highcharts` | The shape that widget type expects |\n\nSee `openbb://workspace/specs/widget-types` for type guidance and `openbb://workspace/specs/widgets-json` for the metadata shape that wires endpoints to widget types.\n\n## CORS\n\nWorkspace runs in a browser. Your backend MUST allow CORS from at least these origins:\n\n- `https://pro.openbb.co`\n- `https://pro.openbb.dev`\n- `http://localhost:1420` (Workspace desktop app, if used)\n\nProduction browsers also block mixed content, so backends used from `https://pro.openbb.co` must serve over HTTPS. Local development over HTTP is fine for `http://localhost`.\n\n## Authentication\n\nAuth is the backend's responsibility, not Workspace's. Common patterns:\n\n- Custom request header (e.g. `X-API-KEY`) configured on the backend connection in Workspace.\n- Query parameter (e.g. `?api_key=...`) configured on the backend connection in Workspace.\n- No auth at all (local dev, internal trusted network).\n\nHeader-based auth is preferred \u2014 keys stay out of URLs and access logs. Workspace lets users register backend connections with header or query-string credentials.\n\n## Optional endpoints and behaviors\n\n- `GET /` \u2014 A friendly root response. Helpful for sanity checks but not required.\n- `GET /thumbnails/{name}` \u2014 A simple way to serve app gallery SVG/PNG thumbnails referenced by `apps.json` `img`, `img_dark`, and `img_light`.\n- A `theme` query parameter \u2014 Widget endpoints often accept `theme=dark|light` so the response (e.g. a Plotly figure) matches the user's UI theme.\n- A `raw` query parameter \u2014 Chart endpoints often accept `raw=true` to return the underlying rows instead of the rendered figure, so AI agents and table conversions can work with the data.\n\n## Encoding\n\nAlways serve UTF-8. If your backend reads JSON files from disk to serve them, open those files explicitly as UTF-8. Defaulting to the OS locale will mangle non-ASCII content (Greek letters, em-dashes, emoji) on systems whose default isn't UTF-8.\n\n## Language and framework neutrality\n\nNothing on this page is Python-specific. The fastest documented starter is FastAPI (see `openbb://workspace/examples/python-fastapi/minimal`), but `openbb://workspace/examples/generic-http/minimal` shows the same contract framework-neutrally. Pick whatever your project already uses.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/examples/generic-http/minimal": [
+        {
+          "content": "---\ntitle: Minimal Backend (Generic HTTP)\nuri: openbb://workspace/examples/generic-http/minimal\nuse_when: You want a framework-neutral picture of what an OpenBB Workspace backend looks like, before committing to a specific language.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/contract/backend\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/examples/python-fastapi/minimal\n---\n\n# Minimal Backend \u2014 Generic HTTP\n\nWorkspace doesn't care which language or framework you use. This example shows the **HTTP shape** of a minimal backend so you can implement it in whatever stack you already have.\n\nIf you're already on Python and want a runnable starting point, see `openbb://workspace/examples/python-fastapi/minimal` instead.\n\n## Routes\n\n| Method | Path | Returns |\n|--------|------|---------|\n| `GET` | `/widgets.json` | JSON object keyed by widget id |\n| `GET` | `/apps.json` | JSON array of app templates (optional) |\n| `GET` | `/prices?symbol=AAPL` | JSON array of rows for the price table widget |\n\nThat's it. Add more data routes for each widget you expose.\n\n## Response shapes\n\n### `GET /widgets.json`\n\n```json\n{\n  \"stock_prices\": {\n    \"name\": \"Stock Prices\",\n    \"description\": \"Latest closing prices\",\n    \"type\": \"table\",\n    \"endpoint\": \"/prices\",\n    \"gridData\": { \"w\": 20, \"h\": 12 },\n    \"params\": [\n      { \"paramName\": \"symbol\", \"type\": \"endpoint\", \"label\": \"Symbol\",\n        \"description\": \"Choose a ticker\", \"optionsEndpoint\": \"/symbols\", \"value\": \"AAPL\" }\n    ],\n    \"data\": {\n      \"table\": {\n        \"columnsDefs\": [\n          { \"field\": \"date\",  \"headerName\": \"Date\",  \"cellDataType\": \"dateString\" },\n          { \"field\": \"price\", \"headerName\": \"Price\", \"cellDataType\": \"number\", \"formatterFn\": \"none\" }\n        ]\n      }\n    }\n  }\n}\n```\n\n### `GET /apps.json`\n\n```json\n[\n  {\n    \"name\": \"Prices\",\n    \"description\": \"Daily closing prices\",\n    \"img\": \"\", \"img_dark\": \"\", \"img_light\": \"\",\n    \"allowCustomization\": true,\n    \"tabs\": {\n      \"\": {\n        \"id\": \"\", \"name\": \"\",\n        \"layout\": [\n          { \"i\": \"stock_prices\", \"x\": 0, \"y\": 0, \"w\": 40, \"h\": 12, \"groups\": [\"Group 1\"] }\n        ]\n      }\n    },\n    \"groups\": [\n      {\n        \"name\": \"Group 1\",\n        \"type\": \"endpointParam\",\n        \"paramName\": \"symbol\",\n        \"widgetIds\": [\"stock_prices\"],\n        \"defaultValue\": \"AAPL\"\n      }\n    ],\n    \"prompts\": []\n  }\n]\n```\n\n### `GET /prices?symbol=AAPL`\n\n```json\n[\n  { \"date\": \"2025-04-25\", \"price\": 207.12 },\n  { \"date\": \"2025-04-28\", \"price\": 210.04 },\n  { \"date\": \"2025-04-29\", \"price\": 211.78 }\n]\n```\n\n### `GET /symbols`\n\n```json\n[\n  { \"label\": \"Apple\",     \"value\": \"AAPL\" },\n  { \"label\": \"Microsoft\", \"value\": \"MSFT\" }\n]\n```\n\n## CORS\n\nAllow these origins on every route:\n\n```text\nAccess-Control-Allow-Origin: https://pro.openbb.co\nAccess-Control-Allow-Origin: https://pro.openbb.dev\nAccess-Control-Allow-Origin: http://localhost:1420\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\nAccess-Control-Allow-Headers: *\n```\n\nIn practice, send the matching origin from the request rather than echoing a list. Most frameworks have a CORS plugin for this.\n\n## Auth (optional)\n\nIf the backend requires auth, accept either:\n\n- A custom header (e.g. `X-API-KEY: <key>`), or\n- A query string parameter (e.g. `?api_key=<key>`).\n\nWorkspace lets users register the backend connection with header or query-string credentials, which it then attaches to every widget request. Header is preferred \u2014 keys stay out of URLs and access logs.\n\n## Encoding\n\nServe UTF-8 on every response. If you read JSON files from disk, open them explicitly as UTF-8 \u2014 defaulting to the OS locale will mangle non-ASCII content (Greek letters, em-dashes, emoji) on systems whose default isn't UTF-8.\n\n## Picking a stack\n\nAnything that can do the above works. Concrete starting points by ecosystem:\n\n- Python \u2014 FastAPI, Flask, Starlette, Django REST.\n- Node \u2014 Express, Fastify, Hono.\n- Go \u2014 `net/http`, Echo, Gin, Chi.\n- Rust \u2014 Axum, Actix-web.\n- Java/Kotlin \u2014 Spring Boot, Ktor.\n- C# \u2014 ASP.NET Core minimal APIs.\n\nIf you want a runnable Python sample to copy from, see `openbb://workspace/examples/python-fastapi/minimal`.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/examples/python-fastapi/minimal": [
+        {
+          "content": "---\ntitle: Minimal Backend (Python + FastAPI)\nuri: openbb://workspace/examples/python-fastapi/minimal\nuse_when: You are starting a new Python backend for OpenBB Workspace and want the recommended starter shape.\nlanguage_specific: true\nrelated:\n  - openbb://workspace/contract/backend\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/examples/generic-http/minimal\n---\n\n# Minimal Backend \u2014 Python + FastAPI\n\n> This is an **implementation example**, not a platform requirement. Workspace is language-agnostic. If your project already uses a different framework, use that. See `openbb://workspace/examples/generic-http/minimal` for the framework-neutral shape.\n\nFastAPI is the recommended Python starter because most current OpenBB examples are written against it.\n\n## Project shape\n\n```\nmy-backend/\n\u251c\u2500\u2500 main.py            # FastAPI app + routes\n\u251c\u2500\u2500 widgets.json       # Widget metadata (served from /widgets.json)\n\u251c\u2500\u2500 apps.json          # App templates (served from /apps.json)\n\u2514\u2500\u2500 requirements.txt   # fastapi, uvicorn, ...\n```\n\n## `main.py` shape\n\n```python\nfrom fastapi import FastAPI, Query\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom fastapi.responses import JSONResponse\nfrom pathlib import Path\nimport json\n\napp = FastAPI()\n\n# Required CORS origins for OpenBB Workspace\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\n        \"https://pro.openbb.co\",\n        \"https://pro.openbb.dev\",\n        \"http://localhost:1420\",\n    ],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n\nWIDGETS_FILE = Path(__file__).parent / \"widgets.json\"\nAPPS_FILE    = Path(__file__).parent / \"apps.json\"\n\n@app.get(\"/widgets.json\")\ndef get_widgets():\n    # encoding=\"utf-8\" is load-bearing \u2014 Windows defaults to cp1252 and will\n    # silently mangle any non-ASCII content in the JSON file.\n    with open(WIDGETS_FILE, encoding=\"utf-8\") as f:\n        return JSONResponse(content=json.load(f))\n\n@app.get(\"/apps.json\")\ndef get_apps():\n    with open(APPS_FILE, encoding=\"utf-8\") as f:\n        return JSONResponse(content=json.load(f))\n\n@app.get(\"/prices\")\ndef prices(symbol: str = Query(\"AAPL\")):\n    # Replace with a real data source.\n    return [\n        {\"date\": \"2025-04-25\", \"price\": 207.12},\n        {\"date\": \"2025-04-28\", \"price\": 210.04},\n        {\"date\": \"2025-04-29\", \"price\": 211.78},\n    ]\n\n@app.get(\"/symbols\")\ndef symbols():\n    return [\n        {\"label\": \"Apple\",     \"value\": \"AAPL\"},\n        {\"label\": \"Microsoft\", \"value\": \"MSFT\"},\n    ]\n```\n\n## `widgets.json` shape\n\n```json\n{\n  \"stock_prices\": {\n    \"name\": \"Stock Prices\",\n    \"description\": \"Latest closing prices\",\n    \"type\": \"table\",\n    \"endpoint\": \"/prices\",\n    \"gridData\": { \"w\": 20, \"h\": 12 },\n    \"params\": [\n      { \"paramName\": \"symbol\", \"type\": \"endpoint\", \"label\": \"Symbol\",\n        \"description\": \"Choose a ticker\", \"optionsEndpoint\": \"/symbols\", \"value\": \"AAPL\" }\n    ],\n    \"data\": {\n      \"table\": {\n        \"columnsDefs\": [\n          { \"field\": \"date\",  \"headerName\": \"Date\",  \"cellDataType\": \"dateString\" },\n          { \"field\": \"price\", \"headerName\": \"Price\", \"cellDataType\": \"number\", \"formatterFn\": \"none\" }\n        ]\n      }\n    }\n  }\n}\n```\n\n## `apps.json` shape\n\n```json\n[\n  {\n    \"name\": \"Prices\",\n    \"description\": \"Daily closing prices\",\n    \"img\": \"\", \"img_dark\": \"\", \"img_light\": \"\",\n    \"allowCustomization\": true,\n    \"tabs\": {\n      \"\": {\n        \"id\": \"\", \"name\": \"\",\n        \"layout\": [\n          { \"i\": \"stock_prices\", \"x\": 0, \"y\": 0, \"w\": 40, \"h\": 12, \"groups\": [\"Group 1\"] }\n        ]\n      }\n    },\n    \"groups\": [\n      {\n        \"name\": \"Group 1\",\n        \"type\": \"endpointParam\",\n        \"paramName\": \"symbol\",\n        \"widgetIds\": [\"stock_prices\"],\n        \"defaultValue\": \"AAPL\"\n      }\n    ],\n    \"prompts\": []\n  }\n]\n```\n\n## Run and register\n\n```text\nuvicorn main:app --reload --port 7779\n```\n\nThen in Workspace: Settings \u2192 Data Connectors \u2192 Connect Backend \u2192 `http://localhost:7779`.\n\n## Notes specific to Python\n\n- **Always pass `encoding=\"utf-8\"` to `open()`.** Defaults to OS locale. cp1252 on Windows will mangle non-ASCII characters silently.\n- **No Plotly chart titles.** When a widget is `type: \"chart\"`, the widget header already shows the title. Setting `fig.update_layout(title=\"...\")` doubles up.\n- **Support `raw=True` on chart endpoints.** Return the underlying rows when `raw=True` is passed so AI agents and table conversions can consume the data.\n- **Reasonable runButton.** Default to `runButton: false` (or omit). Only set `true` for endpoints that take >5 s.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/guides/build-an-app": [
+        {
+          "content": "---\ntitle: Build an App\nuri: openbb://workspace/guides/build-an-app\nuse_when: You are building a new OpenBB Workspace app from scratch and need the workflow.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/overview/what-is-workspace\n  - openbb://workspace/overview/ai-agent-contract\n  - openbb://workspace/contract/backend\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/examples/generic-http/minimal\n  - openbb://workspace/examples/python-fastapi/minimal\n  - openbb://workspace/validation/common-errors\n---\n\n# Build an App\n\nA linear workflow for going from \"I want a Workspace app for X\" to a working backend that Workspace can connect to.\n\n## 0. Build the mental model first\n\nIf this is your first time, read `openbb://workspace/overview/what-is-workspace` and `openbb://workspace/overview/ai-agent-contract` before drafting anything. They cover what Workspace is, what's native vs. what your backend supplies, and how the AI Agent reads widget metadata \u2014 all of which shape design choices below.\n\n## 1. Define the user goal and data sources\n\nWrite down, in plain English, what the user wants to see and do. Identify the actual data sources you'll call (an API, a database, a CSV, an internal service). Note any auth, rate limits, or refresh expectations now \u2014 they shape later choices.\n\n## 2. Choose a backend implementation\n\nWorkspace is language-agnostic. Pick the framework you (or the project) already use. **FastAPI is the documented starter path** because most of OpenBB's examples are in Python \u2014 but anything that can serve JSON over HTTP works.\n\n- Existing project? Use whatever framework it uses.\n- Greenfield with no constraints? Use FastAPI. See `openbb://workspace/examples/python-fastapi/minimal`.\n- Want a framework-neutral picture first? See `openbb://workspace/examples/generic-http/minimal`.\n\n## 3. Define the HTTP contract\n\nRead `openbb://workspace/contract/backend`. Confirm you understand:\n\n- `GET /widgets.json` returns a JSON object keyed by widget id.\n- `GET /apps.json` returns a JSON array of app templates (only if you ship templates).\n- Each widget references a data endpoint. Pick paths that read well \u2014 `/stock_prices`, `/news`, `/portfolio_metrics`.\n- CORS allows `https://pro.openbb.co`, `https://pro.openbb.dev`, and `http://localhost:1420`.\n- Auth strategy: header (preferred), query string, or none.\n\n## 4. Draft `widgets.json`\n\nFor each widget:\n\n1. Pick a stable widget id (becomes the dict key and the layout's `i`).\n2. Pick a business-readable `name` and description. The name should describe the metric/question, not the implementation (`Executive ESG KPI Snapshot`, not `KPI Cards`).\n3. Pick the right `type`. See `openbb://workspace/specs/widget-types`. Don't default to `table` for articles or markdown for tables.\n4. Define the params. See `openbb://workspace/specs/widget-parameters`. Use `boolean`, `number`, `date`, `endpoint` types \u2014 not `text` dropdowns of \"true\"/\"false\".\n   - Prefer individual multi-select choices over fake aggregate options such as `All Geographies` or `2020-2024`; default all values selected when the intended starting scope is \"all\".\n   - Keep option objects simple: usually `{label, value}`. Add `category` only when it has a concrete Workspace role.\n5. For tables, sketch the columns under `data.table.columnsDefs`.\n6. Decide which columns should be clickable for cross-widget navigation (`renderFn: \"cellOnClick\"`).\n\nSee `openbb://workspace/specs/widgets-json` for the field shape.\n\n## 5. Draft `apps.json` (optional but usually wanted)\n\nSkip if you're shipping a backend without canned dashboards. Otherwise:\n\n1. Plan the tabs. Most apps fit one tab. 3\u20135 is a healthy ceiling.\n2. Lay widgets out on the 40-column grid. Sketch on paper or in ASCII first. See `openbb://workspace/specs/layout-grid`.\n3. Define parameter groups for synchronized widgets. Prefer `Group 1`, `Group 2`, ... names for strict compatibility; put human-readable meaning in descriptions/categories.\n4. Add `\"groups\": []` and `\"prompts\": []` even when empty \u2014 several validators expect those keys to exist.\n5. Populate `img`, `img_dark`, and `img_light` when feasible. Prefer a small served SVG/PNG via `/thumbnails/{name}` or a stable hosted image URL over empty strings.\n\nSee `openbb://workspace/specs/apps-json`.\n\n## 6. Implement endpoints\n\nFor each widget, implement the data endpoint to return the shape the widget type expects (see `openbb://workspace/contract/backend` \u00a7 \"Data endpoint response expectations\"):\n\n- Tables \u2192 JSON array of row objects.\n- Charts \u2192 Plotly figure JSON; support `?raw=true` for the underlying rows.\n- Metrics \u2192 array of `{label, value, ...}`.\n- Markdown \u2192 a markdown string.\n- Newsfeed \u2192 array of `{title, date, author, excerpt, body, ...}`.\n\nKeep things deterministic when you can \u2014 Workspace's failure messages are clearer when the endpoint is well-typed.\n\n## 7. Validate the JSON and semantic output\n\nBefore going to the browser:\n\n- `widgets.json` is an object (`{...}`), not an array.\n- `apps.json` is an array (`[...]`), not an object.\n- Layout `i` matches a key in `widgets.json`.\n- Group `name` uses `Group 1`, `Group 2`, ... unless you have browser-tested descriptive names.\n- Table columns live at `data.table.columnsDefs`.\n- `formatterFn` uses one of `int|none|percent|normalized|normalizedPercent|dateToYear`.\n\nThen run a semantic output pass. Schema-valid is not enough:\n\n- Inspect the source data first: row counts, years, geographies/entities, and any explicit aggregate rows.\n- Hit every widget endpoint with default params and confirm non-empty, type-correct data.\n- Test at least three parameter scenarios when params exist: default, one period/category, and a meaningful subset.\n- For table widgets, confirm every declared `columnsDefs[].field` exists in the endpoint output.\n- For `apps.json` chart state, confirm every `chartModel.cellRange.columns` entry exists in the widget output.\n- If the source provides explicit consolidated rows, use those for full consolidated defaults rather than recomputing from granular rows.\n- For single-period selections, return snapshots or `delta: n/a`; do not emit fake comparisons such as `2024 vs 2024`.\n- Confirm units and formatting match the metric meaning, especially intensity fields like `*_per_revenue`, `*_per_employee`, or `*_per_MEUR`.\n\nSee `openbb://workspace/validation/common-errors` for the full list.\n\n## 8. Validate the live backend\n\nTwo paths \u2014 pick whichever is available; both validate against the same Workspace schema.\n\n- **Preferred \u2014 `workspace_mcp`.** If you have the Workspace MCP companion connected, register the backend with `manage_backends(operation=\"add\", url=...)` then confirm with `list_available_widgets` and `manage_apps(operation=\"list\")`. Headless and returns structured errors.\n- **Fallback \u2014 browser.** Navigate to `https://pro.openbb.co` \u2192 Settings \u2192 Data Connectors \u2192 Connect Backend \u2192 Test.\n\nIf validation fails, trust the validator over docs \u2014 the running validator is the source of truth.\n\n## 9. Register and use\n\nOnce validation passes, the backend is registered and apps appear in the gallery. Open one to confirm the layout looks right and parameter groups link correctly. Click a row in a discovery table to confirm cross-widget navigation works.\n\n## After it ships\n\n- **Widget config changes**: refresh the backend in Workspace (right-click \u2192 \"Refresh backend\") rather than restarting your server.\n- **Code changes**: restart the backend.\n- **Major schema changes**: open a fresh app instance from the gallery so cached state doesn't mask the change.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/guides/convert-endpoint-to-widget": [
+        {
+          "content": "---\ntitle: Convert an Existing Endpoint to a Widget\nuri: openbb://workspace/guides/convert-endpoint-to-widget\nuse_when: You already have an HTTP endpoint that returns JSON and want to expose its response as a Workspace widget.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/specs/widget-types\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/widget-parameters\n  - openbb://workspace/examples/generic-http/minimal\n---\n\n# Convert an Existing Endpoint to a Widget\n\nUse this when the backend already exists and you need to wrap one of its endpoints as a Workspace widget. The work is mostly metadata authoring, not code.\n\n## 1. Inspect a sample response\n\nHit the endpoint with realistic params and read the JSON. Note:\n\n- Top-level shape: array of objects, single object, string, Plotly figure?\n- Field names and value types.\n- Any timestamp fields and their format.\n- Whether numbers are pre-formatted strings or raw numbers.\n- Whether the endpoint already supports query params, and how it interprets unknown ones.\n\n## 2. Choose the widget type\n\nMatch the response shape to a widget type. See `openbb://workspace/specs/widget-types` for the catalog and the \"choose this, not that\" rules.\n\n| Sample response shape | Widget type |\n|------------------------|-------------|\n| Array of row objects with `symbol`, `price`, ... | `table` |\n| Plotly figure JSON (`{data, layout}`) | `chart` |\n| Array of `{label, value, delta, ...}` cards | `metric` |\n| Long markdown string | `markdown` |\n| Array of `{title, date, author, excerpt, body, ...}` | `newsfeed` |\n| WebSocket or push-style streaming rows | `live_grid` |\n| File / PDF collection metadata | `multi_file_viewer` |\n\nIf the shape doesn't match any widget type cleanly, change the endpoint to fit the closest type \u2014 don't try to force the wrong renderer.\n\n## 3. Pick `endpoint`, `name`, and `widget_id`\n\n- `widget_id` (the dict key in `widgets.json`) should be stable, snake-cased, descriptive. It's referenced from `apps.json` layouts.\n- `name` is the user-visible widget title.\n- `endpoint` is the path Workspace calls. It's typically the same path your existing handler is on; it doesn't have to match the widget id.\n\n## 4. Translate query params to widget params\n\nEvery query param the endpoint accepts becomes a `params` entry in `widgets.json`. Pick the right `type`:\n\n- `boolean` for toggles (don't use `text` with `\"true\"`/`\"false\"` options).\n- `number` for free-form integers.\n- `date` with `$currentDate` modifiers for date inputs.\n- `endpoint` with `optionsEndpoint` for dropdowns whose values come from another endpoint.\n- `text` with `options` only for genuinely curated short lists (e.g. interval presets).\n\nEvery param needs `paramName`, `type`, `label`, `description`, and a sensible `value`. See `openbb://workspace/specs/widget-parameters`.\n\nIf a param depends on another (e.g. `city` depends on `country`), wire it via `optionsParams: { \"country\": \"$country\" }`.\n\n## 5. Infer columns or chart fields\n\nFor `table`:\n\n```json\n\"data\": {\n  \"table\": {\n    \"columnsDefs\": [\n      { \"field\": \"symbol\", \"headerName\": \"Symbol\", \"cellDataType\": \"text\", \"pinned\": \"left\" },\n      { \"field\": \"price\",  \"headerName\": \"Price\",  \"cellDataType\": \"number\", \"formatterFn\": \"none\" },\n      { \"field\": \"change_pct\", \"headerName\": \"Change %\", \"cellDataType\": \"number\", \"formatterFn\": \"percent\", \"renderFn\": \"greenRed\" }\n    ]\n  }\n}\n```\n\n- Use `formatterFn`: `int`, `none`, `percent`, `normalized`, `normalizedPercent`, `dateToYear`. **`\"currency\"` is invalid** \u2014 use `\"none\"` and pre-format if needed.\n- Use `renderFn` for visual treatment: `greenRed` for up/down, `cellOnClick` for navigation, `hoverCard` for markdown previews.\n- Pin identifier columns left (`pinned: \"left\"`).\n\nFor per-row mini-charts, set `sparkline` on a column (`type` of `line`, `bar`, or `area`):\n\n```json\n{ \"field\": \"trend\", \"headerName\": \"30d\",\n  \"sparkline\": { \"type\": \"line\", \"options\": { \"stroke\": \"#2563eb\", \"strokeWidth\": 2 } } }\n```\n\nTo let users flip the whole table into a chart, set `data.table.chartView`:\n\n```json\n\"data\": {\n  \"table\": {\n    \"chartView\": { \"enabled\": true, \"chartType\": \"line\",\n      \"chartNavigatorEnabled\": true, \"chartMiniChartEnabled\": true },\n    \"columnsDefs\": [ ... ]\n  }\n}\n```\n\nSupported `chartType`s include `line`, `bar`/`groupedBar`/`stackedBar`, `column`/`groupedColumn`/`stackedColumn`, `area`/`stackedArea`, `pie`, `donut`, `scatter`, `bubble`, `histogram`, `heatmap`, `treemap`, `waterfall`, `radarLine`/`radarArea`, `boxPlot`, `rangeBar`/`rangeArea` (see https://docs.openbb.co/workspace/developers/widget-types/aggrid-table-charts for the full list).\n\nFor `chart`: have the endpoint return a Plotly figure (no title \u2014 the widget supplies it). Add a `raw=true` query param so AI agents and table conversions can read the underlying rows. Before reaching here, confirm a `table` with sparklines or `chartView` won't do the job \u2014 only pick `chart` when AG Grid lacks the type (candlesticks/OHLC, custom subplots) or you need annotations / technical indicators / non-row-shaped data.\n\n## 6. Add descriptions\n\nEvery widget should have a `description`. Every param should have a `description`. They drive tooltips and hover help. Skipping them is an easy way to ship a widget that no one understands.\n\n## 7. Produce the widget draft\n\nCombine the above into a `widgets.json` entry:\n\n```json\n{\n  \"stock_prices\": {\n    \"name\": \"Stock Prices\",\n    \"description\": \"Latest closing prices\",\n    \"type\": \"table\",\n    \"endpoint\": \"/stock_prices\",\n    \"gridData\": { \"w\": 20, \"h\": 12 },\n    \"params\": [\n      { \"paramName\": \"limit\", \"type\": \"number\", \"label\": \"Limit\",\n        \"description\": \"Row count cap\", \"value\": 10 }\n    ],\n    \"data\": {\n      \"table\": {\n        \"columnsDefs\": [\n          { \"field\": \"symbol\", \"headerName\": \"Symbol\", \"cellDataType\": \"text\", \"pinned\": \"left\" },\n          { \"field\": \"price\",  \"headerName\": \"Price\",  \"cellDataType\": \"number\", \"formatterFn\": \"none\" }\n        ]\n      }\n    }\n  }\n}\n```\n\n## 8. Validate\n\n- Confirm `widgets.json` is still a JSON object (not an array) after adding the entry.\n- Confirm the `endpoint` path exists and returns the shape the widget type expects with the default params.\n- If you're also adding the widget to an `apps.json` template, confirm the layout's `i` matches the new widget id.\n\nSee `openbb://workspace/validation/common-errors` for the failure list and `openbb://workspace/guides/debug-app` if something doesn't render.\n\n## 9. Layer on click-through (if it makes sense)\n\nIf this widget is a discovery table \u2014 movers, screeners, watchlists, IPO calendars \u2014 and a downstream widget on the same dashboard accepts a synced param (typically `symbol`), wire `cellOnClick` on the relevant column. See `openbb://workspace/specs/layout-grid` \u00a7 \"Click-through navigation\".\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/guides/debug-app": [
+        {
+          "content": "---\ntitle: Debug an App\nuri: openbb://workspace/guides/debug-app\nuse_when: An app does not load, widgets render empty, or parameter sync isn't working, and you need a diagnostic order.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/contract/backend\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/validation/common-errors\n---\n\n# Debug an App\n\nDiagnostic order \u2014 work top to bottom. The first failure usually masks everything below it, so don't jump steps.\n\n## 1. Fetch `/widgets.json` directly\n\n```text\nGET <backend-url>/widgets.json\n```\n\nWhat you should see: a JSON **object** keyed by widget id. Common failures:\n\n- Returns a JSON array \u2192 Workspace will reject it. Convert to `{ \"widget_id\": { ... } }`.\n- 404 \u2192 route isn't registered. Check the route exists and is `GET`.\n- 500 / parse error \u2192 likely a JSON file read with the wrong encoding. On Windows, defaulting to `cp1252` mangles non-ASCII. Read JSON files as UTF-8 explicitly.\n- CORS error in the browser console \u2192 backend isn't allowing `https://pro.openbb.co` (or `pro.openbb.dev` / `localhost:1420`). Add the origin.\n\n## 2. Fetch `/apps.json` directly (if the app ships templates)\n\n```text\nGET <backend-url>/apps.json\n```\n\nWhat you should see: a JSON **array** of app objects. Common failures:\n\n- Returns a single object \u2192 Workspace will reject it with `Unknown App: [name]: Required` or similar. Wrap in `[ ... ]`.\n- Each app missing `allowCustomization`, `groups`, `prompts` \u2192 some validators flag these as required. Add them with sensible defaults.\n- Each tab missing `id`, `name`, or `layout` \u2192 required.\n\n## 3. Validate the JSON shape\n\nWalk these checks before debugging individual widgets:\n\n- `widgets.json` is an object. Every entry has `name`, `type`, `endpoint`.\n- `apps.json` is an array. Every layout item uses `i`, not `id`. Every `i` matches a `widgets.json` key.\n- Layout coordinates are on the 40-column grid; widgets don't overlap.\n- Table columns live at `data.table.columnsDefs` (not `columns`, not `data.columnsDefs`).\n- `formatterFn` is one of `int|none|percent|normalized|normalizedPercent|dateToYear` (`\"currency\"` is invalid).\n\nSee `openbb://workspace/validation/common-errors`.\n\n## 4. Hit each widget endpoint with default params\n\nFor each widget in `widgets.json`, request:\n\n```text\nGET <backend-url><widget.endpoint>\n```\n\n(plus the default values of any required params). What you should see depends on the widget `type`:\n\n- `table` \u2192 JSON array of row objects.\n- `chart` \u2192 Plotly figure JSON; if `?raw=true` is supported, that should return the underlying rows.\n- `metric` \u2192 array of `{label, value, ...}`.\n- `markdown` \u2192 a markdown string.\n- `newsfeed` \u2192 array of articles.\n\nCommon failures:\n\n- 404 \u2192 the widget's `endpoint` doesn't match any registered route.\n- 200 but empty array \u2192 the endpoint runs but the data fetch returned nothing. Add logging on the backend.\n- 200 but wrong shape (e.g. table endpoint returns a Plotly object) \u2192 fix the endpoint to match the widget type.\n- 500 \u2192 backend exception. Check the server log.\n\n## 5. Check CORS and auth\n\nIf the backend works from `curl` but fails in Workspace:\n\n- CORS: open the browser devtools network tab while loading the dashboard. CORS failures show as red entries with no response body. Add the missing origin.\n- Auth: if the backend requires a header or query string, confirm Workspace's backend connection has it configured (Settings \u2192 Data Connectors \u2192 edit the connection).\n- Mixed content: a backend served over HTTP can't be reached from `https://pro.openbb.co`. Use HTTPS in production.\n\n## 6. Parameter sync isn't working\n\nSymptoms: changing a synced param in one widget doesn't update the others; the widget's link menu shows \"No Active Groups.\"\n\nWalk through:\n\n- Group `name` is `Group 1`, `Group 2`, ... literally \u2014 not `\"symbol-group\"` or anything custom. Custom names validate but never link.\n- Group `type` matches the widget param shape: `param` for `text+options`, `endpointParam` for `endpoint+optionsEndpoint`, `ticker` for OpenBB's universal ticker registry. The wrong type silently disables sync.\n- The group's `widgetIds` array, every layout item's `groups: [...]`, and the widget's own param config all agree on the same `paramName`.\n- For dynamic dropdowns: every widget shares the same `optionsEndpoint`. If they differ, Workspace can't link them.\n\n## 7. Click-through doesn't propagate\n\nSymptom: clicking a row in a discovery table doesn't update the chart or detail widgets.\n\n- The clickable column has `renderFn: \"cellOnClick\"` and `renderFnParams.actionType = \"groupBy\"`.\n- `renderFnParams.groupBy.paramName` is correct (NOT the legacy `groupByParamName` \u2014 that fails silently).\n- `renderFnParams.groupBy.valueField` matches the column field that holds the value to send.\n- The clickable widget AND the receiving widgets share `\"groups\": [\"Group 1\"]` in the layout AND in the group's `widgetIds`.\n- The receiving widgets have a param with the matching `paramName`. If they have BOTH a `cellOnClick` column AND a visible param dropdown for the same paramName, set `\"show\": false` on the receiving param.\n\n## 8. Use Workspace validation if available\n\nThe browser/MCP path exposes the *actual* validator the running Workspace uses. When the doc and the validator disagree, **trust the validator** \u2014 adjust the files to match what Workspace accepts and then update docs/comments.\n\n- **`workspace_mcp` (preferred)**: `manage_backends(operation=\"add\", ...)` returns schema errors directly. `list_available_widgets(backend_id=...)` and `manage_apps(operation=\"list\", backend_id=...)` confirm what loaded.\n- **Browser**: Settings \u2192 Data Connectors \u2192 Connect Backend \u2192 Test surfaces the same errors.\n\n## 9. Refresh, don't restart, for metadata changes\n\n- `widgets.json` / `apps.json` edits \u2192 right-click the backend \u2192 \"Refresh backend\".\n- Code/handler edits \u2192 restart the backend.\n- Major schema changes \u2192 close the dashboard and open a fresh app instance from the gallery so cached state doesn't lie to you.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/guides/review-app": [
+        {
+          "content": "---\ntitle: Review an App\nuri: openbb://workspace/guides/review-app\nuse_when: You are reviewing an existing OpenBB Workspace backend or app template and need a structured pass.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/specs/layout-grid\n  - openbb://workspace/validation/common-errors\n---\n\n# Review an App\n\nA structured pass for reviewing an existing app. Read the file you're reviewing first, then walk this list. Don't review prose; review the **contract correctness** first because broken contracts mask everything else.\n\n## 1. Contract correctness\n\n- Does the backend serve `GET /widgets.json` returning a JSON **object**?\n- If app templates are shipped, does it serve `GET /apps.json` returning a JSON **array**?\n- Are CORS origins configured for `https://pro.openbb.co`, `https://pro.openbb.dev`, and `http://localhost:1420`?\n- If the backend is reached from `https://pro.openbb.co` in production, is it served over HTTPS?\n- Is the auth path explicit? (header, query string, or none \u2014 pick one and document it)\n\nIf any of these are wrong, fix before reviewing further.\n\n## 2. `widgets.json` shape\n\n- Top level is an object keyed by widget id.\n- Each widget has `name`, `type`, `endpoint`.\n- `type` is a real Workspace type (`table`, `chart`, `metric`, `markdown`, `newsfeed`, `live_grid`, etc.). No invented aliases.\n- Every param has `paramName`, `type`, `label`, `description`, and a sensible `value`.\n- Param types match shape: `boolean` for toggles, `number` for free-form integers, `date` for dates, `endpoint` for dropdowns from a backend.\n- Dropdown option objects are simple unless an advanced picker is intentional: usually `{label, value}`. Do not add `extraInfo` by default.\n- Multi-select dimensions expose real individual choices. Avoid fake options like `All Geographies` or `2020-2024` unless the backend intentionally treats them as real domain values.\n- Table columns are at `data.table.columnsDefs` \u2014 not at `columns` and not at `data.columnsDefs`.\n- `formatterFn` uses one of `int|none|percent|normalized|normalizedPercent|dateToYear`. (`\"currency\"` is invalid \u2014 use `\"none\"`.)\n- `runButton` is `false` (or absent) unless the work is genuinely heavy (>5 s).\n- Widget names and descriptions explain the business content. Names like `KPI Cards` and descriptions like `AG Grid combo chart` are too implementation-focused unless that is the user's explicit language.\n\nSee `openbb://workspace/specs/widgets-json` and `openbb://workspace/specs/widget-parameters`.\n\n## 3. `apps.json` shape\n\n- Top level is an array of app objects.\n- Each app has `name`, `tabs`, `allowCustomization`. `groups` and `prompts` are present even when `[]`.\n- `img`, `img_dark`, and `img_light` are populated when a reasonable thumbnail exists; if blank, note it as a polish gap.\n- Each tab has `id`, `name`, `layout`.\n- Each layout item uses `i` (not `id`), plus `x`, `y`, `w`, `h`.\n- Every layout item's `i` matches a key in `widgets.json`.\n- Group `name` follows the literal `Group 1`, `Group 2`, ... pattern.\n- Group `type` matches the underlying widget param shape: `param` for static `text+options`, `endpointParam` for `endpoint+optionsEndpoint`, `ticker` for OpenBB's universal ticker registry.\n- `groups[].widgetIds`, every layout item's `groups: [...]`, and the widget's own param config all agree.\n\nSee `openbb://workspace/specs/apps-json`.\n\n## 4. Layout and widget endpoint compatibility\n\n- Coordinates land on the 40-column grid; widgets don't overlap.\n- Tab heights make sense per type (metrics 4\u20136, tables 8\u201315, charts 12\u201315).\n- Each widget's data endpoint is reachable and returns the shape its `type` expects (table \u2192 array of rows, chart \u2192 Plotly JSON, etc.).\n- Endpoints honor the params their `widgets.json` declares.\n- Every table endpoint row contains every declared `data.table.columnsDefs[].field`.\n- Every `apps.json` chart state column (`chartModel.cellRange.columns`) exists in the referenced widget's output.\n\n## 4.5 Semantic data correctness\n\nAfter contract shape passes, review whether the numbers and parameter behavior make sense:\n\n- Inspect source data dimensions: row counts, categories, time periods, entities, and explicit aggregate rows.\n- Compare default aggregate outputs to official aggregate/source rows when they exist. Do not silently recompute consolidated totals from granular rows if the source already provides consolidated rows.\n- Test at least three parameter scenarios: default, one period/category, and a meaningful subset.\n- Single-period selections should show snapshots or `delta: n/a`, not fake deltas such as `2024 vs 2024`.\n- Units and formatting should match the metric meaning, especially intensity fields like `*_per_revenue`, `*_per_employee`, or `*_per_MEUR`.\n- Source-table widgets named `Master Database`, `Raw Data`, or similar should serve the full source table as-is unless the user asked for filters.\n\n## 5. Click-through and discovery\n\nFor every `table` widget:\n\n- If a column's `field` matches a synced `paramName` (e.g. `ticker` \u2192 `symbol`), the column has `renderFn: \"cellOnClick\"` with `renderFnParams.actionType = \"groupBy\"` and the right `groupBy.paramName`/`valueField`.\n- Discovery tables (movers, screeners, watchlists, IPO calendars, peer comparisons) are listed in the symbol group's `widgetIds` AND have `\"groups\": [\"Group 1\"]` on their layout entry \u2014 even when they have no `symbol` param.\n- Widgets that BOTH receive a synced param AND have a `cellOnClick` column for it use `\"show\": false` on the receiving param. Otherwise the dual-control breaks the click.\n\n## 6. Common Workspace validation failures\n\nWalk `openbb://workspace/validation/common-errors`. Most reviews find at least one entry from that list.\n\n## 7. Encoding, performance, and tests\n\n- File reads that serve JSON specify UTF-8 explicitly.\n- Heavy/slow endpoints either set `runButton: true` or document a caching/throttling story.\n- Live endpoint validation has been run (or is easy to run): start the backend, hit `/widgets.json`, hit `/apps.json`, hit each widget endpoint with default params.\n\n## Reporting findings\n\nWhen you write the review:\n\n- Lead with **broken contract issues** (Workspace can't load the backend). These are blockers.\n- Then **shape issues** in `widgets.json` / `apps.json` (Workspace loads but specific widgets fail).\n- Then **UX issues** (click-through, discovery, type mismatches that work but feel dead).\n- Then **nice-to-haves** (descriptions, heights, prompts).\n\nA reviewer's job is to find *the cheapest fix* that produces the biggest UX uplift \u2014 usually that's wiring `cellOnClick` correctly on the discovery tables, not ratcheting borderWidth.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/overview/ai-agent-contract": [
+        {
+          "content": "---\ntitle: AI Agent Contract\nuri: openbb://workspace/overview/ai-agent-contract\nuse_when: You are writing widget descriptions, parameter metadata, response shapes, or apps.json prompts and want them to be usable by Workspace's AI Agent.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/overview/what-is-workspace\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/widget-parameters\n  - openbb://workspace/specs/apps-json\n---\n\n# AI Agent Contract\n\nWorkspace ships a built-in AI Agent that reads the widgets on a Dashboard and answers questions across them \u2014 running calculations, identifying patterns, and dropping artifacts (text, tables, charts) back into the Dashboard. It does this by reading the same `widgets.json` metadata you author and the same data endpoints the renderer hits.\n\nThis means metadata you might treat as \"tooltip text\" is **agent discoverability text**. A widget with a vague `description` will not be picked up reliably when a user asks a question that should be answered by it.\n\n## What the agent reads to discover widgets\n\nThe agent uses these `widgets.json` fields to know what each widget is and when to use it:\n\n| Field | Use to the agent |\n|-------|------------------|\n| `name` | User-visible title. Weak signal on its own. |\n| `description` | **Primary discovery signal.** Should describe the *data* (what it is, what entity, what time range), not the *widget shape*. |\n| `category` / `subCategory` | Grouping signals \u2014 agents auto-tag widgets by these when answering Prompts. |\n| `source` | Provenance, used in attribution. |\n| `params[].paramName` / `label` / `description` | Tells the agent which inputs the endpoint takes and what they mean. |\n\nIf the agent is consistently failing to pick the right widget for an obvious question, the `description` is almost always the cause.\n\n## Description-writing rules\n\nWrite descriptions for the agent first, the human second. The human gets a tooltip; the agent gets the *only* signal.\n\n- **Lead with entity and metric.** \"Daily closing prices for US equities, last 30 days.\" Not \"A view of stock prices.\"\n- **State time range and granularity.** \"Hourly\", \"Daily\", \"Last 90 days\", \"Year-to-date\", \"Trailing twelve months\".\n- **Name the source if it's distinguishing.** \"From SEC filings\", \"From the user's connected portfolio\".\n- **Don't describe the widget shape.** \"A sortable table that shows...\" wastes tokens; the agent already knows the type.\n- **Same rules apply to params.** A `description` of `\"limit\"` is useless; `\"Maximum number of rows to return; default 10, max 1000\"` is usable.\n\n## How the agent reads data\n\nFor `chart` widgets, the agent **does not parse Plotly figures** \u2014 it calls the endpoint with `raw=true` to get the underlying rows. Every chart endpoint must accept `raw=true` and, when set, return the same array-of-rows shape a `table` would. This same toggle powers the user-facing \"view as table\" affordance.\n\nFor `table`, `metric`, and `newsfeed` widgets, the agent calls the endpoint as the renderer does and reads the rows directly.\n\n## Make responses agent-readable\n\n- **Numbers must be numbers.** Returning `\"4.21%\"` as a string defeats reasoning, sorting, and downstream calculation. Return `0.0421` and let `formatterFn: \"percent\"` handle display.\n- **Timestamps must be ISO-8601 strings or epoch numbers.** Locale-formatted strings like `\"Apr 21, 2026\"` force the agent to parse them.\n- **Field names should be self-describing.** `change_pct` and `market_cap_usd` beat `c` and `mc`. The agent reads field names and uses them in its responses.\n- **Keep the row shape stable per call.** Don't return rows whose keys vary by parameter; the agent assumes one schema per response.\n- **Cap row counts sensibly.** A discovery widget returning 50,000 rows wastes the agent's context. Add a `limit` param with a sensible default.\n\n## `prompts` in `apps.json`\n\nThe `prompts` array on an App is a curated list of starter queries surfaced when a user opens that App. They reference data the App's widgets actually expose \u2014 equal parts user onboarding and agent demo.\n\n- Write prompts as questions a user would actually ask, not feature descriptions. \"Which holdings dragged the portfolio down today?\" beats \"Show portfolio losers.\"\n- Reference entities present in the default parameter set (\"What's driving today's move in `$ticker`?\" where `ticker` is in the default Group).\n- Skip prompts that need widgets the App doesn't include.\n- Keep them short \u2014 they render as buttons.\n\nEmpty `\"prompts\": []` is valid; ship at least 3\u20135 if you want the App to feel alive on first open.\n\n## Out of scope here\n\n- **Building your own AI Agent backend.** That's a separate backend surface (`/agents.json` + `/query` SSE) \u2014 see `https://docs.openbb.co/workspace/developers/agents-integration`. The Agent described here is the one Workspace ships and runs against your widgets.\n- **External agent-skill packaging.** The generated `openbb-app-builder` skill is only a compatibility package for clients that cannot read MCP resources directly; the canonical app-builder content remains this resource catalog.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/overview/what-is-workspace": [
+        {
+          "content": "---\ntitle: What Workspace Is\nuri: openbb://workspace/overview/what-is-workspace\nuse_when: You are about to design widgets or apps and need a mental model of what Workspace is, who uses it, and what is native vs. what your backend provides.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/overview/ai-agent-contract\n  - openbb://workspace/contract/backend\n  - openbb://workspace/specs/widget-types\n  - openbb://workspace/specs/apps-json\n---\n\n# What Workspace Is\n\nOpenBB Workspace is a hosted analytical environment used by financial analysts, portfolio managers, and research teams. They open a **Dashboard**, drop **Widgets** onto it, drive them with linked parameters, and ask the **AI Agent** questions about the data shown. Your backend supplies the data and metadata; Workspace handles rendering, layout, parameter linking, refresh, and AI reasoning over the result.\n\nDesigning a widget without this picture in mind leads to widgets that work in isolation but feel wrong inside the product \u2014 shipping a custom toolbar that duplicates Workspace's, baking a chart into a table because parameter linking wasn't on your radar, or writing terse descriptions the AI Agent can't use to find the widget.\n\n## Primitives\n\nUser-facing nouns. Match them when you write descriptions, titles, and docs.\n\n| Term | What it is |\n|------|------------|\n| **Dashboard** | A user's working surface. A grid of Widgets plus embedded files/notes, with parameters that synchronize widgets sharing a Group. |\n| **Widget** | A single data component (table, chart, metric card, newsfeed, etc.) backed by your endpoint. |\n| **App** | A *pre-built dashboard template* shipped via `apps.json`. Bundles layout, default parameter values, parameter Groups, curated **Prompts**, and (optionally) curated AI Agents. Users open an App from the gallery and land on a working dashboard, not a blank page. |\n| **Prompts** | Curated query suggestions that ship with an App. They surface as starting points for the AI Agent and reference the widgets in the layout. The empty `\"prompts\": []` you see in app templates is where these go. |\n| **AI Agent** | Built-in assistant that reads the Dashboard's widgets and answers questions across them, runs multi-step analysis, and drops artifacts (text, tables, charts) back into the Dashboard. See `openbb://workspace/overview/ai-agent-contract`. |\n| **Widget Gallery** | Browse-and-add catalog. Your widgets surface here once the backend is registered. |\n\n## What Workspace gives you for free\n\nDon't reinvent these \u2014 Workspace handles them natively, no backend code needed.\n\n- **Layout & sizing** \u2014 drag/drop, resize, duplicate dashboards, folder organization.\n- **Auto-refresh** \u2014 dashboards refresh data automatically; per-widget `refetchInterval` overrides cadence.\n- **Parameter linking** \u2014 widgets in the same parameter Group share a value (one ticker drives all of them). Defined in `apps.json`. See `openbb://workspace/specs/apps-json` and `openbb://workspace/specs/layout-grid`.\n- **Native content embeds** \u2014 users can drop PDFs, images, spreadsheets, and free-form notes onto a Dashboard. You don't need a widget for static content.\n- **Click-through navigation** \u2014 table cells can drive other widgets via `cellOnClick`. See `openbb://workspace/specs/layout-grid` \u00a7 \"Click-through navigation\".\n- **In-cell visualizations on tables** \u2014 sparklines and a `chartView` toggle turn a table into a chart without a separate widget. See `openbb://workspace/specs/widget-types`.\n- **Sharing & roles** \u2014 RBAC, share with team, on-prem / private cloud deployment.\n- **AI Agent over the dashboard** \u2014 the built-in agent already reads widgets via their metadata. You don't ship an agent to make widgets queryable.\n- **Export to apps.json** \u2014 users can save a Dashboard as an `apps.json` template. Useful debugging shortcut: build a layout manually in Workspace, export, and compare against your hand-authored `apps.json`.\n\n## What your backend provides\n\n- `/widgets.json` \u2014 the widget catalog and metadata.\n- `/apps.json` \u2014 optional: app templates that pre-arrange widgets, parameters, and prompts.\n- One data endpoint per widget \u2014 returns the JSON shape its `type` expects.\n\nThat's the whole contract. See `openbb://workspace/contract/backend`.\n\n## What your backend should NOT do\n\n- **Build a chart toolbar.** `chart` and `table` widgets already have one.\n- **Reimplement parameter sync inside one widget.** Use `apps.json` parameter Groups.\n- **Embed PDFs / images / static notes inside a widget response.** Users drop these directly onto the Dashboard.\n- **Build authentication UI.** Workspace's connection setup handles auth (header / query / none).\n- **Format numbers as strings if you want the AI Agent or sparklines to use them.** See `openbb://workspace/overview/ai-agent-contract`.\n\n## \"App\" means *template*, not *application*\n\nWhen `apps.json` says \"App\", it means a dashboard preset:\n\n1. A layout \u2014 which Widgets, which grid cells.\n2. A default parameter set, with one or more Groups.\n3. A `prompts` array \u2014 agent query suggestions tied to that layout.\n4. Optionally curated Agents.\n\nIf you find yourself designing one big monolithic widget with a custom UI inside it, you probably want an *App* instead \u2014 split into multiple widgets and link them with a Group.\n\n## Out of scope here\n\n- **Building AI Agent backends.** Agents are a separate backend surface (`/agents.json` + `/query` SSE), not the widget-backend surface this skill covers. See `https://docs.openbb.co/workspace/developers/agents-integration`.\n- **Excel Add-in / PWA / enterprise deployment.** End-user / deployment surfaces, not authoring.\n- **Specific UI affordances (per-widget chat buttons, fullscreen, etc.).** Runtime features; check Workspace directly if you need to confirm one.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/specs/apps-json": [
+        {
+          "content": "---\ntitle: apps.json Spec\nuri: openbb://workspace/specs/apps-json\nuse_when: You are authoring or editing apps.json and need the served shape, tab layout, and parameter group wiring.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/layout-grid\n  - openbb://workspace/validation/common-errors\n---\n\n# `apps.json` Spec\n\n`apps.json` is the **app templates** contract. It declares one or more dashboards: the tabs they contain, the widgets placed on each tab, and the parameter groups that synchronize widgets.\n\n## Top-level shape\n\nThe `/apps.json` endpoint MUST return a JSON **array** of app objects:\n\n```json\n[ { \"...app object...\" }, { \"...app object...\" } ]\n```\n\nReturning a single object instead of an array is the most common shape mistake \u2014 Workspace will reject it with an error like `Unknown App: [name]: Required`.\n\n> **Schema vs served format.** Some validators describe a schema for *one* app object. The `/apps.json` endpoint serves an **array** of these objects. Validate each array element against the per-app schema individually.\n\n## Per-app fields\n\n| Field | Required | Notes |\n|-------|----------|-------|\n| `name` | Yes | App display name. |\n| `tabs` | Yes | Object keyed by tab id; each value has `id`, `name`, `layout`. |\n| `description` | Recommended | Shown in the app gallery. |\n| `img`, `img_dark`, `img_light` | Recommended | App gallery image URLs. Prefer populated values: a stable hosted image URL or a backend-served `/thumbnails/{name}` SVG/PNG. Empty string `\"\"` is acceptable only as a fallback. |\n| `allowCustomization` | Recommended | Boolean. Whether users can modify the layout in their copy. |\n| `groups` | Recommended | Array of parameter sync groups. Use `[]` when none are needed \u2014 that's the safe default. |\n| `prompts` | Recommended | Array of suggested prompts for the agent. Use `[]` when none. |\n| `id` | Optional | If set, must match `^custom-.+`. Plain strings are rejected. |\n\nSeveral Workspace validators flag `allowCustomization`, `groups`, or `prompts` as required. Including all three (with empty arrays where applicable) is the safest default.\n\n## Tab shape\n\n`tabs` is an object keyed by tab id. The most common case is a single, unnamed tab \u2014 use empty strings for `id` and `name`:\n\n```json\n\"tabs\": {\n  \"\": {\n    \"id\": \"\",\n    \"name\": \"\",\n    \"layout\": [ /* layout items */ ]\n  }\n}\n```\n\nNamed tabs:\n\n```json\n\"tabs\": {\n  \"overview\": { \"id\": \"overview\", \"name\": \"Overview\", \"layout\": [ ... ] },\n  \"details\":  { \"id\": \"details\",  \"name\": \"Details\",  \"layout\": [ ... ] }\n}\n```\n\nEach tab value requires `id`, `name`, and `layout`.\n\n## Layout item shape\n\nEach entry in `layout` is an object:\n\n| Field | Required | Notes |\n|-------|----------|-------|\n| `i` | Yes | Widget id. MUST match a key in `widgets.json`. **Not `id`.** |\n| `x` | Yes | Column origin (0\u201339). |\n| `y` | Yes | Row origin. |\n| `w` | Yes | Width in columns (typically 10\u201340). |\n| `h` | Yes | Height in rows (typically 4+). |\n| `groups` | Optional | Array of group names this widget participates in, e.g. `[\"Group 1\"]`. |\n| `state` | Optional | Pre-configures display: `chartView`, `chartModel`, `columnState`, `params`, etc. |\n\nCoordinates are on a 40-column grid \u2014 see `openbb://workspace/specs/layout-grid`.\n\n## Parameter groups\n\n`groups` synchronizes a parameter across multiple widgets. The runtime is strict about three things:\n\n1. **For strict compatibility, group `name` follows the literal `Group 1`, `Group 2`, ... pattern.** Put human-readable meaning in `description`, `category`, or surrounding app copy. If you use descriptive group names, browser-test them because validators may warn while runtime behavior can vary.\n2. **Group `type` must match how the underlying widget's param is defined in `widgets.json`.** The schema accepts any string; the runtime accepts a closed set:\n\n   | `groups[].type` | Use when widget param is | `paramName` |\n   |---|---|---|\n   | `\"param\"` | static dropdown \u2014 `type: \"text\"` with inline `options` | required |\n   | `\"endpointParam\"` | dynamic dropdown \u2014 `type: \"endpoint\"` with `optionsEndpoint` | required |\n   | `\"ticker\"` | OpenBB's built-in universal ticker registry (no custom `optionsEndpoint`) | omit |\n\n3. **Three places must agree:** the group's `widgetIds`, every participating widget's layout `groups: [...]`, and the widget's own param config (matching `paramName` and option source).\n\nGroup object shape:\n\n```json\n{\n  \"name\": \"Group 1\",\n  \"type\": \"endpointParam\",\n  \"paramName\": \"symbol\",\n  \"widgetIds\": [\"watchlist\", \"price_chart\"],\n  \"defaultValue\": \"AAPL\"\n}\n```\n\n> **Implicit auto-sync.** Workspace also auto-links widgets that share an identical `paramName` plus matching `options`/`optionsEndpoint`, even with no entry in `groups`. The explicit `groups` entry layers a named, user-toggleable group on top \u2014 useful when you want users to see and disable the linkage from the UI. If you don't need that affordance, matching `paramName` + `optionsEndpoint` is enough.\n\n## Layout item `state`\n\nOptional. Pre-configures how a widget displays inside this app template. Common keys:\n\n- `chartView.enabled` (bool) \u2014 flip a table widget into chart mode.\n- `chartView.chartType` \u2014 chart type when in chart mode.\n- `chartModel.modelType` \u2014 `\"range\"` or `\"pivot\"`.\n- `chartModel.cellRange.columns` \u2014 array of column `field` names that feed the chart. Order matters: first is typically the x/category axis.\n- `columnState.default.rowGroup.groupColIds` \u2014 group rows by these columns.\n- `columnState.default.columnVisibility.hiddenColIds` \u2014 hide columns.\n- `columnState.default.columnOrder.orderedColIds` \u2014 fixed column order.\n- `params` \u2014 pre-set parameter values for this widget.\n- `paramOrder` \u2014 render order for the widget's parameter panel.\n- `style.borderWidth` (0\u201324), `style.radius` (0\u201364), `style.contentPadding` (0\u201364), `style.shadow` (`none|sm|md|lg`).\n\n`state.style` is closed \u2014 typos like `\"shadowSize\"` fail validation. `state` itself is open, so per-widget extras are tolerated.\n\n> **Schema \u2260 runtime.** Some `state.*` fields validate but produce no visible effect (e.g. `state.style.headerMode`). Render in Workspace and confirm before committing speculative state defaults.\n\n## Minimal example\n\n```json\n[\n  {\n    \"name\": \"My Dashboard\",\n    \"description\": \"Stocks overview\",\n    \"img\": \"http://localhost:7779/thumbnails/my_dashboard\",\n    \"img_dark\": \"http://localhost:7779/thumbnails/my_dashboard\",\n    \"img_light\": \"http://localhost:7779/thumbnails/my_dashboard\",\n    \"allowCustomization\": true,\n    \"tabs\": {\n      \"\": {\n        \"id\": \"\", \"name\": \"\",\n        \"layout\": [\n          { \"i\": \"stock_prices\", \"x\": 0,  \"y\": 0, \"w\": 20, \"h\": 12, \"groups\": [\"Group 1\"] },\n          { \"i\": \"price_chart\",  \"x\": 20, \"y\": 0, \"w\": 20, \"h\": 12, \"groups\": [\"Group 1\"] }\n        ]\n      }\n    },\n    \"groups\": [\n      {\n        \"name\": \"Group 1\",\n        \"type\": \"endpointParam\",\n        \"paramName\": \"symbol\",\n        \"widgetIds\": [\"stock_prices\", \"price_chart\"],\n        \"defaultValue\": \"AAPL\"\n      }\n    ],\n    \"prompts\": []\n  }\n]\n```\n\n## What this spec does not cover\n\n- Layout grid math \u2014 see `openbb://workspace/specs/layout-grid`.\n- Widget metadata that supplies the widgets referenced here \u2014 see `openbb://workspace/specs/widgets-json`.\n- Common validation errors \u2014 see `openbb://workspace/validation/common-errors`.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/specs/layout-grid": [
+        {
+          "content": "---\ntitle: Layout Grid and Groups\nuri: openbb://workspace/specs/layout-grid\nuse_when: You are placing widgets, sizing them, or wiring synchronized parameter groups in apps.json.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/widget-parameters\n---\n\n# Layout Grid and Groups\n\nWorkspace lays out widgets on a fixed grid and supports param synchronization via named groups. Both live in `apps.json`.\n\n## Grid\n\n- The grid is **40 columns wide**.\n- Common widths: `w=40` full, `w=20` half, `w=10` quarter.\n- Minimum widget width: typically 8\u201310 columns.\n- Height is flexible. Minimum is usually 4 rows. Avoid heights above ~20 unless the content really needs it.\n- A `navigation_bar` widget, when present, usually occupies `y=0` with `h=2`, so the first content row begins at `y=2`.\n\nEach layout item lives under `tabs[].layout[]` with the shape:\n\n```json\n{ \"i\": \"widget_id\", \"x\": 0, \"y\": 2, \"w\": 40, \"h\": 12, \"groups\": [\"Group 1\"] }\n```\n\nUse `i` for the widget id (not `id`). Use `x`, `y`, `w`, `h` directly (not nested in `gridData`).\n\n## Suggested heights by widget type\n\n| Widget type | Recommended `h` |\n|-------------|------------------|\n| `metric` | 4\u20136 |\n| `table` (small) | 8\u201312 |\n| `table` (medium) | 12\u201315 |\n| `chart` | 12\u201315 |\n| `newsfeed` | 12\u201315 |\n| `markdown` | 8\u201312 |\n\n## Tabs\n\nTabs organize app sections. Use one tab when the dashboard fits on one screen; split into multiple tabs only when it actually helps the user. 3\u20135 tabs is a healthy ceiling.\n\nFor a single, unnamed tab use empty strings:\n\n```json\n\"tabs\": { \"\": { \"id\": \"\", \"name\": \"\", \"layout\": [ ... ] } }\n```\n\n## Parameter groups\n\nGroups synchronize a parameter (e.g. `symbol`) across multiple widgets. The runtime is strict:\n\n1. **Group `name` must follow the literal `Group 1`, `Group 2`, ...** Custom names like `\"symbol-group\"` validate but don't link.\n2. **Group `type` must match the widget param's shape** \u2014 see `openbb://workspace/specs/apps-json`.\n3. **Three places must agree:** `groups[].widgetIds`, each layout item's `groups: [\"Group N\"]`, and each widget's own param config.\n\nGroup object shape:\n\n```json\n{\n  \"name\": \"Group 1\",\n  \"type\": \"endpointParam\",\n  \"paramName\": \"symbol\",\n  \"widgetIds\": [\"watchlist\", \"price_chart\"],\n  \"defaultValue\": \"AAPL\"\n}\n```\n\n## Click-through navigation (apply aggressively)\n\nThe single biggest UX upgrade: clicking a row in a discovery table updates the rest of the dashboard. Audit every `table` widget for it before declaring an app done.\n\n**The rule.** For every table column, check the column's `field`. If any `field` matches a `paramName` used by an app-level group (and the cell value is what the param expects, e.g. a ticker symbol), that column MUST have:\n\n```json\n{\n  \"field\": \"ticker\",\n  \"headerName\": \"Ticker\",\n  \"cellDataType\": \"text\",\n  \"pinned\": \"left\",\n  \"renderFn\": \"cellOnClick\",\n  \"renderFnParams\": {\n    \"actionType\": \"groupBy\",\n    \"groupBy\": { \"paramName\": \"symbol\", \"valueField\": \"ticker\" }\n  }\n}\n```\n\n**Requirements for the click to actually fire:**\n\n1. The clickable widget AND target widgets share `\"groups\": [\"Group 1\"]` in the layout.\n2. Target widgets expose a parameter matching `paramName` (e.g. `symbol`).\n3. The clickable widget is also listed in the group's `widgetIds`.\n4. Use `renderFnParams.groupBy.paramName`, not `groupByParamName` (legacy name fails silently).\n5. Use `valueField` when the cell display differs from the param value (e.g. showing \"Apple Inc.\" but sending \"AAPL\").\n\n**Discovery widgets (top movers, screeners, watchlists, IPO calendars, peer comparisons) belong in the symbol group's `widgetIds` AND their layout entry must include `\"groups\": [\"Group 1\"]` \u2014 even if the widget itself has no `symbol` param.** They emit clicks; they don't receive them.\n\n**Sharp edge \u2014 `cellOnClick` plus a visible duplicate dropdown breaks the interaction.** If a widget has BOTH a `cellOnClick` column targeting param `X` AND that same `X` exposed as a visible dropdown in its own `params`, the click stops propagating reliably and the user gets a confusing dual-control UX. Pick one:\n\n- Keep the cellOnClick. Add `\"show\": false` to that param so the dropdown is hidden.\n- Or drop the cellOnClick from the column.\n\nThis rule applies only when the widget *receives* the click-targeted param. Pure-emitter widgets are unaffected.\n\n## Build-time audit checklist\n\n- [ ] Every `ticker`/`symbol` column in every table has `cellOnClick` with the right `groupBy`.\n- [ ] Every discovery table is in the symbol group's `widgetIds`.\n- [ ] Every layout entry that participates has `\"groups\": [\"Group 1\"]`.\n- [ ] For widgets that have BOTH a cellOnClick column AND a matching param: the param has `\"show\": false`.\n- [ ] Render in Workspace and click a row \u2014 confirm other widgets refresh.\n\n## What this spec does not cover\n\n- Required `apps.json` fields and tab/layout schema \u2014 see `openbb://workspace/specs/apps-json`.\n- Widget-side param definitions \u2014 see `openbb://workspace/specs/widget-parameters`.\n- Type cheatsheet for groups \u2014 covered in `openbb://workspace/specs/apps-json`.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/specs/widget-parameters": [
+        {
+          "content": "---\ntitle: Widget Parameters\nuri: openbb://workspace/specs/widget-parameters\nuse_when: You are defining widget params (text, number, boolean, date, endpoint dropdowns) and need the right type and option-source choice.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/specs/widget-types\n---\n\n# Widget Parameters\n\nWidget controls live under a widget's `params` array in `widgets.json`. The right `type` is the one that **matches the shape of the value**, not the easiest to implement.\n\n## Common fields\n\nEvery param object should have:\n\n| Field | Required | Notes |\n|-------|----------|-------|\n| `paramName` | Yes | Query/body key sent to the data endpoint. |\n| `type` | Yes | Renderer \u2014 see below. |\n| `label` | Yes | Display label in the param panel. |\n| `description` | Yes (in practice) | Tooltip help shown on hover. Don't omit. |\n| `value` | Usually | Default value. |\n| `show` | Optional | When `false`, the param is hidden in the UI but still sent \u2014 used for cellOnClick patterns. |\n| `multiSelect` | Optional | For dropdowns that allow selecting multiple values. Use a comma-separated default string unless the app's existing convention uses an array. |\n| `optionsEndpoint` | When `type: \"endpoint\"` | Backend path that returns the options list. |\n| `optionsParams` | Optional | Dependent options \u2014 e.g. `{ \"country\": \"$country\" }` re-fetches when the named param changes. |\n| `options` | When `type: \"text\"` with a curated list | Inline `[{label, value}]` array. |\n\n## Type cheatsheet\n\nPick the right type before defaulting to `text` with options. Wrong type \u2192 clunky UX even though it \"works\".\n\n| Param shape | Correct `type` | Wrong choice |\n|-------------|----------------|--------------|\n| Yes/no flag | `boolean` (renders as toggle) | `text` with `[{label:\"Yes\",value:\"true\"},{label:\"No\",value:\"false\"}]` |\n| Free-form integer (limit, days, count) | `number` | `text` with hardcoded options |\n| Free-form text (search query) | `text` (no `options`) | `text` with curated options |\n| Date or date range | `date` with `$currentDate` modifiers | `text` with hardcoded date strings |\n| Curated short list (3\u20136 fixed values) | `text` with `options` | OK \u2014 this is the intended use |\n| Symbol / ticker picker | `endpoint` with `optionsEndpoint` | `text` (forces user to type ticker) |\n| Dropdown that depends on another param | `endpoint` with `optionsParams: {key: \"$other\"}` | static `text` options |\n\n## Type examples\n\n### `text`\n\n```json\n{ \"paramName\": \"query\", \"type\": \"text\", \"label\": \"Search Query\",\n  \"description\": \"Enter search term\", \"value\": \"\" }\n```\n\n### `number`\n\n```json\n{ \"paramName\": \"limit\", \"type\": \"number\", \"label\": \"Limit\",\n  \"description\": \"Maximum rows to return\", \"value\": 10 }\n```\n\n### `boolean`\n\n```json\n{ \"paramName\": \"include_extended\", \"type\": \"boolean\", \"label\": \"Include Extended Hours\",\n  \"description\": \"Include pre/post-market data\", \"value\": false }\n```\n\n### `date`\n\n```json\n{ \"paramName\": \"start_date\", \"type\": \"date\", \"label\": \"Start Date\",\n  \"description\": \"Window start\", \"value\": \"$currentDate-1M\" }\n```\n\nDate modifiers: `$currentDate`, `$currentDate-1d`, `$currentDate-1w`, `$currentDate-1M`, `$currentDate-1y`. Avoid hardcoded date strings \u2014 they get stale.\n\n### Static dropdown \u2014 `text` with `options`\n\n```json\n{ \"paramName\": \"interval\", \"type\": \"text\", \"label\": \"Interval\",\n  \"description\": \"Bar size\", \"value\": \"1d\",\n  \"options\": [\n    { \"label\": \"1 Day\",   \"value\": \"1d\" },\n    { \"label\": \"1 Week\",  \"value\": \"1w\" },\n    { \"label\": \"1 Month\", \"value\": \"1m\" }\n  ] }\n```\n\n### Dynamic dropdown \u2014 `endpoint`\n\n```json\n{ \"paramName\": \"symbol\", \"type\": \"endpoint\", \"label\": \"Select Symbol\",\n  \"description\": \"Choose a ticker\",\n  \"optionsEndpoint\": \"/symbols\" }\n```\n\nThe `optionsEndpoint` should return an array of `{ label, value }` objects.\n\nKeep dropdown options simple. Use `{label, value}` for normal dropdowns; add `category` only when Workspace needs that category for grouping/search semantics. Avoid `extraInfo` unless the user explicitly wants an advanced/search-rich dropdown.\n\n### Multi-select dimensions\n\nFor filters like years, geographies, countries, sectors, or business units:\n\n```json\n{ \"paramName\": \"years\", \"type\": \"endpoint\", \"label\": \"Years\",\n  \"description\": \"Reporting years to include\",\n  \"optionsEndpoint\": \"/year_options\",\n  \"multiSelect\": true,\n  \"value\": \"2020,2021,2022,2023,2024\" }\n```\n\nPrefer real individual choices over fake aggregate choices:\n\n- Good: options `2020`, `2021`, `2022`, `2023`, `2024` with all selected by default.\n- Avoid: a selectable `2020-2024` option unless it is a real domain value users should choose.\n- Good: options `Portugal`, `Angola`, `Brazil`.\n- Avoid: a selectable `All Geographies` option unless it is a real source row users should choose directly.\n\n### Dependent dropdown \u2014 `optionsParams`\n\n```json\n{ \"paramName\": \"city\", \"type\": \"endpoint\", \"label\": \"City\",\n  \"description\": \"City within the selected country\",\n  \"optionsEndpoint\": \"/cities\",\n  \"optionsParams\": { \"country\": \"$country\" } }\n```\n\nWhen the user changes the `country` param, the `city` dropdown re-fetches with `?country=...` appended.\n\n## Hidden params for click-through navigation\n\nWhen a table column drives a synchronized param via `renderFn: \"cellOnClick\"`, the receiving widget often needs a *hidden* param entry so the value flows in without showing a duplicate dropdown:\n\n```json\n{ \"paramName\": \"symbol\", \"type\": \"endpoint\", \"label\": \"Symbol\",\n  \"optionsEndpoint\": \"/search_tickers\", \"value\": \"AAPL\", \"show\": false }\n```\n\nThe rule: a widget that *receives* a synchronized param AND has its own column emitting `cellOnClick` for that same param must use `show: false` on the param. Otherwise both controls compete and the click stops propagating reliably. Pure-emitter widgets (no matching param of their own) need no entry at all.\n\n## What this spec does not cover\n\n- The widget-level shape that contains `params` \u2014 see `openbb://workspace/specs/widgets-json`.\n- App-level `groups[].type` choice (`param` vs `endpointParam` vs `ticker`) \u2014 see `openbb://workspace/specs/apps-json`.\n- Click-through layout wiring \u2014 see `openbb://workspace/specs/layout-grid`.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/specs/widget-types": [
+        {
+          "content": "---\ntitle: Widget Types\nuri: openbb://workspace/specs/widget-types\nuse_when: You are picking the widget type string for a new widget or auditing whether an existing widget uses the right type.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/widget-parameters\n  - openbb://workspace/guides/convert-endpoint-to-widget\n---\n\n# Widget Types\n\n`type` in `widgets.json` selects the renderer. Pick the type that matches the **shape of the data and the user task**, not the type that's easiest to implement.\n\n## Catalog\n\n| Type | Use case | Endpoint returns |\n|------|----------|------------------|\n| `table` | Sortable/filterable rows of structured fields | JSON array of row objects |\n| `table_ssrm` | Large or server-paged table datasets | SSRM-shaped response |\n| `chart` | Plotly visualizations with raw-data toggle | Plotly figure JSON (or rows when `raw=true`) |\n| `metric` | KPI cards with label/value/delta | JSON array of metric objects |\n| `markdown` | Long-form prose, generated commentary | Markdown string |\n| `note` | Static or semi-static short text | Short string |\n| `newsfeed` | Article and update lists with title/excerpt/body | JSON array of articles |\n| `live_grid` | Real-time table with WebSocket updates | Initial rows JSON; live deltas over WS |\n| `advanced_charting` | TradingView-style charting experience | TradingView UDF endpoints |\n| `chart-highcharts` | Highcharts visualization | Highcharts config JSON |\n| `multi_file_viewer` | File or document collection viewer | JSON describing the collection |\n| `youtube` | Embedded video content | Video metadata |\n\n> Use the exact widget type string supported by your current Workspace build. Don't invent aliases (`ssrm_table`, `tradingview_chart`, etc.).\n\n## Use-case \u2192 type quick selector\n\nWalk this list before defaulting to `table`:\n\n| Data shape | Type |\n|------------|------|\n| Rows of structured fields (prices, holdings, transactions) | `table` |\n| Simple line / bar / area / column / pie / scatter over rows you already have | `table` with `sparkline` cells or `chartView` |\n| Candlesticks/OHLC, annotated/multi-axis stock charts, custom subplots | `chart` (Plotly) |\n| 3\u20138 KPI cards with label/value/subvalue | `metric` |\n| Long-form prose, generated commentary | `markdown` |\n| **Articles with title + body + author + date** | **`newsfeed`** |\n| File/PDF collections with viewing UX | `multi_file_viewer` |\n| Live ticker / order book / streaming | `live_grid` |\n| Static instructions or disclaimers | `note` |\n\n## Choose this, not that\n\n- **Simple visualizations on tabular data \u2192 `table` with sparkline cells or `chartView`, not `chart`.** AG Grid supports `line`, `bar`, `area`, `column`, `pie`/`donut`, `scatter`/`bubble`, `histogram`, `heatmap`, `treemap`, `waterfall`, `radar*`, `boxPlot`, `range*` (full list at https://docs.openbb.co/workspace/developers/widget-types/aggrid-table-charts) \u2014 both as per-cell sparklines (`type`: `line`/`bar`/`area`) and as a table-wide chart toggle. Reach for `chart` (Plotly) only when (a) AG Grid lacks the type \u2014 candlesticks/OHLC are the common one \u2014 (b) you need annotations, technical indicators, or custom subplot layouts, or (c) the data isn't naturally row-shaped. A simple \"show me a line of values per row\" is almost always better as a table sparkline or aggrid chartview than a separate Plotly widget.\n- **News and articles \u2192 `newsfeed`, not `table`.** The default reflex is `table`, but `newsfeed` renders title/excerpt/body/date layout natively. The wrong choice ends with rich article content jammed into table cells with no formatting.\n- **Long-form commentary \u2192 `markdown`, not `table`.** Tables are not designed for prose.\n- **Document collections where viewing the file is the core UX \u2192 `multi_file_viewer`, not links in a table.**\n- **Boolean toggles, dates, numeric inputs \u2192 use the right param `type`, not a `text` dropdown.** That belongs in `openbb://workspace/specs/widget-parameters`, not here, but the same rule applies: pick the renderer that fits the shape.\n\n## `advanced_charting` and parameter sync\n\n`advanced_charting` (TradingView-style) can join a symbol group, but the wiring is non-obvious:\n\n1. The widget exposes a hidden grouped param like:\n   ```json\n   { \"paramName\": \"symbol\", \"type\": \"endpoint\", \"label\": \"Symbol\",\n     \"optionsEndpoint\": \"/search_tickers\", \"value\": \"AAPL\", \"show\": false }\n   ```\n2. The app-level group uses matching identity: `paramName: \"symbol\"`, `type: \"endpointParam\"`.\n3. Other grouped widgets share the same `paramName` + `optionsEndpoint`.\n4. The chart keeps `data.defaultSymbol` as its startup fallback.\n5. The frontend bridges the group's value into TradingView's `setSymbol(...)`, which then triggers `/udf/symbols` and `/udf/history?symbol=...` on the backend.\n\nIf those conditions can't be met, prefer a regular `chart` widget.\n\n## What this spec does not cover\n\n- Widget-level metadata fields \u2014 see `openbb://workspace/specs/widgets-json`.\n- Param types and option sources \u2014 see `openbb://workspace/specs/widget-parameters`.\n- Layout coordinates and click-through wiring \u2014 see `openbb://workspace/specs/apps-json` and `openbb://workspace/specs/layout-grid`.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/specs/widgets-json": [
+        {
+          "content": "---\ntitle: widgets.json Spec\nuri: openbb://workspace/specs/widgets-json\nuse_when: You are authoring or editing widgets.json and need the top-level shape and the critical fields per widget.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/specs/widget-types\n  - openbb://workspace/specs/widget-parameters\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/validation/common-errors\n---\n\n# `widgets.json` Spec\n\n`widgets.json` is the metadata contract that tells Workspace which widgets your backend offers, what type each one is, and which endpoint serves its data.\n\n## Top-level shape\n\n`widgets.json` is a JSON **object**. Keys are widget ids, values are widget definitions:\n\n```json\n{\n  \"stock_prices\": { \"...widget definition...\" },\n  \"price_chart\":  { \"...widget definition...\" }\n}\n```\n\nReturning a JSON array is the most common mistake here \u2014 Workspace will reject it. Widget ids are referenced by app layouts (the `i` field in `apps.json` layout items), so they must be stable.\n\n## Widget definition fields\n\nEach value is an object. The high-leverage fields:\n\n| Field | Required | Notes |\n|-------|----------|-------|\n| `name` | Yes | Display title shown on the widget. |\n| `type` | Yes | Widget type string. See `openbb://workspace/specs/widget-types`. |\n| `endpoint` | Yes | Path on this backend that serves the widget's data. |\n| `description` | Recommended | Tooltip text. |\n| `category` / `subCategory` | Optional | Grouping in the widget catalog. |\n| `gridData` | Optional | Default placement hint as `{w, h}`. Not the app layout \u2014 see below. |\n| `params` | Optional | Array of parameter definitions. See `openbb://workspace/specs/widget-parameters`. |\n| `data` | Sometimes required | Type-specific config. For tables, `data.table.columnsDefs` is where column metadata lives. |\n| `source` | Optional | Array of source labels, e.g. `[\"API\"]`. |\n| `runButton` | Optional | When `true`, the widget waits for the user to click Run before fetching. Default `false`. Only set `true` for heavy work (>5 s). |\n| `refetchInterval` | Optional | Auto-refresh interval in milliseconds. |\n\nUnknown keys are tolerated by some Workspace builds and ignored by others \u2014 don't author speculative fields.\n\n## `gridData` is a hint, not the layout\n\n`gridData` is the default placement when a widget is dragged onto a dashboard from the catalog. It is *not* the layout used by an app template \u2014 that lives in `apps.json` under `tabs[].layout[]`. Don't try to express tabs or coordinates inside `widgets.json`.\n\n## Tables: column metadata path\n\nTable column metadata belongs at:\n\n```json\n{\n  \"data\": {\n    \"table\": {\n      \"columnsDefs\": [ { \"field\": \"...\", \"headerName\": \"...\", ... } ]\n    }\n  }\n}\n```\n\nTables can also embed visualizations without a separate `chart` widget:\n\n- Per-cell mini-charts via `columnsDefs[].sparkline` (`{ \"type\": \"line\"|\"bar\"|\"area\", \"options\": { ... } }`).\n- A whole-table chart toggle via `data.table.chartView` (`{ \"enabled\": true, \"chartType\": \"line\"|\"bar\"|..., \"chartNavigatorEnabled\": true, \"chartMiniChartEnabled\": true }`).\n\nSee `openbb://workspace/specs/widget-types` for when to use these instead of a Plotly `chart` widget.\n\nCommon mistakes:\n\n- Putting columns at top-level `columns` \u2014 rejected.\n- Putting columns at `data.columnsDefs` \u2014 rejected.\n- Using the `formatterFn` value `\"currency\"` \u2014 invalid. Use `\"none\"` and pre-format the values, or use `\"int\"`/`\"percent\"`/`\"normalized\"`/`\"normalizedPercent\"`/`\"dateToYear\"`.\n- Setting `defaultViz` \u2014 deprecated legacy field, never emit it. Setting it to a chart type disables the table entirely and breaks the table\u2194chart toggle. Use `\"type\": \"table\"` and, for a chart view, `data.table.chartView` as above; the widget then opens as the table with a working chart toggle.\n\n## Endpoint path\n\n`endpoint` is the path the widget calls. It can be any HTTP path on the backend; it does not have to match the widget id. Workspace will issue a `GET` (or, when configured, `POST`) to `<backend-url><endpoint>` and pass the widget's parameters as query string entries (or in the body, depending on backend connection setup).\n\n## Example shape\n\n```json\n{\n  \"stock_prices\": {\n    \"name\": \"Stock Prices\",\n    \"description\": \"Latest closing prices\",\n    \"type\": \"table\",\n    \"endpoint\": \"/stock_prices\",\n    \"gridData\": { \"w\": 20, \"h\": 12 },\n    \"params\": [\n      { \"paramName\": \"limit\", \"type\": \"number\", \"label\": \"Limit\", \"description\": \"Row count cap\", \"value\": 10 }\n    ],\n    \"data\": {\n      \"table\": {\n        \"columnsDefs\": [\n          { \"field\": \"symbol\", \"headerName\": \"Symbol\", \"cellDataType\": \"text\", \"pinned\": \"left\" },\n          { \"field\": \"price\",  \"headerName\": \"Price\",  \"cellDataType\": \"number\", \"formatterFn\": \"none\" }\n        ]\n      }\n    }\n  }\n}\n```\n\n## What this spec does not cover\n\n- Choosing a widget type \u2014 see `openbb://workspace/specs/widget-types`.\n- Authoring params \u2014 see `openbb://workspace/specs/widget-parameters`.\n- Wiring layouts and parameter sync \u2014 see `openbb://workspace/specs/apps-json` and `openbb://workspace/specs/layout-grid`.\n- Common validation errors \u2014 see `openbb://workspace/validation/common-errors`.\n",
+          "mime_type": "text/markdown"
+        }
+      ],
+      "openbb://workspace/validation/common-errors": [
+        {
+          "content": "---\ntitle: Common Errors\nuri: openbb://workspace/validation/common-errors\nuse_when: A widget or app failed to load and you want a curated list of the most likely shape, layout, and contract failures.\nlanguage_specific: false\nrelated:\n  - openbb://workspace/specs/widgets-json\n  - openbb://workspace/specs/apps-json\n  - openbb://workspace/specs/layout-grid\n  - openbb://workspace/guides/debug-app\n---\n\n# Common Errors\n\nThe mistakes that catch real apps. When validation fails, walk this list before exploring.\n\n## `widgets.json` shape\n\n| Symptom | Cause | Fix |\n|---------|-------|-----|\n| `widgets.json must be object` | Top-level is `[ ... ]` | Change to `{ \"widget_id\": { ... } }` |\n| `Missing required field: name` | Widget has no `name` | Add `\"name\": \"Widget Name\"` |\n| `Invalid widget type: xxx` | Typo or invented alias | Use a real type \u2014 `table`, `chart`, `metric`, `markdown`, `newsfeed`, `table_ssrm`, `live_grid`, `advanced_charting`, `chart-highcharts` |\n| `Invalid formatterFn: currency` | `\"currency\"` is not a valid value | Use `\"none\"` and pre-format the value if needed |\n| `data.columnsDefs must be an array` | Columns nested at the wrong path | Move to `data.table.columnsDefs` |\n| `gridData.w out of range` | Width too small/large | Use `w` between 10 and 40 |\n| Widget endpoint 404 | Path mismatch | Confirm `endpoint` matches a real route |\n\n## `apps.json` shape\n\n| Symptom | Cause | Fix |\n|---------|-------|-----|\n| `Unknown App: [name]: Required` | apps.json is an object, not array | Wrap in `[ ... ]` |\n| `[tabs]: Required` | Missing or wrong tab structure | Each tab needs `id`, `name`, `layout` |\n| `allowCustomization: Required` | Field missing | Add `\"allowCustomization\": true` |\n| App has no thumbnail | `img`, `img_dark`, and `img_light` are empty | Prefer a stable hosted image URL or serve a small SVG/PNG from `/thumbnails/{name}` |\n| `groups: Recommended` | `groups` field absent | Add `\"groups\": []` as the safe default |\n| `prompts: Required` | `prompts` field absent | Add `\"prompts\": []` as the safe default |\n| `Widget 'xxx' not found` | Layout `i` doesn't match any widget id | Fix typo or align with `widgets.json` keys |\n| `Widgets overlap at (x,y)` | Layout collision | Adjust `x`/`y`/`w`/`h` |\n| `id` rejected | Top-level `id` doesn't match `^custom-.+` | Use `custom-<slug>` or omit `id` |\n\n## Layout fields\n\n| Symptom | Cause | Fix |\n|---------|-------|-----|\n| Widget never appears | Layout used `id` instead of `i` | Rename the key to `i` |\n| Coordinates ignored | Layout used `gridData: {x,y,w,h}` | Use `x`, `y`, `w`, `h` directly on the layout item |\n| Click-through silently broken | Used `groupByParamName` (legacy) | Use `renderFnParams.groupBy.paramName` |\n| Click-through doesn't propagate | Widget receives the param AND has a visible matching dropdown | Set `\"show\": false` on the receiving param, or remove the `cellOnClick` |\n\n## Parameter groups\n\n| Symptom | Cause | Fix |\n|---------|-------|-----|\n| Group exists, no widget joins | Group `name` may not be compatible with runtime group matching | Prefer `Group 1`/`Group 2`/... and put human-readable meaning in `description`/`category`; browser-test custom names before shipping |\n| Group exists but sync silently disabled | Group `type` doesn't match the underlying param shape | `param` for static `text+options`, `endpointParam` for `endpoint+optionsEndpoint`, `ticker` for OpenBB's universal ticker registry |\n| Sync works for some widgets, not others | A widget is missing from the group's `widgetIds`, or its layout entry is missing `\"groups\": [...]`, or its widget config uses a different `paramName`/`optionsEndpoint` | Make all three places agree |\n| Discovery widget doesn't drive the dashboard | Discovery widget isn't in the symbol group | Add it to `widgetIds` and add `\"groups\": [\"Group 1\"]` to its layout entry |\n\n## Endpoint and CORS\n\n| Symptom | Cause | Fix |\n|---------|-------|-----|\n| CORS error in browser | Backend doesn't allow the Workspace origin | Add `https://pro.openbb.co`, `https://pro.openbb.dev`, `http://localhost:1420` |\n| `Mixed content blocked` | HTTPS Workspace can't reach HTTP backend | Serve the backend over HTTPS in production |\n| 404 on widget endpoint | Path typo or missing route | Confirm the route is registered; match `endpoint` exactly |\n| Wrong response shape | Endpoint returns the wrong kind of JSON for the widget type | Tables \u2192 array of rows; charts \u2192 Plotly figure JSON; metrics \u2192 array of `{label, value, ...}`; markdown \u2192 string; newsfeed \u2192 array of articles |\n| Garbled non-ASCII | JSON file read with OS locale (cp1252 on Windows) | Open files with `encoding=\"utf-8\"` (Python) or your language's UTF-8 equivalent |\n\n## State and styling\n\n| Symptom | Cause | Fix |\n|---------|-------|-----|\n| `state.style` field rejected | `state.style` is closed | Use only `borderWidth` (0\u201324), `radius` (0\u201364), `contentPadding` (0\u201364), `shadow` (`none|sm|md|lg`) |\n| `state.style.headerMode` set, no visible effect | Schema accepts it; renderer ignores it | Remove |\n| Speculative `state.*` field appears to do nothing | Schema-but-not-runtime field | Remove unless verified visually in Workspace |\n\n## When the doc and the validator disagree\n\nTrust the running validator. Workspace's actual validator is the source of truth \u2014 adjust the files to match what it accepts, then update docs.\n\n- **Preferred check** \u2014 `workspace_mcp`: `manage_backends(operation=\"add\", url=...)` returns schema errors directly.\n- **Browser check**: Settings \u2192 Data Connectors \u2192 Connect Backend \u2192 Test.\n\nSee `openbb://workspace/guides/debug-app` for the full diagnostic order.\n",
+          "mime_type": "text/markdown"
+        }
+      ]
+    },
+    "resources": [
+      {
+        "annotations": null,
+        "description": "Router for the OpenBB Workspace app-builder resources. Read this first to find the right spec, guide, or example. Only for when the user has explicitly asked to build, review, debug, or extend a backend or app \u2014 not for composing dashboards from existing widgets.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "App Builder Index",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/app-builder/index"
+      },
+      {
+        "annotations": null,
+        "description": "What an OpenBB Workspace backend must expose over HTTP, language-agnostic.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Backend Contract",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/contract/backend"
+      },
+      {
+        "annotations": null,
+        "description": "Framework-neutral picture of an OpenBB Workspace backend \u2014 routes, response shapes, CORS, auth.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Minimal Backend (Generic HTTP)",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/examples/generic-http/minimal"
+      },
+      {
+        "annotations": null,
+        "description": "Recommended Python starter shape for an OpenBB Workspace backend using FastAPI.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Minimal Backend (Python + FastAPI)",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/examples/python-fastapi/minimal"
+      },
+      {
+        "annotations": null,
+        "description": "End-to-end workflow for building a new OpenBB Workspace app from scratch. Only for when the user has explicitly asked to build one.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Build an App",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/guides/build-an-app"
+      },
+      {
+        "annotations": null,
+        "description": "Turn an existing HTTP endpoint into a Workspace widget \u2014 type selection, params, columns, validation.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Convert an Existing Endpoint to a Widget",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/guides/convert-endpoint-to-widget"
+      },
+      {
+        "annotations": null,
+        "description": "Diagnostic order for apps that don't load, widgets that render empty, or sync that doesn't propagate.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Debug an App",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/guides/debug-app"
+      },
+      {
+        "annotations": null,
+        "description": "Structured review pass for an existing OpenBB Workspace backend or app template.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Review an App",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/guides/review-app"
+      },
+      {
+        "annotations": null,
+        "description": "How Workspace's built-in AI Agent reads widget metadata and data, and the description / response-shape rules that make widgets agent-friendly.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "AI Agent Contract",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/overview/ai-agent-contract"
+      },
+      {
+        "annotations": null,
+        "description": "Mental model of OpenBB Workspace from the consumer side \u2014 Dashboards, Apps (templates), Widgets, Prompts, the AI Agent, and what is native vs. what your backend supplies.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "What Workspace Is",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/overview/what-is-workspace"
+      },
+      {
+        "annotations": null,
+        "description": "Served shape, tab/layout structure, and parameter group wiring for apps.json.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "apps.json Spec",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/specs/apps-json"
+      },
+      {
+        "annotations": null,
+        "description": "40-column grid math, tab/group conventions, and click-through navigation rules.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Layout Grid and Groups",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/specs/layout-grid"
+      },
+      {
+        "annotations": null,
+        "description": "Param types (text, number, boolean, date, endpoint), option sources, and the type-selection cheatsheet.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Widget Parameters",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/specs/widget-parameters"
+      },
+      {
+        "annotations": null,
+        "description": "Catalog of widget type strings and a use-case-to-type quick selector.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Widget Types",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/specs/widget-types"
+      },
+      {
+        "annotations": null,
+        "description": "Top-level shape and critical fields for widgets.json, the widget metadata contract.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "widgets.json Spec",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/specs/widgets-json"
+      },
+      {
+        "annotations": null,
+        "description": "Curated list of the most common widgets.json, apps.json, layout, group, and endpoint failures with fixes.",
+        "meta": null,
+        "mime_type": "text/markdown",
+        "name": "Common Errors",
+        "tags": [],
+        "title": null,
+        "uri": "openbb://workspace/validation/common-errors"
+      }
+    ],
+    "tools": [
+      {
+        "annotations": null,
+        "description": "Create a generated note, table, chart, or HTML widget from inline content. The response includes widget_uuid; use that UUID for layout changes. To place the widget on a new tab, first call manage_navigation_bar operation='add_tabs', then navigate_workspace to the generated slug tab_id, then call this tool without inner_tab.",
+        "meta": null,
+        "name": "add_generative_widget",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "chart_params": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Required for chart widgets: object with camelCase keys chartType, xKey, yKey (non-empty array of strings), and optional angleKey/calloutLabelKey. snake_case aliases (chart_type, x_key, y_key, angle_key, callout_label_key) are accepted and translated."
+            },
+            "dashboard_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard UUID. Omit to target the current dashboard route. Never send placeholder strings such as active_dashboard, current_dashboard, null, or undefined; reuse session_context.current_dashboard_uuid from your previous tool result."
+            },
+            "data": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Content payload. For note and html: the raw text or HTML content string. For table and chart: an array of objects."
+            },
+            "description": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Short description for the new widget."
+            },
+            "inner_tab": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Places the new widget on an existing navigation tab only; it does not create a tab."
+            },
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Display name for the new widget."
+            },
+            "widget_type": {
+              "description": "Use widget_type='note' for rich text notes such as rich_note.",
+              "enum": [
+                "note",
+                "table",
+                "chart",
+                "html"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "widget_type"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Assign tasks to configured external Workspace agents. Get assigned_holder_url and assigned_agent_id from get_workspace_snapshot; do not invent them.",
+        "meta": null,
+        "name": "assign_tasks_to_agents",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "task_requests": {
+              "description": "Array of objects shaped like {id, description, assigned_holder_url, assigned_agent_id}.",
+              "items": {
+                "additionalProperties": false,
+                "description": "One task delegated to an external Workspace agent.\n\nField names match the frontend Zod schema in\n``terminalpro/src/components/AI/.../ai.ts`` (``taskRequestsSchema``).",
+                "properties": {
+                  "assigned_agent_id": {
+                    "type": "string"
+                  },
+                  "assigned_holder_url": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "description",
+                  "assigned_holder_url",
+                  "assigned_agent_id"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "task_requests"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Create one widget on a target dashboard. Use list_available_widgets and get_widget_schema first. Do not use this for rich_note; use add_generative_widget with widget_type='note'. Pass dry_run=true to validate and preview effective_params without changing the workspace.",
+        "meta": null,
+        "name": "create_widget",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "dashboard_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard UUID. Omit to target the current dashboard route. Never send placeholder strings such as active_dashboard, current_dashboard, null, or undefined; reuse session_context.current_dashboard_uuid from your previous tool result."
+            },
+            "data_args": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Object of data parameter values from the widget schema."
+            },
+            "dry_run": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Validate and preview without changing the workspace: returns valid, effective_params, and warnings for this exact payload. A dry run that finds problems still returns ok=true; the verdict is in the data."
+            },
+            "origin": {
+              "description": "Widget origin. Pass origin exactly as returned by list_available_widgets.",
+              "type": "string"
+            },
+            "ui_args": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Object of UI config values from the widget schema."
+            },
+            "widget_id": {
+              "description": "Widget type identifier from list_available_widgets or the workspace snapshot.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "origin",
+            "widget_id"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Delete one widget from a target dashboard. Identify the widget by widget_uuid (preferred) or widget_id.",
+        "meta": null,
+        "name": "delete_widget",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "dashboard_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard UUID. Omit to target the current dashboard route. Never send placeholder strings such as active_dashboard, current_dashboard, null, or undefined; reuse session_context.current_dashboard_uuid from your previous tool result."
+            },
+            "widget_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Widget type identifier; fallback only when exactly one matching widget instance exists on the target dashboard. Never use a widget title or a generic widget type such as rich_note as an identifier."
+            },
+            "widget_uuid": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Canonical widget instance UUID (preferred identifier). Get it from manage_dashboard operation='read' or get_workspace_snapshot.dashboard_composition."
+            }
+          },
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Fetch the valid values for one widget parameter (one parameter option query per call). Only call this after get_widget_schema shows the exact param has requires_options_lookup=true, and do not invent values for that param.",
+        "meta": null,
+        "name": "get_params_options",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "data_args": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Object with the values required by the schema's options_lookup_params when present."
+            },
+            "origin": {
+              "description": "Widget origin. Pass origin exactly as returned by list_available_widgets.",
+              "type": "string"
+            },
+            "param_name": {
+              "description": "Exact paramName from the widget schema.",
+              "type": "string"
+            },
+            "widget_id": {
+              "description": "Widget type identifier from list_available_widgets or the workspace snapshot.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "origin",
+            "widget_id",
+            "param_name"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Load one skill body from the Workspace skill library.",
+        "meta": null,
+        "name": "get_skill_content",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "slug": {
+              "description": "Exact skill slug from the latest workspace snapshot (snapshot.skills).",
+              "type": "string"
+            }
+          },
+          "required": [
+            "slug"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Fetch current data for one Workspace data source. Only use this after selecting an exact widget identity and explicit data_args.",
+        "meta": null,
+        "name": "get_widget_data",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "data_args": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Object of explicit parameter values for this data source. For chart widgets, include raw=true to fetch the underlying rows instead of the Plotly figure JSON; the figure is for the renderer, reasoning needs rows."
+            },
+            "origin": {
+              "description": "Widget origin. Pass origin exactly as returned by list_available_widgets.",
+              "type": "string"
+            },
+            "ssm_request": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Object payload for SSM-backed widgets."
+            },
+            "widget_id": {
+              "description": "Widget type identifier from list_available_widgets or the workspace snapshot.",
+              "type": "string"
+            },
+            "widget_uuid": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Canonical widget instance UUID (preferred identifier). Get it from manage_dashboard operation='read' or get_workspace_snapshot.dashboard_composition."
+            }
+          },
+          "required": [
+            "origin",
+            "widget_id"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Fetch the exact schema for one available widget. The response includes grid_data when layout defaults or min/max constraints are defined for that widget. If a param returns requires_options_lookup=true, call get_params_options before using that param in create_widget or update_widget. rich_note is generative-only; use add_generative_widget with widget_type='note' instead.",
+        "meta": null,
+        "name": "get_widget_schema",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "origin": {
+              "description": "Widget origin. Pass origin exactly as returned by list_available_widgets.",
+              "type": "string"
+            },
+            "widget_id": {
+              "description": "Widget type identifier from list_available_widgets or the workspace snapshot.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "origin",
+            "widget_id"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Request a fresh OpenBB Workspace snapshot from the connected browser. Call this first when you need current dashboard state, dashboard identifiers across the workspace, or skill identifiers. The snapshot is intentionally compact: use list_available_widgets, get_widget_schema, and manage_dashboard for deeper follow-up inspection. dashboard_composition exposes deterministic tabs, layout coordinates, and groups for the current dashboard. If snapshot.skills lists a skill relevant to the request, call get_skill_content with its slug before composing.",
+        "meta": null,
+        "name": "get_workspace_snapshot",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "List widgets available to the current Workspace session. Returns deterministic widget identities for later get_widget_schema and create_widget calls. Each returned widget includes origin; pass origin to other widget tools exactly as returned by list_available_widgets. A blank origin means the catalog is invalid. Only the deterministic plain-create subset is returned: generative-only note widgets such as rich_note and widgets that still require runtime-only bootstrap are intentionally excluded; use add_generative_widget for notes. Without filters the entire catalog is returned, which can be hundreds of widgets \u2014 prefer a filter when you know the source. Large unfiltered results return a compact index plus a result_ref resource with the full catalog.",
+        "meta": null,
+        "name": "list_available_widgets",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "backend_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Filter: backend UUID returned by manage_backends. Use backend_id when you have a UUID from manage_backends. Both filters can be passed together for a stricter match."
+            },
+            "origin": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Filter: friendly catalog label matched exactly (e.g. 'Options Activity Monitor'). Use origin when working from a snapshot."
+            }
+          },
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "List, read, or instantiate Workspace apps (dashboard templates). There is no app update or delete through this MCP surface. Apps bundle tabs, widget layouts, parameter groups, and suggested prompts. Instantiating one is the programmatic equivalent of clicking an app in the gallery. For list, apps come from the user's own backends (type='backend'), apps shared through their organization (type='shared'), and saved apps they created or that were shared with them (type='saved'). Each app includes name, template_id, description, type, backend_id, backend_name, is_shared, and created_by. For read, requires app_name (or template_id); resolves across all app sources and returns the full app definition including tabs with layouts (or widgets for saved apps), parameter groups, and suggested prompts. For instantiate, requires app_name (or template_id); creates a fresh dashboard from the app template and returns its dashboard_id. Pass that dashboard_id to subsequent dashboard-targeting tools. Apps are defined by the apps.json a backend serves; to author one, read the openbb://workspace/app-builder/index resource.",
+        "meta": null,
+        "name": "manage_apps",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "activate": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "For instantiate: defaults to true and routes the browser to the new dashboard."
+            },
+            "app_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "App name for read and instantiate; either app_name or template_id is required."
+            },
+            "backend_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "For list: omit to return every app the user can see; pass backend_id only to filter to one backend (own or shared). Use manage_backends operation='list' to discover backend_id values."
+            },
+            "dashboard_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "For instantiate: optional name for the created dashboard."
+            },
+            "operation": {
+              "enum": [
+                "list",
+                "read",
+                "instantiate"
+              ],
+              "type": "string"
+            },
+            "template_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "App template id; alternative to app_name."
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Manage Workspace data backends (the connections that power widgets). For list, returns each backend with id, name, url, status, and widget/app/agent counts. For add, requires name and url. For update, requires backend_id and at least one of name, url, endpoint_headers, or is_openbb_platform. For refresh, requires backend_id; re-fetches widgets and templates from the backend URL. For remove, requires backend_id. To author or debug a custom backend's widgets.json or apps.json, read the openbb://workspace/app-builder/index resource; it links the specs, minimal working examples, and validation/common-errors.",
+        "meta": null,
+        "name": "manage_backends",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "backend_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Backend UUID from manage_backends operation='list'. Required for update, refresh, and remove."
+            },
+            "endpoint_headers": {
+              "anyOf": [
+                {
+                  "items": {
+                    "additionalProperties": false,
+                    "description": "One header or query parameter sent to a Workspace backend.",
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "default": "headers",
+                        "enum": [
+                          "headers",
+                          "query"
+                        ],
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Array of {\"key\", \"value\", \"location\"} objects where location is \"headers\" (default) or \"query\"."
+            },
+            "is_openbb_platform": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Backend display name."
+            },
+            "operation": {
+              "enum": [
+                "list",
+                "add",
+                "update",
+                "refresh",
+                "remove"
+              ],
+              "type": "string"
+            },
+            "url": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Backend base URL."
+            },
+            "validate_widgets": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "For add: defaults to true and surfaces a warning if widgets fail to load."
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Create, read, or update one Workspace dashboard. Dashboard deletion is not available through this MCP surface. For create, pass name and optional dashboard_id and activate. For read, pass optional dashboard_id; omitted dashboard_id targets the current dashboard. For update, pass name; omitted dashboard_id resolves to the current dashboard the same way read does.",
+        "meta": null,
+        "name": "manage_dashboard",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "activate": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "For create: route the browser to the new dashboard (default true)."
+            },
+            "dashboard_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard UUID. Omit to target the current dashboard route. Never send placeholder strings such as active_dashboard, current_dashboard, null, or undefined; reuse session_context.current_dashboard_uuid from your previous tool result."
+            },
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard display name. Required for create and update."
+            },
+            "operation": {
+              "enum": [
+                "create",
+                "read",
+                "update"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Create or mutate navigation tabs on an existing dashboard's navigation_bar widget. If the dashboard does not already have a navigation_bar widget, call operation='create' first; it creates or initializes navigation tabs on that dashboard and does not create a dashboard. After add_tabs, navigate_workspace to the generated slug tab_id, e.g. AAPL Analysis -> aapl-analysis, before creating content for that tab.",
+        "meta": null,
+        "name": "manage_navigation_bar",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "dashboard_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard UUID. Omit to target the current dashboard route. Never send placeholder strings such as active_dashboard, current_dashboard, null, or undefined; reuse session_context.current_dashboard_uuid from your previous tool result."
+            },
+            "operation": {
+              "enum": [
+                "create",
+                "add_tabs",
+                "remove_tabs",
+                "rename_tabs"
+              ],
+              "type": "string"
+            },
+            "rename_map": {
+              "anyOf": [
+                {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Object mapping existing tab_id to new display name, for example {\"old-tab-id\":\"New Name\"}. Required for rename_tabs. Renaming changes the display label only; the tab_id keeps its original slug."
+            },
+            "tabs": {
+              "anyOf": [
+                {
+                  "items": {
+                    "additionalProperties": false,
+                    "description": "One tab to create or remove on a navigation bar.\n\nThe frontend handler (``useManageNavigationBar``) reads only ``name`` and\nderives ``tab_id`` as the slug of ``name``. ``extra=\"forbid\"`` on the base\n``Model`` rejects accidental ``tab_id`` / ``tab_name`` fields, so the\ncommon LLM mistake fails validation instead of silently writing the wrong\nshape to the bridge.",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Array of {\"name\": ...} objects, for example [{\"name\":\"AAPL Analysis\"}]; name is the only key (tab_id and tab_name are rejected) and tab_id is generated as the slug of name. Not a string array such as [\"AAPL Analysis\"]. Required for create, add_tabs, and remove_tabs."
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Navigate the Workspace browser to an existing dashboard or inner tab. For operation='dashboard', pass dashboard_id and optional tab_id. For operation='tab', pass tab_id and optional dashboard_id; omitted dashboard_id targets the current dashboard route.",
+        "meta": null,
+        "name": "navigate_workspace",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "dashboard_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard UUID. Omit to target the current dashboard route. Never send placeholder strings such as active_dashboard, current_dashboard, null, or undefined; reuse session_context.current_dashboard_uuid from your previous tool result."
+            },
+            "operation": {
+              "enum": [
+                "dashboard",
+                "tab"
+              ],
+              "type": "string"
+            },
+            "tab_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Inner tab slug id, e.g. aapl-analysis. Required for operation='tab'."
+            }
+          },
+          "required": [
+            "operation"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Read one widget from the active dashboard. Identify the widget by widget_uuid (preferred) or widget_id.",
+        "meta": null,
+        "name": "read_widget",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "dashboard_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard UUID. Omit to target the current dashboard route. Never send placeholder strings such as active_dashboard, current_dashboard, null, or undefined; reuse session_context.current_dashboard_uuid from your previous tool result."
+            },
+            "widget_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Widget type identifier; fallback only when exactly one matching widget instance exists on the target dashboard. Never use a widget title or a generic widget type such as rich_note as an identifier."
+            },
+            "widget_uuid": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Canonical widget instance UUID (preferred identifier). Get it from manage_dashboard operation='read' or get_workspace_snapshot.dashboard_composition."
+            }
+          },
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Update one existing widget on a target dashboard. Identify the widget by widget_uuid (preferred) or widget_id. Use read_widget first to inspect current params, and verify effective_params in the response matches your intent. Config changes only: for placement (x, y, w, h, tab_id) use update_widget_layout. Pass dry_run=true to validate and preview effective_params without changing the workspace.",
+        "meta": null,
+        "name": "update_widget",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "dashboard_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard UUID. Omit to target the current dashboard route. Never send placeholder strings such as active_dashboard, current_dashboard, null, or undefined; reuse session_context.current_dashboard_uuid from your previous tool result."
+            },
+            "data_args": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Object of data parameter values from the widget schema."
+            },
+            "dry_run": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Validate and preview without changing the workspace: returns valid, effective_params, and warnings for this exact payload. A dry run that finds problems still returns ok=true; the verdict is in the data."
+            },
+            "ui_args": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Object of UI config values from the widget schema."
+            },
+            "widget_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Widget type identifier; fallback only when exactly one matching widget instance exists on the target dashboard. Never use a widget title or a generic widget type such as rich_note as an identifier."
+            },
+            "widget_uuid": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Canonical widget instance UUID (preferred identifier). Get it from manage_dashboard operation='read' or get_workspace_snapshot.dashboard_composition."
+            }
+          },
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      },
+      {
+        "annotations": null,
+        "description": "Move or resize one widget in dashboard layout space. Identify the widget by widget_uuid (preferred) or widget_id. The layout grid is 40 columns wide: full width is w=40, half width is w=20, one quarter is w=10. If a navigation_bar is present, first content usually starts at y=2.",
+        "meta": null,
+        "name": "update_widget_layout",
+        "output_schema": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "dashboard_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Dashboard UUID. Omit to target the current dashboard route. Never send placeholder strings such as active_dashboard, current_dashboard, null, or undefined; reuse session_context.current_dashboard_uuid from your previous tool result."
+            },
+            "h": {
+              "type": "number"
+            },
+            "max_h": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "max_w": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "min_h": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "min_w": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "tab_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Inner tab id from manage_dashboard operation='read' or get_workspace_snapshot.dashboard_composition; pass it when moving a widget across tabs."
+            },
+            "w": {
+              "type": "number"
+            },
+            "widget_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Widget type identifier; fallback only when exactly one matching widget instance exists on the target dashboard. Never use a widget title or a generic widget type such as rich_note as an identifier."
+            },
+            "widget_uuid": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Canonical widget instance UUID (preferred identifier). Get it from manage_dashboard operation='read' or get_workspace_snapshot.dashboard_composition."
+            },
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "w",
+            "h"
+          ],
+          "type": "object"
+        },
+        "tags": [],
+        "title": null
+      }
+    ]
+  }
+}

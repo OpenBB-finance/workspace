@@ -1,0 +1,492 @@
+/*
+ * Design Tokens
+ *
+ * Layer 0: Primitive CSS variables (--color-*) derived from colors.ts.
+ *          Tailwind v3 does NOT generate these automatically.
+ * Layer 1: Semantic tokens that reference the primitives.
+ *          :root = light mode, .dark = dark mode.
+ */
+
+/* ──────────────────────────────────────────────
+   Layer 0 — Primitive color variables
+   ────────────────────────────────────────────── */
+
+:root {
+  /* Base */
+  --color-base-0: #ffffff;
+  --color-base-100: #0c0c0e;
+
+  /* Main / Brand accent */
+  --color-main-50: #33bbff;
+  --color-main-100: #0077b3;
+  --color-main-200: #006699;
+
+  /* Dark neutrals */
+  --color-dark-50: #8a8a90;
+  --color-dark-100: #6d6e74;
+  --color-dark-200: #5a5961;
+  --color-dark-300: #505059;
+  --color-dark-400: #46464f;
+  --color-dark-500: #36363f;
+  --color-dark-600: #303038;
+  --color-dark-700: #2a2a31;
+  --color-dark-750: #24242a;
+  --color-dark-800: #212127;
+  --color-dark-850: #1c1b20;
+  --color-dark-900: #151518;
+
+  /* Light neutrals */
+  --color-light-50: #f7f8f9;
+  --color-light-100: #f3f4f7;
+  --color-light-200: #ebecf0;
+  --color-light-300: #d6dce5;
+  --color-light-400: #d0d5dd;
+  --color-light-500: #9da5b2;
+  --color-light-600: #667085;
+  --color-light-700: #485468;
+  --color-light-750: #3d4758;
+  --color-light-800: #354055;
+  --color-light-850: #1e2939;
+  --color-light-900: #0f1828;
+
+  /* Feedback */
+  --color-error-50: #ffc5c5;
+  --color-error-100: #f25454;
+  --color-error-200: #b91c1c;
+  --color-success-50: #ccf7dc;
+  --color-success-100: #59cf6d;
+  --color-success-200: #15803d;
+  --color-warning-50: #ffd4a4;
+  --color-warning-100: #f18a1a;
+  --color-warning-200: #ba6509;
+  --color-informative-50: #c8e7ff;
+  --color-informative-100: #3892d9;
+  --color-informative-200: #065592;
+
+  /* Extra palette */
+  --color-extra-grey-50: #d9dee7;
+  --color-extra-grey-100: #5c6370;
+  --color-extra-grey-200: #4c525d;
+  --color-extra-pink-50: #ffddf0;
+  --color-extra-pink-100: #f467b4;
+  --color-extra-pink-200: #612346;
+  --color-extra-turquoise-50: #d5f9ff;
+  --color-extra-turquoise-100: #3c9cac;
+  --color-extra-turquoise-200: #15373d;
+  --color-extra-burgundy-50: #f1d7e9;
+  --color-extra-burgundy-100: #c965a9;
+  --color-extra-burgundy-200: #5e1146;
+  --color-extra-coral-50: #ffd6c8;
+  --color-extra-coral-100: #f26050;
+  --color-extra-coral-200: #5e2711;
+  --color-extra-yellow-50: #f5eea0;
+  --color-extra-yellow-100: #d2ab21;
+  --color-extra-yellow-200: #413b1c;
+  --color-extra-orange-50: #ffe2a3;
+  --color-extra-orange-100: #d58227;
+  --color-extra-orange-200: #52340e;
+  --color-extra-red-50: #ffcaca;
+  --color-extra-red-100: #d53939;
+  --color-extra-red-200: #4e1717;
+  --color-extra-purple-50: #e7dfff;
+  --color-extra-purple-100: #967bed;
+  --color-extra-purple-200: #3f285b;
+  --color-extra-green-50: #d2f8d4;
+  --color-extra-green-100: #57ba6f;
+  --color-extra-green-200: #254725;
+  --color-extra-blue-50: #c0eaff;
+  --color-extra-blue-100: #247199;
+  --color-extra-blue-200: #126b99;
+}
+
+/* ──────────────────────────────────────────────
+   Layer 1 — Semantic tokens: Light mode (default)
+   ────────────────────────────────────────────── */
+
+:root {
+  /* General / Structure */
+  --general-border-primary: var(--color-light-400);
+  --general-border-secondary: var(--color-light-100);
+  --general-border-disabled: var(--color-light-300);
+  --general-bg-primary: var(--color-base-0);
+  --general-bg-primary-hover: var(--color-light-100);
+  --general-bg-primary-disabled: var(--color-light-200);
+  --general-bg-secondary: var(--color-light-100);
+  --general-bg-secondary-hover: var(--color-light-200);
+  --general-bg-secondary-disabled: var(--color-light-300);
+
+  /* General / Label */
+  --general-label: var(--color-light-800);
+  --general-label-hover: var(--color-light-900);
+  --general-label-disabled: var(--color-light-400);
+
+  /* General / Alert */
+  --alert-success: var(--color-success-200);
+  --alert-warning: var(--color-warning-200);
+  --alert-error: var(--color-error-200);
+  --alert-informative: var(--color-informative-200);
+
+  /* Surface */
+  --surface-page: var(--color-light-50);
+  --surface-header: var(--color-base-0);
+  --surface-divider: var(--color-light-200);
+  --surface-layer: color-mix(in srgb, #000000 30%, transparent);
+  --surface-card: var(--color-light-100);
+
+  /* Buttons / Primary */
+  --btn-primary-bg: var(--color-main-100);
+  --btn-primary-bg-hover: var(--color-main-200);
+  --btn-primary-bg-disabled: var(--color-main-200);
+  --btn-primary-label: var(--color-main-contrast, var(--color-light-100));
+  --btn-primary-label-disabled: var(--color-dark-50);
+
+  /* Buttons / Secondary */
+  --btn-secondary-bg: var(--color-light-100);
+  --btn-secondary-border: var(--color-light-300);
+  --btn-secondary-bg-hover: var(--color-light-50);
+  --btn-secondary-bg-disabled: var(--color-light-100);
+
+  /* Buttons / Outlined */
+  --btn-outlined-border: var(--color-light-300);
+  --btn-outlined-border-hover: var(--color-light-600);
+  --btn-outlined-border-disabled: var(--color-light-200);
+  --btn-outlined-bg-disabled: var(--color-light-50);
+  --btn-outlined-label: var(--color-dark-800);
+  --btn-outlined-label-disabled: var(--color-light-400);
+
+  /* Buttons / Ghost */
+  --btn-ghost-bg-hover: var(--color-light-200);
+  --btn-ghost-label: var(--color-light-800);
+  --btn-ghost-label-disabled: var(--color-light-400);
+
+  /* Link */
+  --link-color: var(--color-main-100);
+
+  /* Dropdown */
+  --dropdown-border: var(--color-light-100);
+  --dropdown-bg: var(--color-base-0);
+  --dropdown-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.06);
+
+  /* Input */
+  --input-bg: var(--color-base-0);
+  --input-bg-hover: var(--color-light-50);
+  --input-bg-disabled: var(--color-light-100);
+
+  /* Scrollbar */
+  --scrollbar-track: var(--color-light-100);
+  --scrollbar-handle: var(--color-light-400);
+
+  /* Tab */
+  --tab-bg-primary: color-mix(in srgb, var(--color-main-100) 10%, transparent);
+  --tab-bg-secondary: var(--color-light-100);
+  --tab-group-bg: var(--color-light-50);
+  --tab-border: color-mix(in srgb, var(--color-main-100) 15%, transparent);
+  --tab-action-active: var(--color-main-200);
+
+  /* Tab / Filled primary */
+  --tab-filled-primary-bg-active: var(--color-main-100);
+  --tab-filled-primary-text-active: var(--color-main-contrast, var(--color-light-100));
+
+  /* Tab / Filled secondary */
+  --tab-filled-secondary-text: var(--color-light-600);
+  --tab-filled-secondary-text-active: var(--color-main-200);
+  --tab-filled-secondary-bg-active: var(--color-light-50);
+  --tab-filled-secondary-bg-hover: var(--color-light-100);
+
+  /* Tag */
+  --tag-pink-bg: color-mix(in srgb, var(--color-extra-pink-50) 50%, transparent);
+  --tag-pink-label: var(--color-extra-pink-200);
+  --tag-blue-bg: color-mix(in srgb, var(--color-extra-blue-50) 50%, transparent);
+  --tag-blue-label: var(--color-extra-blue-100);
+  --tag-green-bg: color-mix(in srgb, var(--color-extra-green-50) 50%, transparent);
+  --tag-green-label: var(--color-extra-green-200);
+  --tag-red-bg: color-mix(in srgb, var(--color-extra-red-50) 50%, transparent);
+  --tag-red-label: var(--color-extra-red-200);
+  --tag-yellow-bg: color-mix(in srgb, var(--color-extra-yellow-50) 50%, transparent);
+  --tag-yellow-label: var(--color-extra-yellow-200);
+  --tag-orange-bg: color-mix(in srgb, var(--color-extra-orange-50) 50%, transparent);
+  --tag-orange-label: var(--color-extra-orange-200);
+  --tag-coral-bg: color-mix(in srgb, var(--color-extra-coral-50) 50%, transparent);
+  --tag-coral-label: var(--color-extra-coral-200);
+  --tag-burgundy-bg: color-mix(
+    in srgb,
+    var(--color-extra-burgundy-50) 50%,
+    transparent
+  );
+  --tag-burgundy-label: var(--color-extra-burgundy-200);
+  --tag-grey-bg: color-mix(in srgb, var(--color-extra-grey-50) 50%, transparent);
+  --tag-grey-label: var(--color-extra-grey-100);
+  --tag-turquoise-bg: color-mix(
+    in srgb,
+    var(--color-extra-turquoise-50) 50%,
+    transparent
+  );
+  --tag-turquoise-label: var(--color-extra-turquoise-200);
+
+  /* Tag / Brand */
+  --tag-brand-bg: color-mix(in srgb, var(--color-main-50) 30%, transparent);
+  --tag-brand-label: var(--color-main-200);
+
+  /* Table */
+  --table-header-bg: var(--color-light-100);
+  --table-cell-bg: var(--color-base-0);
+  --table-cell-bg-hover: var(--color-light-100);
+
+  /* Tooltip */
+  --tooltip-bg: var(--color-base-0);
+
+  /* Toggle */
+  --toggle-bg: var(--color-light-200);
+  --toggle-bg-disabled: var(--color-light-300);
+
+  /* Buttons / Destructive */
+  --btn-destructive-bg: #d63636;
+  --btn-destructive-bg-hover: var(--color-error-200);
+  --btn-destructive-bg-disabled: var(--color-error-200);
+  --btn-destructive-label: var(--color-base-0);
+  --btn-destructive-label-disabled: var(--color-dark-50);
+
+  /* Buttons / Warning */
+  --btn-warning-bg: var(--color-warning-100);
+  --btn-warning-bg-hover: var(--color-warning-200);
+  --btn-warning-bg-disabled: var(--color-warning-200);
+  --btn-warning-label: var(--color-base-100);
+  --btn-warning-label-disabled: var(--color-dark-200);
+
+  /* Tag / Purple */
+  --tag-purple-bg: color-mix(in srgb, var(--color-extra-purple-50) 50%, transparent);
+  --tag-purple-label: var(--color-extra-purple-200);
+
+  /* Scrollbar */
+  --scrollbar-handle-hover: var(--color-light-500);
+
+  /* Search */
+  --search-widget-background: var(--color-base-0);
+
+  /* Text */
+  --text-heading: var(--color-light-850);
+  --text-subtitle: var(--color-light-750);
+  --text-body: var(--color-light-700);
+  --text-caption: var(--color-light-600);
+  --text-support: var(--color-light-500);
+
+  /* Copilot / Mention chip */
+  --copilot-mention-bg: var(--color-main-200);
+  --copilot-mention-label: var(--color-main-contrast, var(--color-light-100));
+  --copilot-mention-web-bg: var(--color-light-500);
+  --copilot-mention-web-label: var(--color-base-0);
+
+  /* Components / Chat */
+  --components-chat-copilot-cards-bg: var(--color-light-50);
+}
+
+/* ──────────────────────────────────────────────
+   Dark mode
+   ────────────────────────────────────────────── */
+
+.dark {
+  /* General / Structure */
+  --general-border-primary: var(--color-dark-400);
+  --general-border-secondary: var(--color-dark-800);
+  --general-border-disabled: var(--color-dark-400);
+  --general-bg-primary: var(--color-dark-900);
+  --general-bg-primary-hover: var(--color-dark-850);
+  --general-bg-primary-disabled: var(--color-dark-800);
+  --general-bg-secondary: var(--color-dark-800);
+  --general-bg-secondary-hover: var(--color-dark-750);
+  --general-bg-secondary-disabled: var(--color-dark-700);
+
+  /* General / Label */
+  --general-label: var(--color-light-100);
+  --general-label-hover: var(--color-base-0);
+  --general-label-disabled: var(--color-dark-200);
+
+  /* General / Alert */
+  --alert-success: var(--color-success-100);
+  --alert-warning: var(--color-warning-100);
+  --alert-error: #ef5555;
+  --alert-informative: var(--color-informative-100);
+
+  /* Surface */
+  --surface-page: var(--color-base-100);
+  --surface-header: var(--color-dark-900);
+  --surface-divider: var(--color-dark-700);
+  --surface-layer: color-mix(in srgb, #000000 50%, transparent);
+  --surface-card: var(--color-dark-800);
+
+  /* Buttons / Primary (same as light for brand consistency) */
+  --btn-primary-bg: var(--color-main-100);
+  --btn-primary-bg-hover: var(--color-main-200);
+  --btn-primary-bg-disabled: var(--color-main-200);
+  --btn-primary-label: var(--color-main-contrast, var(--color-light-100));
+  --btn-primary-label-disabled: var(--color-dark-50);
+
+  /* Buttons / Secondary */
+  --btn-secondary-bg: var(--color-dark-800);
+  --btn-secondary-border: var(--color-dark-600);
+  --btn-secondary-bg-hover: var(--color-dark-700);
+  --btn-secondary-bg-disabled: var(--color-dark-800);
+
+  /* Buttons / Outlined */
+  --btn-outlined-border: var(--color-dark-400);
+  --btn-outlined-border-hover: var(--color-dark-50);
+  --btn-outlined-border-disabled: var(--color-dark-800);
+  --btn-outlined-bg-disabled: var(--color-dark-800);
+  --btn-outlined-label: var(--color-light-50);
+  --btn-outlined-label-disabled: var(--color-dark-200);
+
+  /* Buttons / Ghost */
+  --btn-ghost-bg-hover: var(--color-dark-700);
+  --btn-ghost-label: var(--color-light-50);
+  --btn-ghost-label-disabled: var(--color-dark-200);
+
+  /* Link */
+  --link-color: var(--color-main-50);
+
+  /* Dropdown */
+  --dropdown-border: var(--color-dark-750);
+  --dropdown-bg: var(--color-dark-850);
+  --dropdown-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.4);
+
+  /* Input */
+  --input-bg: var(--color-dark-900);
+  --input-bg-hover: var(--color-dark-850);
+  --input-bg-disabled: var(--color-dark-850);
+
+  /* Scrollbar */
+  --scrollbar-track: var(--color-dark-600);
+  --scrollbar-handle: var(--color-dark-300);
+
+  /* Tab */
+  --tab-bg-primary: var(--color-dark-700);
+  --tab-bg-secondary: var(--color-dark-750);
+  --tab-group-bg: var(--color-dark-850);
+  --tab-border: var(--color-dark-500);
+  --tab-action-active: var(--color-main-50);
+
+  /* Tab / Filled primary */
+  --tab-filled-primary-bg-active: var(--color-main-100);
+  --tab-filled-primary-text-active: var(--color-main-contrast, var(--color-light-100));
+
+  /* Tab / Filled secondary */
+  --tab-filled-secondary-text: var(--color-dark-50);
+  --tab-filled-secondary-text-active: var(--color-main-50);
+  --tab-filled-secondary-bg-active: var(--color-dark-600);
+  --tab-filled-secondary-bg-hover: var(--color-dark-600);
+
+  /* Tag */
+  --tag-pink-bg: color-mix(in srgb, var(--color-extra-pink-200) 50%, transparent);
+  --tag-pink-label: var(--color-extra-pink-100);
+  --tag-blue-bg: color-mix(in srgb, var(--color-extra-blue-200) 50%, transparent);
+  --tag-blue-label: var(--color-extra-blue-50);
+  --tag-green-bg: color-mix(in srgb, var(--color-extra-green-200) 50%, transparent);
+  --tag-green-label: var(--color-extra-green-100);
+  --tag-red-bg: color-mix(in srgb, var(--color-extra-red-200) 50%, transparent);
+  --tag-red-label: var(--color-extra-red-50);
+  --tag-yellow-bg: color-mix(in srgb, var(--color-extra-yellow-200) 50%, transparent);
+  --tag-yellow-label: var(--color-extra-yellow-100);
+  --tag-orange-bg: color-mix(in srgb, var(--color-extra-orange-200) 50%, transparent);
+  --tag-orange-label: var(--color-extra-orange-100);
+  --tag-coral-bg: color-mix(in srgb, var(--color-extra-coral-200) 50%, transparent);
+  --tag-coral-label: var(--color-extra-coral-100);
+  --tag-burgundy-bg: color-mix(
+    in srgb,
+    var(--color-extra-burgundy-200) 50%,
+    transparent
+  );
+  --tag-burgundy-label: var(--color-extra-burgundy-100);
+  --tag-grey-bg: color-mix(in srgb, var(--color-extra-grey-200) 50%, transparent);
+  --tag-grey-label: var(--color-extra-grey-50);
+  --tag-turquoise-bg: color-mix(
+    in srgb,
+    var(--color-extra-turquoise-200) 50%,
+    transparent
+  );
+  --tag-turquoise-label: var(--color-extra-turquoise-100);
+
+  /* Tag / Brand */
+  --tag-brand-bg: color-mix(in srgb, var(--color-main-100) 30%, transparent);
+  --tag-brand-label: var(--color-main-50);
+
+  /* Buttons / Destructive */
+  --btn-destructive-bg: #d63636;
+  --btn-destructive-bg-hover: var(--color-error-200);
+  --btn-destructive-bg-disabled: var(--color-error-200);
+  --btn-destructive-label: var(--color-base-0);
+  --btn-destructive-label-disabled: var(--color-dark-50);
+
+  /* Buttons / Warning */
+  --btn-warning-bg: var(--color-warning-100);
+  --btn-warning-bg-hover: var(--color-warning-200);
+  --btn-warning-bg-disabled: var(--color-warning-200);
+  --btn-warning-label: var(--color-base-100);
+  --btn-warning-label-disabled: var(--color-dark-200);
+
+  /* Tag / Purple */
+  --tag-purple-bg: color-mix(in srgb, var(--color-extra-purple-200) 50%, transparent);
+  --tag-purple-label: var(--color-extra-purple-100);
+
+  /* Scrollbar */
+  --scrollbar-handle-hover: var(--color-dark-50);
+
+  /* Table */
+  --table-header-bg: var(--color-dark-800);
+  --table-cell-bg: var(--color-dark-900);
+  --table-cell-bg-hover: var(--color-dark-850);
+
+  /* Tooltip */
+  --tooltip-bg: var(--color-dark-800);
+
+  /* Toggle */
+  --toggle-bg: var(--color-dark-400);
+  --toggle-bg-disabled: var(--color-dark-200);
+
+  /* Search */
+  --search-widget-background: var(--color-dark-800);
+
+  /* Text */
+  --text-heading: var(--color-base-0);
+  --text-subtitle: var(--color-light-50);
+  --text-body: var(--color-light-100);
+  --text-caption: var(--color-light-500);
+  --text-support: var(--color-dark-100);
+
+  /* Copilot / Mention chip */
+  --copilot-mention-bg: var(--color-main-200);
+  --copilot-mention-label: var(--color-main-contrast, var(--color-light-100));
+  --copilot-mention-web-bg: var(--color-dark-300);
+  --copilot-mention-web-label: var(--color-base-0);
+
+  /* Components / Chat */
+  --components-chat-copilot-cards-bg: var(--color-dark-850);
+}
+
+/* ──────────────────────────────────────────────
+   Force-light utility
+   Resets semantic tokens to light mode inside a
+   container (e.g. auth forms on a white card).
+   ────────────────────────────────────────────── */
+
+.force-light {
+  --general-border-primary: var(--color-light-100);
+  --general-border-secondary: var(--color-light-100);
+  --general-bg-primary: var(--color-base-0);
+  --general-bg-secondary: var(--color-light-100);
+  --general-label: var(--color-light-800);
+  --general-label-hover: var(--color-light-900);
+  --general-label-disabled: var(--color-light-400);
+  --btn-secondary-bg: var(--color-light-100);
+  --btn-secondary-border: var(--color-light-300);
+  --btn-secondary-bg-hover: var(--color-light-50);
+  --btn-secondary-bg-disabled: var(--color-light-100);
+  --input-bg: var(--color-base-0);
+  --input-bg-hover: var(--color-light-50);
+  --dropdown-border: var(--color-light-100);
+  --dropdown-bg: var(--color-base-0);
+  --dropdown-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.06);
+  --text-heading: var(--color-light-850);
+  --text-subtitle: var(--color-light-750);
+  --text-body: var(--color-light-700);
+  --text-caption: var(--color-light-600);
+  --text-support: var(--color-light-500);
+}

@@ -1,0 +1,57 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "@openbb/ui/dist/style.css";
+@import "./styles/tokens.css";
+
+@layer base {
+  :root {
+    font-family: var(--font-family), "Inter", system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    @apply bg-surface-page text-ds-text-body;
+  }
+}
+
+@layer components {
+  .obb-page-container {
+    @apply mx-auto w-full max-w-[1220px] px-4 py-6 md:px-6;
+  }
+
+  .obb-card {
+    @apply rounded-md border border-general-border-primary bg-general-bg-primary shadow-sm;
+  }
+
+  .obb-card-header {
+    @apply border-b border-surface-divider px-4 py-3;
+  }
+
+  .obb-card-content {
+    @apply p-4;
+  }
+
+  .obb-btn-common {
+    @apply inline-flex h-8 items-center justify-center rounded px-3 text-xs font-medium transition duration-150 ease-out;
+  }
+
+  .obb-btn-blue {
+    @apply obb-btn-common bg-btn-primary-bg text-btn-primary-label hover:bg-btn-primary-bg-hover;
+  }
+
+  .obb-btn {
+    @apply obb-btn-common bg-btn-secondary-bg text-general-label hover:bg-btn-secondary-bg-hover;
+  }
+
+  .obb-admin-title {
+    @apply text-lg font-semibold text-ds-text-heading;
+  }
+
+  .obb-admin-subtitle {
+    @apply text-xs text-ds-text-subtitle;
+  }
+}

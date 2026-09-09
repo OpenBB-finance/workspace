@@ -1,0 +1,432 @@
+[
+  {
+    "symbol": "SR3",
+    "name": "Three-Month SOFR Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZF",
+    "name": "5-Year T-Note Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZN",
+    "name": "10-Year T-Note Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZT",
+    "name": "2-Year T-Note Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ES",
+    "name": "E-mini S&P 500 Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "TN",
+    "name": "Ultra 10-Year U.S. Treasury Note Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "CL",
+    "name": "Crude Oil Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZQ",
+    "name": "30 Day Federal Funds Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "UB",
+    "name": "Ultra U.S. Treasury Bond Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZC",
+    "name": "Corn Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "NG",
+    "name": "Henry Hub Natural Gas Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZB",
+    "name": "U.S. Treasury Bond Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "SR1",
+    "name": "One-Month SOFR Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZS",
+    "name": "Soybean Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "6E",
+    "name": "Euro FX Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "E1A",
+    "name": "E-mini S&P 500 Monday Weekly Options - Week 1",
+    "type": "Options"
+  },
+  {
+    "symbol": "OG",
+    "name": "Gold Option",
+    "type": "Options"
+  },
+  {
+    "symbol": "EW",
+    "name": "E-mini S&P 500 EOM Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "OZS",
+    "name": "Soybean Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "ZL",
+    "name": "Soybean Oil Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "OZB",
+    "name": "U.S. Treasury Bond Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "S3",
+    "name": "Three-Year Mid-Curve Options on Three-Month SOFR Futures",
+    "type": "Options"
+  },
+  {
+    "symbol": "RTY",
+    "name": "E-mini Russell 2000 Index Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZM",
+    "name": "Soybean Meal Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "HE",
+    "name": "Lean Hog Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "EW2",
+    "name": "E-mini S&P 500 Weekly Options - Week 2",
+    "type": "Options"
+  },
+  {
+    "symbol": "GC",
+    "name": "Gold Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZW",
+    "name": "Chicago SRW Wheat Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ASR",
+    "name": "Adjusted Interest Rate S&P 500 Total Return Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "NN",
+    "name": "Henry Hub Natural Gas Last Day Financial Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "RB",
+    "name": "RBOB Gasoline Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "HH",
+    "name": "Natural Gas (Henry Hub) Last-day Financial Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "HO",
+    "name": "NY Harbor ULSD Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZN5",
+    "name": "10-Year T-Note Weekly Options - Week 5",
+    "type": "Options"
+  },
+  {
+    "symbol": "NQ",
+    "name": "E-mini Nasdaq-100 Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "HTT",
+    "name": "WTI Houston (Argus) vs. WTI Trade Month Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "OZM",
+    "name": "Soybean Meal Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "LE",
+    "name": "Live Cattle Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "GE3",
+    "name": "Eurodollar 3yr MC Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "6J",
+    "name": "Japanese Yen Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "EUU",
+    "name": "EUR/USD Monthly Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "6M",
+    "name": "Mexican Peso Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "E1B",
+    "name": "E-mini S&P 500 Tuesday Weekly Options - Week 1",
+    "type": "Options"
+  },
+  {
+    "symbol": "KE",
+    "name": "KC HRW Wheat Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "LE",
+    "name": "Live Cattle Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "B7A",
+    "name": "Crude Oil Financial Calendar Spread Option 1 Month",
+    "type": "Options"
+  },
+  {
+    "symbol": "WTT",
+    "name": "WTI Midland (Argus) vs. WTI Trade Month Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "HG",
+    "name": "Copper Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "OZW",
+    "name": "Chicago SRW Wheat Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "ZN2",
+    "name": "10-Year T-Note Weekly Options - Week 2",
+    "type": "Options"
+  },
+  {
+    "symbol": "HE",
+    "name": "Lean Hog Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "AAO",
+    "name": "WTI Average Price Option",
+    "type": "Options"
+  },
+  {
+    "symbol": "SDA",
+    "name": "S&P 500 Annual Dividend Index Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "6B",
+    "name": "British Pound Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "HP",
+    "name": "Natural Gas (Henry Hub) Penultimate Financial Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "OZT",
+    "name": "2-Year T-Note Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "E1C",
+    "name": "E-mini S&P 500 Wednesday Weekly Options - Week 1",
+    "type": "Options"
+  },
+  {
+    "symbol": "6A",
+    "name": "Australian Dollar Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "MES",
+    "name": "Micro E-mini S&P 500 Index Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZB5",
+    "name": "U.S. Treasury Bond Weekly Options - Week 5",
+    "type": "Options"
+  },
+  {
+    "symbol": "WAY",
+    "name": "WTI Crude Oil 1 Month Calendar Spread Option",
+    "type": "Options"
+  },
+  {
+    "symbol": "6C",
+    "name": "Canadian Dollar Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "MNQ",
+    "name": "Micro E-mini Nasdaq-100 Index Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ABV",
+    "name": "WTI-Brent Crude Oil Spread Option",
+    "type": "Options"
+  },
+  {
+    "symbol": "BK",
+    "name": "WTI-Brent Financial Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "B0",
+    "name": "Mont Belvieu LDH Propane (OPIS) Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "SI",
+    "name": "Silver Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "AE7",
+    "name": "Natural Gas (Henry Hub) Last-day Financial Option",
+    "type": "Options"
+  },
+  {
+    "symbol": "NPG",
+    "name": "Henry Hub Natural Gas Penultimate Financial Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "EW4",
+    "name": "E-mini S&P 500 Weekly Options - Week 4",
+    "type": "Options"
+  },
+  {
+    "symbol": "CSX",
+    "name": "WTI Financial Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "OZL",
+    "name": "Soybean Oil Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "EYC",
+    "name": "E-mini S&P 500 Quarterly PM Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "JPU",
+    "name": "JPY/USD Monthly Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "G3B",
+    "name": "Natural Gas (Henry Hub) Last-day Financial 3 Month Spread Option",
+    "type": "Options"
+  },
+  {
+    "symbol": "BZ",
+    "name": "Brent Last Day Financial Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "ZF2",
+    "name": "5-Year T-Note Weekly Options - Week 2",
+    "type": "Options"
+  },
+  {
+    "symbol": "HXE",
+    "name": "Copper Option",
+    "type": "Options"
+  },
+  {
+    "symbol": "YM",
+    "name": "E-mini Dow Jones Industrial Average Index Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "NQ",
+    "name": "E-mini Nasdaq-100 Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "AW",
+    "name": "Bloomberg Commodity Index Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "SO",
+    "name": "Silver Option",
+    "type": "Options"
+  },
+  {
+    "symbol": "OCD",
+    "name": "Short-Dated New Crop Corn Options",
+    "type": "Options"
+  },
+  {
+    "symbol": "G4X",
+    "name": "Natural Gas (Henry Hub) Last-day Financial 1 Month Spread Option",
+    "type": "Options"
+  },
+  {
+    "symbol": "LIT",
+    "name": "2-Year Eris Swap Futures",
+    "type": "Futures"
+  },
+  {
+    "symbol": "EX3",
+    "name": "Weekly Options on Micro E-mini Standard and Poors 500 Stock Price Index Futures - Week 3",
+    "type": "Options"
+  }
+]

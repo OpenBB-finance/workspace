@@ -1,0 +1,1174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fullTests OBB.CURRENCY.PRICE.HISTORICAL Example 1 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "vwap",
+    "adj_close",
+    "change",
+    "change_percent"
+  ]
+]
+`;
+
+exports[`fullTests OBB.CURRENCY.SNAPSHOTS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "base_currency",
+    "counter_currency",
+    "last_rate",
+    "open",
+    "high",
+    "low",
+    "volume",
+    "prev_close",
+    "change",
+    "change_percent",
+    "ma50",
+    "ma200",
+    "year_high",
+    "year_low",
+    "last_rate_timestamp"
+  ]
+]
+`;
+
+exports[`fullTests OBB.CURRENCY.SNAPSHOTS Example 1 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "base_currency",
+    "counter_currency",
+    "last_rate",
+    "open",
+    "high",
+    "low",
+    "volume",
+    "prev_close",
+    "change",
+    "change_percent",
+    "ma50",
+    "ma200",
+    "year_high",
+    "year_low",
+    "last_rate_timestamp"
+  ]
+]
+`;
+
+exports[`fullTests OBB.DERIVATIVES.OPTIONS.CHAINS Example 0 [intrinio] 1`] = `
+Result slice [0:1]: [
+  [
+    "contract_symbol",
+    "expiration",
+    "strike",
+    "option_type",
+    "open_interest",
+    "last_trade_price",
+    "bid",
+    "bid_size",
+    "ask",
+    "ask_size",
+    "mark",
+    "open",
+    "high",
+    "low",
+    "close",
+    "implied_volatility",
+    "delta",
+    "gamma",
+    "theta",
+    "vega",
+    "last_trade_size",
+    "last_trade_time",
+    "ask_time",
+    "bid_time",
+    "underlying_price_source",
+    "dte",
+    "underlying_symbol",
+    "underlying_price"
+  ]
+]
+`;
+
+exports[`fullTests OBB.DERIVATIVES.OPTIONS.CHAINS Example 1 [intrinio] 1`] = `
+Result slice [0:1]: [
+  [
+    "contract_symbol",
+    "eod_date",
+    "expiration",
+    "strike",
+    "option_type",
+    "open_interest",
+    "volume",
+    "mark",
+    "open",
+    "open_bid",
+    "open_ask",
+    "high",
+    "bid_high",
+    "ask_high",
+    "low",
+    "bid_low",
+    "ask_low",
+    "close",
+    "close_size",
+    "close_time",
+    "close_bid",
+    "close_bid_size",
+    "close_bid_time",
+    "close_ask",
+    "close_ask_size",
+    "close_ask_time",
+    "implied_volatility",
+    "delta",
+    "gamma",
+    "theta",
+    "vega",
+    "dte",
+    "underlying_price",
+    "underlying_symbol"
+  ]
+]
+`;
+
+exports[`fullTests OBB.ECONOMY.COUNTRY_PROFILE Example 0 [econdb] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "vwap",
+    "adj_close",
+    "change",
+    "change_percent"
+  ]
+]
+`;
+
+exports[`fullTests OBB.ECONOMY.COUNTRY_PROFILE Example 0 [econdb] 2`] = `
+Result slice [0:1]: [
+  [
+    "country",
+    "population",
+    "gdp_usd",
+    "gdp_qoq",
+    "gdp_yoy",
+    "cpi_yoy",
+    "core_yoy",
+    "retail_sales_yoy",
+    "industrial_production_yoy",
+    "policy_rate",
+    "yield_10y",
+    "govt_debt_gdp",
+    "current_account_gdp",
+    "jobless_rate"
+  ]
+]
+`;
+
+exports[`fullTests OBB.ECONOMY.COUNTRY_PROFILE Example 1 [econdb] 1`] = `
+Result slice [0:1]: [
+  [
+    "country",
+    "population",
+    "gdp_usd",
+    "gdp_qoq",
+    "gdp_yoy",
+    "cpi_yoy",
+    "core_yoy",
+    "retail_sales_yoy",
+    "industrial_production_yoy",
+    "policy_rate",
+    "yield_10y",
+    "govt_debt_gdp",
+    "current_account_gdp",
+    "jobless_rate",
+    "date"
+  ]
+]
+`;
+
+exports[`fullTests OBB.ECONOMY.INDICATORS Example 0 [econdb] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "symbol_root",
+    "symbol",
+    "country",
+    "value"
+  ]
+]
+`;
+
+exports[`fullTests OBB.ECONOMY.INDICATORS Example 1 [econdb] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "symbol_root",
+    "symbol",
+    "country",
+    "value"
+  ]
+]
+`;
+
+exports[`fullTests OBB.ECONOMY.INDICATORS Example 2 [econdb] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "symbol_root",
+    "value",
+    "index_order",
+    "is_parent",
+    "name",
+    "units"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.COMPARE.PEERS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "peers_list"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.ESTIMATES.CONSENSUS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "target_high",
+    "target_low",
+    "target_consensus",
+    "target_median"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.ESTIMATES.FORWARD_EBITDA Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "period_ending",
+    "low_estimate",
+    "high_estimate",
+    "mean"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.ESTIMATES.PRICE_TARGET Example 0 [benzinga] 1`] = `
+Result slice [0:1]: [
+  [
+    "published_date",
+    "published_time",
+    "symbol",
+    "exchange",
+    "company_name",
+    "analyst_name",
+    "analyst_firm",
+    "currency",
+    "price_target",
+    "adj_price_target",
+    "price_target_previous",
+    "previous_adj_price_target",
+    "rating_current",
+    "rating_previous",
+    "action",
+    "action_change",
+    "importance",
+    "url_news",
+    "url_analyst",
+    "id",
+    "last_updated",
+    "pt_pct_change"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.ESTIMATES.PRICE_TARGET Example 1 [benzinga] 1`] = `
+Result slice [0:1]: [
+  [
+    "published_date",
+    "published_time",
+    "symbol",
+    "exchange",
+    "company_name",
+    "analyst_name",
+    "analyst_firm",
+    "currency",
+    "price_target",
+    "adj_price_target",
+    "price_target_previous",
+    "previous_adj_price_target",
+    "rating_current",
+    "rating_previous",
+    "action",
+    "action_change",
+    "importance",
+    "url_news",
+    "url_analyst",
+    "id",
+    "last_updated",
+    "pt_pct_change"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.BALANCE Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "period_ending",
+    "fiscal_period",
+    "fiscal_year",
+    "filing_date",
+    "accepted_date",
+    "reported_currency",
+    "cash_and_cash_equivalents",
+    "short_term_investments",
+    "cash_and_short_term_investments",
+    "net_receivables",
+    "inventory",
+    "other_current_assets",
+    "total_current_assets",
+    "plant_property_equipment_net",
+    "long_term_investments",
+    "tax_assets",
+    "other_non_current_assets",
+    "non_current_assets",
+    "total_assets",
+    "accounts_payable",
+    "short_term_debt",
+    "tax_payables",
+    "current_deferred_revenue",
+    "other_current_liabilities",
+    "total_current_liabilities",
+    "long_term_debt",
+    "other_non_current_liabilities",
+    "total_non_current_liabilities",
+    "capital_lease_obligations",
+    "total_liabilities",
+    "common_stock",
+    "retained_earnings",
+    "accumulated_other_comprehensive_income",
+    "total_common_equity",
+    "total_equity_non_controlling_interests",
+    "total_liabilities_and_shareholders_equity",
+    "total_liabilities_and_total_equity",
+    "total_investments",
+    "total_debt",
+    "net_debt",
+    "link",
+    "final_link"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.FILINGS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "filing_date",
+    "accepted_date",
+    "symbol",
+    "cik",
+    "report_type",
+    "filing_url",
+    "report_url"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.FILINGS Example 1 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "filing_date",
+    "accepted_date",
+    "symbol",
+    "cik",
+    "report_type",
+    "filing_url",
+    "report_url"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.HISTORICAL_EPS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "symbol",
+    "eps_actual",
+    "eps_estimated",
+    "revenue_estimated",
+    "revenue_actual",
+    "reporting_time",
+    "updated_at",
+    "period_ending"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.HISTORICAL_SPLITS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "numerator",
+    "denominator",
+    "label"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.INCOME Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "period_ending",
+    "fiscal_period",
+    "fiscal_year",
+    "filing_date",
+    "accepted_date",
+    "reported_currency",
+    "revenue",
+    "cost_of_revenue",
+    "gross_profit",
+    "gross_profit_margin",
+    "research_and_development_expense",
+    "selling_general_and_admin_expense",
+    "other_expenses",
+    "total_operating_expenses",
+    "cost_and_expenses",
+    "interest_income",
+    "total_interest_expense",
+    "depreciation_and_amortization",
+    "ebitda",
+    "ebitda_margin",
+    "total_operating_income",
+    "operating_income_margin",
+    "total_other_income_expenses",
+    "total_pre_tax_income",
+    "pre_tax_income_margin",
+    "income_tax_expense",
+    "consolidated_net_income",
+    "net_income_margin",
+    "basic_earnings_per_share",
+    "diluted_earnings_per_share",
+    "weighted_average_basic_shares_outstanding",
+    "weighted_average_diluted_shares_outstanding",
+    "link",
+    "final_link"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.MANAGEMENT Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "period_ending",
+    "fiscal_period",
+    "fiscal_year",
+    "filing_date",
+    "accepted_date",
+    "reported_currency",
+    "net_income",
+    "depreciation_and_amortization",
+    "deferred_income_tax",
+    "stock_based_compensation",
+    "change_in_working_capital",
+    "change_in_account_receivables",
+    "change_in_inventory",
+    "change_in_account_payable",
+    "change_in_other_working_capital",
+    "change_in_other_non_cash_items",
+    "net_cash_from_operating_activities",
+    "purchase_of_property_plant_and_equipment",
+    "acquisitions",
+    "purchase_of_investment_securities",
+    "sale_and_maturity_of_investments",
+    "other_investing_activities",
+    "net_cash_from_investing_activities",
+    "repayment_of_debt",
+    "issuance_of_common_equity",
+    "repurchase_of_common_equity",
+    "payment_of_dividends",
+    "other_financing_activities",
+    "net_cash_from_financing_activities",
+    "net_change_in_cash_and_equivalents",
+    "cash_at_beginning_of_period",
+    "cash_at_end_of_period",
+    "operating_cash_flow",
+    "capital_expenditure",
+    "free_cash_flow",
+    "link",
+    "final_link"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.MANAGEMENT Example 0 [fmp] 2`] = `
+Result slice [0:1]: [
+  [
+    "title",
+    "name",
+    "pay",
+    "currency_pay",
+    "gender",
+    "year_born"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.METRICS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "market_cap",
+    "pe_ratio",
+    "period_ending",
+    "fiscal_period",
+    "fiscal_year",
+    "revenue_per_share",
+    "capex_per_share",
+    "net_income_per_share",
+    "operating_cash_flow_per_share",
+    "free_cash_flow_per_share",
+    "cash_per_share",
+    "book_value_per_share",
+    "tangible_book_value_per_share",
+    "shareholders_equity_per_share",
+    "interest_debt_per_share",
+    "ev_to_operating_cash_flow",
+    "ev_to_free_cash_flow",
+    "earnings_yield",
+    "free_cash_flow_yield",
+    "debt_to_equity",
+    "debt_to_assets",
+    "net_debt_to_ebitda",
+    "current_ratio",
+    "interest_coverage",
+    "income_quality",
+    "payout_ratio",
+    "sales_general_and_administrative_to_revenue",
+    "research_and_development_to_revenue",
+    "intangibles_to_total_assets",
+    "capex_to_operating_cash_flow",
+    "capex_to_revenue",
+    "capex_to_depreciation",
+    "stock_based_compensation_to_revenue",
+    "working_capital",
+    "tangible_asset_value",
+    "net_current_asset_value",
+    "enterprise_value",
+    "invested_capital",
+    "average_receivables",
+    "average_payables",
+    "average_inventory",
+    "days_sales_outstanding",
+    "days_payables_outstanding",
+    "days_of_inventory_on_hand",
+    "receivables_turnover",
+    "payables_turnover",
+    "inventory_turnover",
+    "return_on_equity",
+    "return_on_invested_capital",
+    "return_on_tangible_assets",
+    "dividend_yield",
+    "graham_number",
+    "graham_net_net",
+    "price_to_sales_ratio",
+    "price_to_operating_cash_flow_ratio",
+    "price_to_free_cash_flow_ratio",
+    "price_to_book_ratio",
+    "price_to_tangible_book_ratio",
+    "enterprise_value_to_sales_ratio",
+    "enterprise_value_over_ebitda"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.OVERVIEW Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "price",
+    "beta",
+    "vol_avg",
+    "mkt_cap",
+    "last_div",
+    "range",
+    "changes",
+    "company_name",
+    "currency",
+    "cik",
+    "isin",
+    "cusip",
+    "exchange",
+    "exchange_short_name",
+    "industry",
+    "website",
+    "description",
+    "ceo",
+    "sector",
+    "country",
+    "full_time_employees",
+    "phone",
+    "address",
+    "city",
+    "state",
+    "zip",
+    "dcf_diff",
+    "dcf",
+    "image",
+    "ipo_date",
+    "default_image",
+    "is_etf",
+    "is_actively_trading",
+    "is_adr",
+    "is_fund"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.RATIOS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "period_ending",
+    "fiscal_period",
+    "fiscal_year",
+    "symbol",
+    "current_ratio",
+    "quick_ratio",
+    "cash_ratio",
+    "days_of_sales_outstanding",
+    "days_of_inventory_outstanding",
+    "operating_cycle",
+    "days_of_payables_outstanding",
+    "cash_conversion_cycle",
+    "gross_profit_margin",
+    "operating_profit_margin",
+    "pretax_profit_margin",
+    "net_profit_margin",
+    "effective_tax_rate",
+    "return_on_assets",
+    "return_on_equity",
+    "return_on_capital_employed",
+    "net_income_per_ebt",
+    "ebt_per_ebit",
+    "ebit_per_revenue",
+    "debt_ratio",
+    "debt_equity_ratio",
+    "long_term_debt_to_capitalization",
+    "total_debt_to_capitalization",
+    "interest_coverage_ratio",
+    "cash_flow_to_debt",
+    "company_equity_multiplier",
+    "receivables_turnover",
+    "payables_turnover",
+    "inventory_turnover",
+    "fixed_asset_turnover",
+    "asset_turnover",
+    "operating_cash_flow_per_share",
+    "free_cash_flow_per_share",
+    "cash_per_share",
+    "payout_ratio",
+    "operating_cash_flow_sales_ratio",
+    "free_cash_flow_operating_cash_flow_ratio",
+    "cash_flow_coverage_ratio",
+    "short_term_coverage_ratio",
+    "capital_expenditure_coverage_ratio",
+    "price_book_value_ratio",
+    "price_to_book_ratio",
+    "price_to_sales_ratio",
+    "price_earnings_ratio",
+    "price_to_free_cash_flows_ratio",
+    "price_to_operating_cash_flows_ratio",
+    "price_cash_flow_ratio",
+    "price_earnings_to_growth_ratio",
+    "price_sales_ratio",
+    "dividend_paid_and_capex_coverage_ratio",
+    "dividend_payout_ratio",
+    "dividend_yield",
+    "enterprise_value_multiple",
+    "price_fair_value"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.REVENUE_PER_GEOGRAPHY Example 1 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "period_ending",
+    "fiscal_period",
+    "fiscal_year",
+    "filing_date",
+    "geographic_segment"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.REVENUE_PER_SEGMENT Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "period_ending",
+    "fiscal_period",
+    "fiscal_year",
+    "filing_date",
+    "business_line"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.REVENUE_PER_SEGMENT Example 1 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "period_ending",
+    "fiscal_period",
+    "fiscal_year",
+    "filing_date",
+    "business_line"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.FUNDAMENTAL.TRANSCRIPT Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "quarter",
+    "year",
+    "date",
+    "content"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.OWNERSHIP.INSIDER_TRADING Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "period_ending",
+    "fiscal_period",
+    "fiscal_year",
+    "filing_date",
+    "geographic_segment"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.OWNERSHIP.INSTITUTIONAL Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "cik",
+    "date",
+    "investors_holding",
+    "last_investors_holding",
+    "investors_holding_change",
+    "number_of_13f_shares",
+    "last_number_of_13f_shares",
+    "number_of_13f_shares_change",
+    "total_invested",
+    "last_total_invested",
+    "total_invested_change",
+    "ownership_percent",
+    "last_ownership_percent",
+    "ownership_percent_change",
+    "new_positions",
+    "last_new_positions",
+    "new_positions_change",
+    "increased_positions",
+    "last_increased_positions",
+    "increased_positions_change",
+    "closed_positions",
+    "last_closed_positions",
+    "closed_positions_change",
+    "reduced_positions",
+    "last_reduced_positions",
+    "reduced_positions_change",
+    "total_calls",
+    "last_total_calls",
+    "total_calls_change",
+    "total_puts",
+    "last_total_puts",
+    "total_puts_change",
+    "put_call_ratio",
+    "last_put_call_ratio",
+    "put_call_ratio_change"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.OWNERSHIP.MAJOR_HOLDERS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "cik",
+    "filing_date",
+    "investor_name",
+    "symbol",
+    "security_name",
+    "type_of_security",
+    "security_cusip",
+    "shares_type",
+    "put_call_share",
+    "investment_discretion",
+    "industry_title",
+    "weight",
+    "last_weight",
+    "change_in_weight",
+    "change_in_weight_percentage",
+    "market_value",
+    "last_market_value",
+    "change_in_market_value",
+    "change_in_market_value_percentage",
+    "shares_number",
+    "last_shares_number",
+    "change_in_shares_number",
+    "change_in_shares_number_percentage",
+    "quarter_end_price",
+    "avg_price_paid",
+    "is_new",
+    "is_sold_out",
+    "ownership",
+    "last_ownership",
+    "change_in_ownership",
+    "change_in_ownership_percentage",
+    "holding_period",
+    "first_added",
+    "performance",
+    "performance_percentage",
+    "last_performance",
+    "change_in_performance",
+    "is_counted_for_performance"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.OWNERSHIP.MAJOR_HOLDERS Example 1 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "cik",
+    "filing_date",
+    "investor_name",
+    "symbol",
+    "security_name",
+    "type_of_security",
+    "security_cusip",
+    "shares_type",
+    "put_call_share",
+    "investment_discretion",
+    "industry_title",
+    "weight",
+    "last_weight",
+    "change_in_weight",
+    "change_in_weight_percentage",
+    "market_value",
+    "last_market_value",
+    "change_in_market_value",
+    "change_in_market_value_percentage",
+    "shares_number",
+    "last_shares_number",
+    "change_in_shares_number",
+    "change_in_shares_number_percentage",
+    "quarter_end_price",
+    "avg_price_paid",
+    "is_new",
+    "is_sold_out",
+    "ownership",
+    "last_ownership",
+    "change_in_ownership",
+    "change_in_ownership_percentage",
+    "holding_period",
+    "first_added",
+    "performance",
+    "performance_percentage",
+    "last_performance",
+    "change_in_performance",
+    "is_counted_for_performance"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.OWNERSHIP.SHARE_STATISTICS Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "date",
+    "free_float",
+    "float_shares",
+    "outstanding_shares",
+    "source"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.PRICE.HISTORICAL Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "vwap",
+    "adj_close",
+    "change",
+    "change_percent"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.PRICE.PERFORMANCE Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "one_day",
+    "one_week",
+    "one_month",
+    "three_month",
+    "six_month",
+    "ytd",
+    "one_year",
+    "three_year",
+    "five_year",
+    "ten_year",
+    "max"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.PRICE.QUOTE Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "name",
+    "exchange",
+    "last_price",
+    "last_timestamp",
+    "open",
+    "high",
+    "low",
+    "volume",
+    "prev_close",
+    "change",
+    "change_percent",
+    "year_high",
+    "year_low",
+    "price_avg50",
+    "price_avg200",
+    "avg_volume",
+    "market_cap",
+    "shares_outstanding",
+    "eps",
+    "pe",
+    "earnings_announcement"
+  ]
+]
+`;
+
+exports[`fullTests OBB.EQUITY.PROFILE Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "name",
+    "cik",
+    "cusip",
+    "isin",
+    "stock_exchange",
+    "long_description",
+    "ceo",
+    "company_url",
+    "business_phone_no",
+    "hq_address1",
+    "hq_address_city",
+    "hq_address_postal_code",
+    "hq_state",
+    "hq_country",
+    "employees",
+    "sector",
+    "industry_category",
+    "first_stock_price_date",
+    "is_etf",
+    "is_actively_trading",
+    "is_adr",
+    "is_fund",
+    "image",
+    "currency",
+    "market_cap",
+    "last_price",
+    "year_high",
+    "year_low",
+    "volume_avg",
+    "annualized_dividend_amount",
+    "beta"
+  ]
+]
+`;
+
+exports[`fullTests OBB.FIXEDINCOME.GOVERNMENT.YIELD_CURVE Example 0 [econdb] 1`] = `
+Result slice [0:1]: [
+  [
+    "symbol",
+    "company_cik",
+    "filing_date",
+    "transaction_date",
+    "owner_cik",
+    "owner_name",
+    "owner_title",
+    "transaction_type",
+    "acquisition_or_disposition",
+    "security_type",
+    "securities_owned",
+    "securities_transacted",
+    "transaction_price",
+    "filing_url",
+    "form_type"
+  ]
+]
+`;
+
+exports[`fullTests OBB.INDEX.MARKET Example 0 [fmp] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "vwap",
+    "change",
+    "change_percent"
+  ]
+]
+`;
+
+exports[`fullTests OBB.NEWS.COMPANY Example 0 [benzinga] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "maturity",
+    "rate"
+  ]
+]
+`;
+
+exports[`fullTests OBB.NEWS.COMPANY Example 0 [benzinga] 2`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "title",
+    "text",
+    "images",
+    "url",
+    "symbols",
+    "id",
+    "author",
+    "teaser",
+    "channels",
+    "tags",
+    "updated"
+  ]
+]
+`;
+
+exports[`fullTests OBB.NEWS.COMPANY Example 1 [benzinga] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "title",
+    "text",
+    "images",
+    "url",
+    "symbols",
+    "id",
+    "author",
+    "teaser",
+    "channels",
+    "tags",
+    "updated"
+  ]
+]
+`;
+
+exports[`fullTests OBB.NEWS.COMPANY Example 2 [benzinga] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "title",
+    "images",
+    "url",
+    "symbols",
+    "id",
+    "author",
+    "channels",
+    "tags",
+    "updated"
+  ]
+]
+`;
+
+exports[`fullTests OBB.NEWS.COMPANY Example 3 [benzinga] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "title",
+    "text",
+    "images",
+    "url",
+    "symbols",
+    "id",
+    "author",
+    "teaser",
+    "channels",
+    "tags",
+    "updated"
+  ]
+]
+`;
+
+exports[`fullTests OBB.NEWS.WORLD Example 0 [benzinga] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "title",
+    "images",
+    "url",
+    "id",
+    "author",
+    "channels",
+    "stocks",
+    "tags",
+    "updated"
+  ]
+]
+`;
+
+exports[`fullTests OBB.NEWS.WORLD Example 1 [benzinga] 1`] = `
+Result slice [0:1]: [
+  [
+    "date",
+    "title",
+    "images",
+    "text",
+    "url",
+    "id",
+    "author",
+    "teaser",
+    "channels",
+    "stocks",
+    "tags",
+    "updated"
+  ]
+]
+`;
